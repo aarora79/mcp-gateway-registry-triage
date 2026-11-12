@@ -1,0 +1,91 @@
+name: Daily triage dashboard
+
+# Rebuilds the dashboard from the target repository's issues and pull
+# requests every morning and publishes it to GitHub Pages.
+on:
+  schedule:
+    - cron: "0 12 * * *"  # 12:00 UTC every day
+  workflow_dispatch:       # the "Run workflow" button, for a refresh on demand
+
+permissions:
+  contents: read
+
+# Never run two deploys at once. A queued run waits rather than cancelling one
+# that is already publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  TRIAGE_REPO: agentic-community/mcp-gateway-registry
+  # Pinned tool releases from https://github.com/aarora79/jev-samples/releases
+  # To upgrade: change the version and paste the linux_amd64 line from that
+  # release's SHA256SUMS.
+  PR_TRIAGE_VERSION: "0.8.0"
+  PR_TRIAGE_SHA256: "76a3e324e9c4c0042b608571ceec9dd54faf414906dad8b7e6879d6bbcd021ff"
+  ISSUE_TRIAGE_VERSION: "0.1.0"
+  ISSUE_TRIAGE_SHA256: "e91582f5588c2f4af17142f4410d8ee59134aa858eac8770815e89cd251f413a"
+  OUTPUT_NAME: mcp-gateway-registry-triage-dashboard
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
+
+      - name: Install the triage tools at pinned versions
+        run: |
+          mkdir -p "$HOME/bin"
+          base="https://github.com/aarora79/jev-samples/releases/download"
+          curl -fsSL "$base/pr-triage/$PR_TRIAGE_VERSION/pr-triage_${PR_TRIAGE_VERSION}_linux_amd64" -o "$HOME/bin/pr-triage"
+          curl -fsSL "$base/issue-triage/$ISSUE_TRIAGE_VERSION/issue-triage_${ISSUE_TRIAGE_VERSION}_linux_amd64" -o "$HOME/bin/issue-triage"
+          echo "$PR_TRIAGE_SHA256  $HOME/bin/pr-triage" | sha256sum -c -
+          echo "$ISSUE_TRIAGE_SHA256  $HOME/bin/issue-triage" | sha256sum -c -
+          chmod +x "$HOME/bin/pr-triage" "$HOME/bin/issue-triage"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Fetch issues, pull requests and triage reports
+        env:
+          # The workflow token can read any public repository.
+          GH_TOKEN: ${{ github.token }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: ./fetch_data.sh
+
+      - name: Build the HTML
+        run: |
+          uv run python build_dashboard.py \
+            --data-dir data \
+            --out site/index.html \
+            --print-out print/index.html \
+            --pdf-link "$OUTPUT_NAME.pdf"
+
+      - name: Print the PDF
+        run: |
+          google-chrome --headless=new --no-sandbox --disable-gpu --no-pdf-header-footer \
+            --print-to-pdf="site/$OUTPUT_NAME.pdf" \
+            "file://$PWD/print/index.html"
+          ls -la site
+
+      - name: Upload the site for Pages
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346  # v5.0.1

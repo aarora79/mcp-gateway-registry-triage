@@ -16,7 +16,7 @@ The page has four tabs. Each one is a board like a GitHub project: fixed-width c
 
 **Closed PRs** and **Closed issues** have a column for each release, newest first. Scroll sideways for older releases.
 
-Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles, and the dropdown on each tab narrows the board to one area. The button in the header switches between light and dark mode.
+Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles, and the dropdown on each tab narrows the board to one area. The page opens in dark mode, and the button in the header switches to light. The browser remembers the choice.
 
 ## Where the groupings come from
 

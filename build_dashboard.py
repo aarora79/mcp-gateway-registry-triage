@@ -739,14 +739,14 @@ ul{list-style:none;padding:0;margin:4px 0}
 }
 """
 
-# Runs in <head> before the body paints, so a dark-mode reader sees no white flash.
-# Saved choice wins; otherwise follow the operating system setting.
+# Runs in <head> before the body paints, so there is no white flash.
+# A saved choice from the theme button wins; otherwise the page opens dark.
+DEFAULT_THEME: str = "dark"
 THEME_INIT_JS: str = """
 (function(){
   var saved=null;
   try{saved=localStorage.getItem('triage-theme');}catch(e){}
-  var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.dataset.theme=saved||(dark?'dark':'light');
+  document.documentElement.dataset.theme=saved||'""" + DEFAULT_THEME + """';
 })();
 """
 
@@ -808,7 +808,7 @@ def _page(
         '<!doctype html><html><head><meta charset="utf-8"><title>Triage dashboard</title>'
         f'<style>{CSS}</style><script>{THEME_INIT_JS}</script></head><body><header><h1><a class="title-link" href="{_esc(GITHUB_BASE)}" target="_blank" rel="noopener">{_esc(REPO)}</a></h1>'
         f'<div class="tabs">{buttons}</div><input id="search" placeholder="Filter by number, title or handle">'
-        f'<button id="theme" type="button">Dark mode</button>'
+        f'<button id="theme" type="button">Light mode</button>'
         f'<span class="note">generated {_esc(generated)}</span>'
         f'<a id="source" href="https://github.com/{_esc(DASHBOARD_REPO)}" target="_blank" rel="noopener" '
         f'title="Source for this dashboard: {_esc(DASHBOARD_REPO)}">{GITHUB_ICON_SVG}Source</a></header>'

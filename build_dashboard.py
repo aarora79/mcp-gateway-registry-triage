@@ -363,6 +363,7 @@ def _section(
     cards: list[str],
     collapsible: bool = False,
     expanded: bool = True,
+    section_css: str = "",
 ) -> str:
     """Render a dashed section holding a grid of cards.
 
@@ -375,12 +376,12 @@ def _section(
     style = f' style="flex:{columns} 1 {columns * CARD_BASIS_PX + 40}px"'
     if not collapsible:
         return (
-            f'<section class="section"{style}><h2>{_esc(title)}</h2>'
+            f'<section class="section {section_css}"{style}><h2>{_esc(title)}</h2>'
             f'<div class="sub">{subtitle}</div>{body}</section>'
         )
     open_attr = " open" if expanded else ""
     return (
-        f'<details class="section"{style}{open_attr}><summary><h2>{_esc(title)}</h2>'
+        f'<details class="section {section_css}"{style}{open_attr}><summary><h2>{_esc(title)}</h2>'
         f'<div class="sub">{subtitle}</div></summary>{body}</details>'
     )
 
@@ -494,7 +495,7 @@ def _start_here(
         source = gh_by_number.get(number)
         items.append(_item("pr", number, title, "dot", _chip(pick.get("route", ""), "area"), source=source))
     card = _card("Start here", "Cheapest evidence first, smallest diff inside that", "today", "", items, "yellow")
-    return _section("Start here", "What to clear this morning", [card])
+    return _section("Start here", "What to clear this morning", [card], section_css="highlight")
 
 
 # ---------- Open issues ----------
@@ -683,6 +684,7 @@ LIGHT_VARS: str = """
 --red-line:#f85149;--red-bg:#fff0ef;
 --done:#1a7f37;--gold:#d29922;--chip-pr-fg:#9a6700;--chip-pr-bg:#fff8c5;
 --wait:#cf222e;--sec:#8250df;--cross:#d0d7de;
+--highlight-glow:#1d4ed826;--highlight-bg:#f5f8ff;
 """
 
 DARK_VARS: str = """
@@ -694,6 +696,7 @@ DARK_VARS: str = """
 --red-line:#da3633;--red-bg:#2b1517;
 --done:#3fb950;--gold:#d29922;--chip-pr-fg:#e3b341;--chip-pr-bg:#2e2510;
 --wait:#ff7b72;--sec:#bc8cff;--cross:#484f58;
+--highlight-glow:#2f6feb40;--highlight-bg:#111a2b;
 """
 
 CSS: str = """
@@ -715,6 +718,7 @@ main{padding:16px 24px}
 .explain{color:var(--muted);margin:4px 0 16px}
 .sections{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
 .section{box-sizing:border-box;max-width:100%;border:1.5px dashed var(--dash);border-radius:12px;padding:10px 12px;background:var(--section-bg)}
+.section.highlight{border:2.5px solid var(--accent);box-shadow:0 0 0 4px var(--highlight-glow);background:var(--highlight-bg)}
 .section h2{font-size:20px;margin:0;display:inline}
 summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}
 details.section>summary h2::before{content:"\\25B8  ";font-size:14px;color:var(--muted)}

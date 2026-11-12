@@ -17,7 +17,6 @@ import argparse
 import html
 import json
 import logging
-import math
 import os
 import re
 from collections import defaultdict
@@ -39,7 +38,6 @@ GITHUB_BASE: str = f"https://github.com/{REPO}"
 REPO_SLUG: str = REPO.replace("/", "-")
 PR_TRIAGE_FILE: str = f"{REPO_SLUG}-open-all-triage.json"
 ISSUE_TRIAGE_FILE: str = f"triage-{REPO_SLUG}-open.md"
-OPEN_RELEASES_EXPANDED: int = 3
 # Review accounts that are automation, not people.
 BOT_REVIEWERS: set[str] = {"github-advanced-security", "copilot-pull-request-reviewer", "Copilot"}
 REVIEW_STATE_TEXT: dict[str, str] = {
@@ -63,10 +61,8 @@ GITHUB_ICON_SVG: str = (
     '2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54'
     '.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
 )
-MAX_SECTION_COLUMNS: int = 4
-MAX_CARD_COLUMNS: int = 3
-ITEMS_PER_COLUMN: int = 8
-CARD_BASIS_PX: int = 300
+# Every board column, and so every card, is this wide.
+COLUMN_WIDTH_PX: int = 340
 HORIZONS: list[str] = ["Today", "This week", "This month", "When time permits"]
 
 # Area rules, checked in order. First match wins.
@@ -295,102 +291,76 @@ def _chip(
     return f'<span class="chip {css}"{title}>{_esc(text)}</span>'
 
 
-def _item(
+def _card(
     kind: str,
     number: int,
     title: str,
-    icon: str,
-    extras: str = "",
+    source: dict | None,
+    icon: str = "ring",
+    area: str = "",
+    chips: str = "",
+    details: list[str] | None = None,
     note: str = "",
-    source: dict | None = None,
 ) -> str:
-    """Render one row inside a card: icon, pill, linked title, chips, people, note.
+    """Render one issue or PR as a board card.
 
-    source is the gh record for the issue or PR, used for author and reviewers.
+    Every card has the same width; the column sets it. source is the gh record,
+    used for the author and reviewers line. details is a list of bullet rows
+    (open PRs only). area feeds the area filter dropdown.
     """
     search_text = _esc(f"#{number} {title} {_people_logins(source)}".lower())
-    note_html = f'<div class="note">{_esc(note)}</div>' if note else ""
     title_link = f'<a class="title-link" href="{_esc(_url(kind, number))}" target="_blank" rel="noopener">{_esc(title)}</a>'
+    area_chip = _chip(area, "area") if area else ""
+    details_html = f'<ul>{"".join(details)}</ul>' if details else ""
+    note_html = f'<div class="note">{_esc(note)}</div>' if note else ""
+    people = _people_html(source)
+    people_html = f'<div class="people-row">{people}</div>' if people else ""
     return (
-        f'<li class="item" data-search="{search_text}"><span class="icon {icon}"></span>'
-        f'<div>{_pill(kind, number)} {title_link} {extras} {_people_html(source)}{note_html}</div></li>'
+        f'<div class="card" data-search="{search_text}" data-area="{_esc(area)}">'
+        f'<div class="card-top"><span class="icon {icon}"></span>{_pill(kind, number)}</div>'
+        f'<div class="card-title">{title_link}</div>'
+        f'<div class="chips">{area_chip} {chips}</div>'
+        f'{details_html}{people_html}{note_html}</div>'
     )
 
 
-def _card(
-    title: str,
-    owner: str,
-    status: str,
-    status_css: str,
-    items: list[str],
-    card_css: str = "",
-    meta: str = "",
-    search_text: str = "",
-    title_url: str = "",
+def _bullet(
+    text: str,
+    icon: str,
 ) -> str:
-    """Render a card with a header, status label and a list of items.
-
-    search_text makes the whole card match the filter box, used when a card
-    is one PR rather than a list of them.
-    """
-    meta_html = f'<div class="meta">{meta}</div>' if meta else ""
-    search_attr = f' data-search="{_esc(search_text.lower())}"' if search_text else ""
-    title_html = _esc(title)
-    if title_url:
-        title_html = f'<a class="title-link" href="{_esc(title_url)}" target="_blank" rel="noopener">{title_html}</a>'
-    columns = _card_columns(len(items))
-    style = f' style="flex:{columns} 1 {columns * CARD_BASIS_PX}px;max-width:{columns * 760}px"'
-    # data-cols lets _section size itself from the cards it holds.
-    return (
-        f'<div class="card {card_css}" data-cols="{columns}"{style}{search_attr}>'
-        f'<div class="card-head"><div>'
-        f'<div class="card-title">{title_html}</div><div class="owner">{owner}</div></div>'
-        f'<div class="status {status_css}">{_esc(status)}</div></div>{meta_html}'
-        f'<ul style="column-count:{columns}">{"".join(items)}</ul></div>'
-    )
+    """Render a plain bullet row inside a card."""
+    return f'<li class="item"><span class="icon {icon}"></span><div>{_esc(text)}</div></li>'
 
 
-def _card_columns(
-    item_count: int,
-) -> int:
-    """How many item columns a card needs: one per ITEMS_PER_COLUMN items."""
-    return max(1, min(MAX_CARD_COLUMNS, math.ceil(item_count / ITEMS_PER_COLUMN)))
-
-
-def _section(
+def _column(
     title: str,
     subtitle: str,
     cards: list[str],
-    collapsible: bool = False,
-    expanded: bool = True,
-    section_css: str = "",
+    css: str = "",
 ) -> str:
-    """Render a dashed section holding a grid of cards.
-
-    The section's starting width and share of spare row space both follow
-    its card count (capped), so small sections share a row and fill it.
-    """
-    body = f'<div class="grid">{"".join(cards)}</div>'
-    card_columns = sum(int(n) for n in re.findall(r'data-cols="(\d+)"', "".join(cards)))
-    columns = max(1, min(card_columns, MAX_SECTION_COLUMNS))
-    style = f' style="flex:{columns} 1 {columns * CARD_BASIS_PX + 40}px"'
-    if not collapsible:
-        return (
-            f'<section class="section {section_css}"{style}><h2>{_esc(title)}</h2>'
-            f'<div class="sub">{subtitle}</div>{body}</section>'
-        )
-    open_attr = " open" if expanded else ""
+    """Render one fixed-width board column: a header, a count, and stacked cards."""
     return (
-        f'<details class="section {section_css}"{style}{open_attr}><summary><h2>{_esc(title)}</h2>'
-        f'<div class="sub">{subtitle}</div></summary>{body}</details>'
+        f'<section class="column {css}"><div class="col-head">'
+        f'<div class="col-title"><span class="col-dot"></span>{_esc(title)}'
+        f'<span class="count">{len(cards)}</span></div>'
+        f'<div class="sub">{_esc(subtitle)}</div></div>'
+        f'<div class="col-body">{"".join(cards)}</div></section>'
     )
 
 
-def _pack(
-    sections: list[str],
+def _board(
+    columns: list[str],
 ) -> str:
-    """Put sections in one wrapping container so small ones share a row."""
-    return f'<div class="sections">{"".join(sections)}</div>'
+    """Put columns side by side. The board scrolls sideways when they do not fit."""
+    return f'<div class="board">{"".join(columns)}</div>'
+
+
+def _area_filter(
+    areas: list[str],
+) -> str:
+    """Render the area dropdown for one tab, listing only the areas present."""
+    options = "".join(f'<option value="{_esc(a)}">{_esc(a)}</option>' for a in sorted(set(areas)))
+    return f'<select class="area-filter"><option value="">All areas</option>{options}</select>'
 
 
 def _stats(
@@ -401,57 +371,68 @@ def _stats(
     return f'<div class="tiles">{"".join(parts)}</div>'
 
 
+def _tab_intro(
+    tiles: list[tuple[str, int | str]],
+    note_html: str,
+    areas: list[str],
+) -> str:
+    """Stat tiles, then one line holding the area filter and the explanation."""
+    return f'{_stats(tiles)}<div class="toolbar">{_area_filter(areas)}<span class="explain">{note_html}</span></div>'
+
+
 # ---------- Open PRs ----------
 
 ROUTE_ORDER: list[tuple[str, str, str, str]] = [
-    # (route or state, heading, card css, explanation)
+    # (route or state, column title, column color, explanation)
     ("green-is-enough", "Green is enough", "green", "merge when CI is green"),
     ("tests-are-enough", "Tests are enough", "green", "merge when CI is green and a test exercises the change"),
     ("ai-review-is-enough", "AI review is enough", "blue", "CI, a test, and an AI review that finds nothing"),
     ("human-required", "Human required", "yellow", "a person reads it, whatever the machines say"),
     ("human-plus-author", "Human plus author", "orange", "a person reads it line by line with the author"),
-    ("pending-author-rework", "Waiting on the author", "dashed", "changes requested and no push since"),
+    ("pending-author-rework", "Waiting on the author", "grey", "changes requested and no push since"),
     ("ci-failing", "CI failing", "red", "checks must pass before review"),
-    ("ci-pending", "CI pending", "dashed", "checks still running"),
-    ("draft", "Draft", "dashed", "author is still working"),
+    ("ci-pending", "CI pending", "grey", "checks still running"),
+    ("draft", "Draft", "grey", "author is still working"),
 ]
 
 
 def _open_pr_card(
-    pr: dict,
     triaged: dict,
     gh_pr: dict,
-    css: str,
     issues_by_number: dict[int, dict],
 ) -> str:
-    """Render one open PR as a card, in the style of a work-item card."""
-    items = []
+    """Render one open PR with the triage detail that set its route."""
+    details = []
     if triaged.get("consequence_from"):
         cons = triaged.get("consequence", 0)
-        items.append(_bullet(f"Consequence {cons:.2f}, driven by {triaged['consequence_from']}", "dot"))
+        details.append(_bullet(f"Consequence {cons:.2f}, driven by {triaged['consequence_from']}", "dot"))
     if triaged.get("downgrade"):
-        items.append(_bullet(f"Would drop a tier with: {triaged['downgrade']}", "ring"))
+        details.append(_bullet(f"Would drop a tier with: {triaged['downgrade']}", "ring"))
     if triaged.get("reason"):
-        items.append(_bullet(triaged["reason"], "ring"))
+        details.append(_bullet(triaged["reason"], "ring"))
     for ref in gh_pr.get("closingIssuesReferences", []):
         issue = issues_by_number.get(ref["number"], {})
-        items.append(_item("issue", ref["number"], f"closes: {issue.get('title', '')}", "ring", source=issue))
+        details.append(_bullet(f"closes #{ref['number']}: {issue.get('title', '')}", "ring"))
     size = f"{gh_pr.get('changedFiles', '?')} files, +{gh_pr.get('additions', 0)}/-{gh_pr.get('deletions', 0)}"
-    area = _classify_area(gh_pr["title"], _label_names(gh_pr))
-    meta = f"{_pill('pr', pr['number'])} {_chip(area, 'area')} {_chip(size, 'size')}"
+    chips = _chip(size, "size")
     if _is_security(gh_pr):
-        meta += " " + _chip("security", "sec")
-    owner = _people_html(gh_pr)
-    search_text = f"#{pr['number']} {gh_pr['title']} {_people_logins(gh_pr)}"
-    return _card(gh_pr["title"], owner, "", "", items, css, meta, search_text, _url("pr", pr["number"]))
+        chips += " " + _chip("security", "sec")
+    area = _classify_area(gh_pr["title"], _label_names(gh_pr))
+    return _card("pr", triaged["number"], gh_pr["title"], gh_pr, "dot", area, chips, details)
 
 
-def _bullet(
-    text: str,
-    icon: str,
+def _start_here_column(
+    triage: dict,
+    gh_by_number: dict[int, dict],
 ) -> str:
-    """Render a plain bullet row with no issue pill."""
-    return f'<li class="item"><span class="icon {icon}"></span><div>{_esc(text)}</div></li>'
+    """The three PRs pr-triage says to clear first, as a highlighted column."""
+    cards = []
+    for pick in triage.get("start_here", []):
+        gh_pr = gh_by_number.get(pick["number"], {"title": pick.get("title", "")})
+        area = _classify_area(gh_pr["title"], _label_names(gh_pr))
+        chips = _chip(pick.get("route", ""), "route")
+        cards.append(_card("pr", pick["number"], gh_pr["title"], gh_pr, "dot", area, chips))
+    return _column("Start here", "cheapest evidence first, smallest diff inside that", cards, "highlight")
 
 
 def _build_open_prs(
@@ -459,76 +440,71 @@ def _build_open_prs(
     gh_by_number: dict[int, dict],
     issues_by_number: dict[int, dict],
 ) -> str:
-    """Render the open PR tab, one section per route or pre-review state."""
+    """Render the open PR tab: one column per route or pre-review state."""
     groups: dict[str, list[dict]] = defaultdict(list)
     for pr in triage["pull_requests"]:
         groups[pr["route"]].append(pr)
     for pr in triage["not_reviewable"]:
         groups[pr["state"]].append(pr)
 
-    html_parts = [_start_here(triage, gh_by_number)]
+    columns = [_start_here_column(triage, gh_by_number)]
+    areas = []
     for key, heading, css, explanation in ROUTE_ORDER:
         members = groups.get(key, [])
         if not members:
             continue
-        cards = [_open_pr_card(pr, pr, gh_by_number.get(pr["number"], pr), css, issues_by_number) for pr in members]
-        html_parts.append(_section(f"{heading} ({len(members)})", _esc(explanation), cards))
+        cards = []
+        for pr in members:
+            gh_pr = gh_by_number.get(pr["number"], pr)
+            areas.append(_classify_area(gh_pr["title"], _label_names(gh_pr)))
+            cards.append(_open_pr_card(pr, gh_pr, issues_by_number))
+        columns.append(_column(heading, explanation, cards, css))
 
     reviewable = len(triage["pull_requests"])
     waiting = len(triage["not_reviewable"])
     tiles = [("open PRs", reviewable + waiting), ("routed", reviewable), ("not reviewable yet", waiting),
              ("need a person", len(groups["human-required"]) + len(groups["human-plus-author"]))]
-    note = (f'<p class="explain">Routes from <code>pr-triage</code> run {_esc(triage["triaged_at"][:10])} '
-            f'with {_esc(triage["model"])}. A route names the evidence a merge would need, not a verdict.</p>')
-    return _stats(tiles) + note + _pack(html_parts)
-
-
-def _start_here(
-    triage: dict,
-    gh_by_number: dict[int, dict],
-) -> str:
-    """Render the three PRs pr-triage says to clear first."""
-    items = []
-    for pick in triage.get("start_here", []):
-        number = pick["number"]
-        title = gh_by_number.get(number, {}).get("title", pick.get("title", ""))
-        source = gh_by_number.get(number)
-        items.append(_item("pr", number, title, "dot", _chip(pick.get("route", ""), "area"), source=source))
-    card = _card("Start here", "Cheapest evidence first, smallest diff inside that", "today", "", items, "yellow")
-    return _section("Start here", "What to clear this morning", [card], section_css="highlight")
+    note = (f'Routes from <code>pr-triage</code> run {_esc(triage["triaged_at"][:10])} with '
+            f'{_esc(triage["model"])}. A route names the evidence a merge would need, not a verdict.')
+    return _tab_intro(tiles, note, areas) + _board(columns)
 
 
 # ---------- Open issues ----------
 
+HORIZON_COLORS: dict[str, str] = {
+    "Today": "red",
+    "This week": "orange",
+    "This month": "yellow",
+    "When time permits": "grey",
+}
+HORIZON_NOTES: dict[str, str] = {
+    "Today": "start on these now",
+    "This week": "pick up in the next few days",
+    "This month": "plan for this month",
+    "When time permits": "no pressure, revisit later",
+}
 
-def _issue_row(
+
+def _issue_card(
     issue: dict,
     triage_row: dict,
     pr_links: list[int],
+    area: str,
 ) -> str:
     """Render one open issue with PR-in-flight and reporter-waiting markers."""
-    extras = []
+    chips = []
     why = triage_row.get("why", "")
     pr_links = sorted(set(pr_links) | {int(n) for n in re.findall(r"#(\d+) already open", why)})
     for pr_number in pr_links:
-        extras.append(f'<a class="chip pr" href="{_esc(_url("pr", pr_number))}" target="_blank" rel="noopener">PR #{pr_number} open</a>')
+        chips.append(f'<a class="chip pr" href="{_esc(_url("pr", pr_number))}" target="_blank" rel="noopener">PR #{pr_number} open</a>')
     if "outside reporter" in why:
-        extras.append(_chip("reporter waiting", "wait", why))
+        chips.append(_chip("reporter waiting", "wait", why))
     if "bucket edge" in why:
-        extras.append(_chip("on an edge", "edge", why))
+        chips.append(_chip("on an edge", "edge", why))
     if _is_security(issue):
-        extras.append(_chip("security", "sec"))
+        chips.append(_chip("security", "sec"))
     icon = "half" if pr_links else "ring"
-    return _item("issue", issue["number"], issue["title"], icon, " ".join(extras), why, issue)
-
-
-def _horizon_card(
-    horizon: str,
-    rows: list[str],
-) -> str:
-    """Render one horizon card inside an area section."""
-    css = {"Today": "yellow", "This week": "yellow", "This month": "", "When time permits": "dashed"}[horizon]
-    return _card(horizon, f"{len(rows)} issue(s)", "", "", rows, css)
+    return _card("issue", issue["number"], issue["title"], issue, icon, area, " ".join(chips), note=why)
 
 
 def _build_open_issues(
@@ -536,36 +512,27 @@ def _build_open_issues(
     triage_rows: dict[int, dict],
     pr_links: dict[int, list[int]],
 ) -> str:
-    """Render the open issue tab: one section per area, one card per horizon."""
-    by_area: dict[str, dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
-    counts = defaultdict(int)
+    """Render the open issue tab: one column per time horizon, in triage order."""
+    # issue-triage lists each bucket best-first; keep that order inside each column.
+    order = {number: index for index, number in enumerate(triage_rows)}
+    by_horizon: dict[str, list[str]] = defaultdict(list)
+    areas = []
     in_flight = 0
-    for issue in issues:
+    for issue in sorted(issues, key=lambda i: order.get(i["number"], len(order))):
         row = triage_rows.get(issue["number"], {"horizon": "When time permits", "why": "not in triage run"})
         area = _classify_area(issue["title"], _label_names(issue))
-        by_area[area][row["horizon"]].append(_issue_row(issue, row, pr_links.get(issue["number"], [])))
-        counts[row["horizon"]] += 1
+        areas.append(area)
+        by_horizon[row["horizon"]].append(_issue_card(issue, row, pr_links.get(issue["number"], []), area))
         if issue["number"] in pr_links or "already open" in row["why"]:
             in_flight += 1
 
-    # Areas with the most urgent work come first.
-    def _urgency(area: str) -> tuple:
-        buckets = by_area[area]
-        return (-(len(buckets["Today"]) + len(buckets["This week"])), -sum(len(v) for v in buckets.values()))
-
-    sections = []
-    for area in sorted(by_area, key=_urgency):
-        buckets = by_area[area]
-        cards = [_horizon_card(h, buckets[h]) for h in HORIZONS if buckets[h]]
-        total = sum(len(v) for v in buckets.values())
-        soon = len(buckets["Today"]) + len(buckets["This week"])
-        sections.append(_section(area, f"{total} open, {soon} for today or this week", cards))
-
+    columns = [_column(h, HORIZON_NOTES[h], by_horizon[h], HORIZON_COLORS[h]) for h in HORIZONS]
     waiting = sum(1 for r in triage_rows.values() if "outside reporter" in r["why"])
-    tiles = [(h.lower(), counts[h]) for h in HORIZONS] + [("PR in flight", in_flight), ("reporter waiting", waiting)]
-    note = ('<p class="explain">Horizons and reasons from <code>issue-triage</code>; areas from labels and title '
-            'keywords. Hover a chip, or read the grey line, for why an issue sits where it does.</p>')
-    return _stats(tiles) + note + _pack(sections)
+    tiles = [(h.lower(), len(by_horizon[h])) for h in HORIZONS]
+    tiles += [("PR in flight", in_flight), ("reporter waiting", waiting)]
+    note = ('Horizons and reasons from <code>issue-triage</code>; areas from labels and title keywords. '
+            'The grey line on each card says why it sits in its column.')
+    return _tab_intro(tiles, note, areas) + _board(columns)
 
 
 # ---------- Closed PRs and issues ----------
@@ -591,90 +558,88 @@ def _release_order(
     return ["Unreleased"] + [tag for tag, _ in reversed(windows)] + ["Unknown"]
 
 
-def _closed_pr_cards(
-    prs: list[dict],
-) -> list[str]:
-    """Render the area cards for one release worth of closed PRs."""
-    by_area: dict[str, list[dict]] = defaultdict(list)
-    for pr in prs:
-        by_area[_classify_area(pr["title"], _label_names(pr))].append(pr)
-    cards = []
-    for area in sorted(by_area, key=lambda a: (a == "Dependencies", -len(by_area[a]))):
-        rows = []
-        for pr in sorted(by_area[area], key=lambda p: -p["number"]):
-            merged = pr["state"] == "MERGED"
-            extras = "" if merged else _chip("closed unmerged", "edge")
-            rows.append(_item("pr", pr["number"], pr["title"], "check" if merged else "cross", extras, source=pr))
-        merged_count = sum(1 for p in by_area[area] if p["state"] == "MERGED")
-        css = "dashed" if area == "Dependencies" else "green"
-        cards.append(_card(area, f"{merged_count} merged of {len(rows)}", "", "", rows, css))
-    return cards
+def _closed_pr_card(
+    pr: dict,
+    area: str,
+) -> str:
+    """Render one closed PR: green when merged, grey when closed without merging."""
+    merged = pr["state"] == "MERGED"
+    chips = "" if merged else _chip("closed unmerged", "edge")
+    return _card("pr", pr["number"], pr["title"], pr, "check" if merged else "cross", area, chips)
 
 
 def _build_closed_prs(
     prs: list[dict],
     windows: list[tuple[str, datetime]],
 ) -> str:
-    """Render the closed PR tab: one collapsible section per release."""
+    """Render the closed PR tab: one column per release, newest first."""
     closed = [p for p in prs if p["state"] != "OPEN"]
     grouped = _closed_by_release(closed, windows, "mergedAt")
-    sections = []
-    for index, tag in enumerate(t for t in _release_order(windows) if grouped.get(t)):
-        members = grouped[tag]
+    columns = []
+    areas = []
+    for tag in _release_order(windows):
+        members = grouped.get(tag, [])
+        if not members:
+            continue
+        cards = []
+        # Dependency bumps go to the bottom of each column; newest first otherwise.
+        for pr in sorted(members, key=lambda p: (_classify_area(p["title"], _label_names(p)) == "Dependencies", -p["number"])):
+            area = _classify_area(pr["title"], _label_names(pr))
+            areas.append(area)
+            cards.append(_closed_pr_card(pr, area))
         merged = sum(1 for p in members if p["state"] == "MERGED")
-        sub = f"{merged} merged, {len(members) - merged} closed without merging"
-        sections.append(_section(tag, sub, _closed_pr_cards(members), True, index < OPEN_RELEASES_EXPANDED))
+        columns.append(_column(tag, f"{merged} merged, {len(members) - merged} closed without merging", cards, "green"))
     merged_total = sum(1 for p in closed if p["state"] == "MERGED")
-    tiles = [("closed PRs", len(closed)), ("merged", merged_total), ("closed unmerged", len(closed) - merged_total),
-             ("dependency bumps", sum(1 for p in closed if _classify_area(p["title"], _label_names(p)) == "Dependencies"))]
-    note = '<p class="explain">Each PR sits under the first release published after it merged or closed.</p>'
-    return _stats(tiles) + note + _pack(sections)
+    deps = sum(1 for p in closed if _classify_area(p["title"], _label_names(p)) == "Dependencies")
+    tiles = [("closed PRs", len(closed)), ("merged", merged_total),
+             ("closed unmerged", len(closed) - merged_total), ("dependency bumps", deps)]
+    note = 'Each PR sits under the first release published after it merged or closed. Scroll sideways for older releases.'
+    return _tab_intro(tiles, note, areas) + _board(columns)
 
 
-def _closed_issue_cards(
-    issues: list[dict],
-) -> list[str]:
-    """Render the area cards for one release worth of closed issues."""
-    by_area: dict[str, list[dict]] = defaultdict(list)
-    for issue in issues:
-        by_area[_classify_area(issue["title"], _label_names(issue))].append(issue)
-    cards = []
-    for area in sorted(by_area, key=lambda a: -len(by_area[a])):
-        rows = []
-        for issue in sorted(by_area[area], key=lambda i: -i["number"]):
-            done = issue.get("stateReason") == "COMPLETED"
-            extras = "" if done else _chip(issue.get("stateReason", "").lower().replace("_", " "), "edge")
-            if _is_security(issue):
-                extras += " " + _chip("security", "sec")
-            rows.append(_item("issue", issue["number"], issue["title"], "check" if done else "cross", extras, source=issue))
-        done_count = sum(1 for i in by_area[area] if i.get("stateReason") == "COMPLETED")
-        cards.append(_card(area, f"{done_count} completed of {len(rows)}", "", "", rows, "green"))
-    return cards
+def _closed_issue_card(
+    issue: dict,
+    area: str,
+) -> str:
+    """Render one closed issue: green when completed, grey otherwise."""
+    done = issue.get("stateReason") == "COMPLETED"
+    chips = "" if done else _chip(issue.get("stateReason", "").lower().replace("_", " "), "edge")
+    if _is_security(issue):
+        chips += " " + _chip("security", "sec")
+    return _card("issue", issue["number"], issue["title"], issue, "check" if done else "cross", area, chips)
 
 
 def _build_closed_issues(
     issues: list[dict],
     windows: list[tuple[str, datetime]],
 ) -> str:
-    """Render the closed issue tab: one collapsible section per release."""
+    """Render the closed issue tab: one column per release, newest first."""
     closed = [i for i in issues if i["state"] == "CLOSED"]
     grouped = _closed_by_release(closed, windows, "closedAt")
-    sections = []
-    for index, tag in enumerate(t for t in _release_order(windows) if grouped.get(t)):
-        members = grouped[tag]
+    columns = []
+    areas = []
+    for tag in _release_order(windows):
+        members = grouped.get(tag, [])
+        if not members:
+            continue
+        cards = []
+        for issue in sorted(members, key=lambda i: -i["number"]):
+            area = _classify_area(issue["title"], _label_names(issue))
+            areas.append(area)
+            cards.append(_closed_issue_card(issue, area))
         done = sum(1 for i in members if i.get("stateReason") == "COMPLETED")
-        sub = f"{done} completed, {len(members) - done} not planned or duplicate"
-        sections.append(_section(tag, sub, _closed_issue_cards(members), True, index < OPEN_RELEASES_EXPANDED))
+        columns.append(_column(tag, f"{done} completed, {len(members) - done} not planned or duplicate", cards, "green"))
     done_total = sum(1 for i in closed if i.get("stateReason") == "COMPLETED")
-    tiles = [("closed issues", len(closed)), ("completed", done_total), ("not planned or duplicate", len(closed) - done_total)]
-    note = '<p class="explain">Each issue sits under the first release published after it closed.</p>'
-    return _stats(tiles) + note + _pack(sections)
+    tiles = [("closed issues", len(closed)), ("completed", done_total),
+             ("not planned or duplicate", len(closed) - done_total)]
+    note = 'Each issue sits under the first release published after it closed. Scroll sideways for older releases.'
+    return _tab_intro(tiles, note, areas) + _board(columns)
 
 
 # ---------- Page ----------
 
 # Colors live in variables so the theme switch swaps one block.
-# LIGHT_VARS is also forced under @media print, so the PDF is always light.
+# LIGHT_VARS is also forced under @media print, so a printout is always light.
 LIGHT_VARS: str = """
 --bg:#fff;--fg:#1f2328;--muted:#57606a;--faint:#8c959f;--line:#e5e7eb;--dash:#c9ced6;
 --section-bg:#fbfcfd;--card-bg:#fff;--btn-bg:#f6f8fa;--btn-line:#d0d7de;
@@ -703,70 +668,74 @@ CSS: str = """
 :root{""" + LIGHT_VARS + """color-scheme:light}
 :root[data-theme=dark]{""" + DARK_VARS + """color-scheme:dark}
 body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--fg);font-size:14px}
-header{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header{padding:14px 24px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 header h1{font-size:20px;margin:0}
 #source{margin-left:auto;display:inline-flex;align-items:center;gap:6px;color:var(--fg);text-decoration:none;font-weight:600}
 #source:hover{color:var(--link)}
-.tabs button,#theme{border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--fg);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:14px;margin-right:6px}
+.tabs button,#theme,.area-filter{border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--fg);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:14px;margin-right:6px}
 .tabs button.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 #search{padding:6px 10px;border:1px solid var(--btn-line);border-radius:6px;width:280px;background:var(--card-bg);color:var(--fg)}
-main{padding:16px 24px}
+main{padding:14px 24px}
 .tab{display:none}.tab.active{display:block}
-.tiles{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
 .tile{border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-width:110px;color:var(--muted);background:var(--card-bg)}
 .tile .num{font-size:22px;font-weight:600;color:var(--fg)}
-.explain{color:var(--muted);margin:4px 0 16px}
-.sections{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
-.section{box-sizing:border-box;max-width:100%;border:1.5px dashed var(--dash);border-radius:12px;padding:10px 12px;background:var(--section-bg)}
-.section.highlight{border:2.5px solid var(--accent);box-shadow:0 0 0 4px var(--highlight-glow);background:var(--highlight-bg)}
-.section h2{font-size:20px;margin:0;display:inline}
-summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}
-details.section>summary h2::before{content:"\\25B8  ";font-size:14px;color:var(--muted)}
-details.section[open]>summary h2::before{content:"\\25BE  "}
-.sub{color:var(--muted);margin:2px 0 8px}
-.grid{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
-.card{box-sizing:border-box;border:1.5px dashed var(--dash);border-radius:8px;padding:8px 10px;background:var(--card-bg)}
-.card.yellow{border:1.5px solid var(--yellow-line);background:var(--yellow-bg)}
-.card.orange{border:1.5px solid var(--orange-line);background:var(--orange-bg)}
-.card.green{border:1.5px solid var(--green-line);background:var(--green-bg)}
-.card.blue{border:1.5px solid var(--blue-line);background:var(--blue-bg)}
-.card.red{border:1.5px solid var(--red-line);background:var(--red-bg)}
-.card-head{display:flex;justify-content:space-between;gap:8px}
-.card-title{font-weight:600;font-size:15px}
-.owner{color:var(--owner);font-weight:600;font-size:12px;margin-top:2px}
-.status{color:var(--muted);font-size:12px;white-space:nowrap}
-.meta{margin:6px 0}
-ul{list-style:none;padding:0;margin:6px 0 0;column-gap:16px}
-.item{break-inside:avoid;display:flex;gap:8px;margin:5px 0;line-height:1.35}
-.icon{flex:none;width:12px;height:12px;border-radius:50%;margin-top:3px;border:1.5px solid var(--faint)}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.explain{color:var(--muted)}
+/* Board: fixed-width columns side by side, scrolling sideways when they do not fit. */
+.board{display:flex;gap:12px;overflow-x:auto;align-items:flex-start;padding-bottom:10px}
+.column{flex:0 0 """ + str(COLUMN_WIDTH_PX) + """px;width:""" + str(COLUMN_WIDTH_PX) + """px;box-sizing:border-box;display:flex;flex-direction:column;
+  max-height:calc(100vh - 230px);border:1px solid var(--line);border-radius:10px;background:var(--section-bg)}
+.column.highlight{border:2.5px solid var(--accent);box-shadow:0 0 0 4px var(--highlight-glow);background:var(--highlight-bg)}
+.col-head{padding:10px 12px 6px;border-bottom:1px solid var(--line)}
+.col-title{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+.col-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--faint);flex:none}
+.column.green .col-dot{border-color:var(--green-line)}
+.column.yellow .col-dot{border-color:var(--yellow-line)}
+.column.orange .col-dot{border-color:var(--orange-line)}
+.column.red .col-dot{border-color:var(--red-line)}
+.column.blue .col-dot{border-color:var(--blue-line)}
+.column.highlight .col-dot{border-color:var(--accent);background:var(--accent)}
+.count{background:var(--btn-bg);border:1px solid var(--btn-line);color:var(--muted);border-radius:10px;padding:0 8px;font-size:12px;font-weight:500}
+.sub{color:var(--muted);font-size:12px;margin-top:2px}
+.col-body{overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+.card{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--card-bg)}
+.card:hover{border-color:var(--btn-line)}
+.card-top{display:flex;align-items:center;gap:6px}
+.card-title{font-size:14px;line-height:1.35;margin:4px 0}
+.chips{line-height:1.8}
+ul{list-style:none;padding:0;margin:4px 0}
+.item{display:flex;gap:8px;margin:3px 0;line-height:1.35;font-size:12px;color:var(--muted)}
+.icon{flex:none;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--faint)}
+.item .icon{width:9px;height:9px;margin-top:3px}
 .icon.dot{background:var(--accent);border-color:var(--accent)}
 .icon.half{background:linear-gradient(90deg,var(--gold) 50%,var(--card-bg) 50%);border-color:var(--gold)}
 .icon.check{background:var(--done);border-color:var(--done)}
 .icon.cross{background:var(--cross);border-color:var(--faint)}
 .pill{background:var(--accent);color:var(--accent-fg);border-radius:10px;padding:0 7px;font-size:12px;font-weight:600;text-decoration:none}
-.chip{display:inline-block;border-radius:10px;padding:0 6px;font-size:11px;margin-left:2px;border:1px solid var(--btn-line);color:var(--muted);text-decoration:none}
+.chip{display:inline-block;border-radius:10px;padding:0 6px;font-size:11px;margin-right:2px;border:1px solid var(--btn-line);color:var(--muted);text-decoration:none;line-height:1.5}
 .chip.pr{border-color:var(--gold);color:var(--chip-pr-fg);background:var(--chip-pr-bg)}
 .chip.wait{border-color:var(--wait);color:var(--wait)}
 .chip.sec{border-color:var(--sec);color:var(--sec)}
 .chip.edge{color:var(--faint)}
 .chip.area{color:var(--link);border-color:var(--blue-line)}
-.note{color:var(--faint);font-size:12px}
+.chip.route{color:var(--owner);border-color:var(--owner)}
+.note{color:var(--faint);font-size:12px;margin-top:2px}
 .title-link{color:inherit;text-decoration:none}
 .title-link:hover{color:var(--link);text-decoration:underline}
-.people{font-size:11px;color:var(--muted);margin-left:2px}
+.people-row{margin-top:2px}
+.people{font-size:11px;color:var(--muted)}
 .handle{color:var(--owner);font-weight:600;text-decoration:none}
 .handle:hover{text-decoration:underline}
 .hidden{display:none !important}
-.print-title{display:none}
-@page{size:17in 11in;margin:0.35in}
 @media print{
   :root,:root[data-theme=dark]{""" + LIGHT_VARS + """color-scheme:light}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .tabs,#search,#theme,#source{display:none}
-  .tab{display:block !important}
-  .tab+.tab{break-before:page}
-  .print-title{display:block;font-size:22px;margin:0 0 8px}
-  .section,.card,.section>summary{break-inside:avoid}
+  .tabs,#search,#theme,#source,.area-filter{display:none}
+  .board{flex-wrap:wrap;overflow:visible}
+  .column{max-height:none}
+  .col-body{overflow:visible}
+  .card{break-inside:avoid}
 }
 """
 
@@ -786,26 +755,30 @@ const tabs=document.querySelectorAll('.tabs button');
 tabs.forEach(b=>b.addEventListener('click',()=>{
   tabs.forEach(x=>x.classList.remove('active'));b.classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.id===b.dataset.tab));
-  applySearch();
+  applyFilters();
 }));
 const box=document.getElementById('search');
-function applySearch(){
+// Hide cards that miss the text filter or the area dropdown, update each
+// column's count, and hide columns left empty while a filter is on.
+function applyFilters(){
   const q=box.value.trim().toLowerCase();
   const tab=document.querySelector('.tab.active');
-  tab.querySelectorAll('[data-search]').forEach(el=>el.classList.toggle('hidden',q!==''&&!el.dataset.search.includes(q)));
+  const select=tab.querySelector('.area-filter');
+  const area=select?select.value:'';
+  const filtering=q!==''||area!=='';
   tab.querySelectorAll('.card').forEach(c=>{
-    const rows=c.querySelectorAll('li[data-search]');
-    if(rows.length===0)return;
-    const any=[...rows].some(r=>!r.classList.contains('hidden'));
-    c.classList.toggle('hidden',q!==''&&!any);
+    const textOk=q===''||c.dataset.search.includes(q);
+    const areaOk=area===''||c.dataset.area===area;
+    c.classList.toggle('hidden',!(textOk&&areaOk));
   });
-  tab.querySelectorAll('.section').forEach(s=>{
-    const any=[...s.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));
-    s.classList.toggle('hidden',q!==''&&!any);
-    if(q!==''&&any&&s.tagName==='DETAILS')s.open=true;
+  tab.querySelectorAll('.column').forEach(col=>{
+    const shown=col.querySelectorAll('.card:not(.hidden)').length;
+    col.querySelector('.count').textContent=shown;
+    col.classList.toggle('hidden',filtering&&shown===0);
   });
 }
-box.addEventListener('input',applySearch);
+box.addEventListener('input',applyFilters);
+document.querySelectorAll('.area-filter').forEach(s=>s.addEventListener('change',applyFilters));
 const themeBtn=document.getElementById('theme');
 function showTheme(){themeBtn.textContent=document.documentElement.dataset.theme==='dark'?'Light mode':'Dark mode';}
 themeBtn.addEventListener('click',()=>{
@@ -828,8 +801,7 @@ def _page(
         for i, (tid, label, _) in enumerate(tabs)
     )
     bodies = "".join(
-        f'<div class="tab{" active" if i == 0 else ""}" id="{tid}">'
-        f'<h1 class="print-title">{_esc(label)}</h1>{body}</div>'
+        f'<div class="tab{" active" if i == 0 else ""}" id="{tid}">{body}</div>'
         for i, (tid, label, body) in enumerate(tabs)
     )
     return (

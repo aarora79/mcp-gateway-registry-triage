@@ -8,15 +8,15 @@ A GitHub Actions workflow rebuilds it every day at 12:00 UTC. The page shows whe
 
 ## What the page shows
 
-The page has four tabs.
+The page has four tabs. Each one is a board like a GitHub project: fixed-width columns, with one card per issue or pull request.
 
-**Open PRs** groups each pull request by what it needs before it can merge: a green CI run, a test, a reviewer, or a reviewer with the author walking them through it. Pull requests that are drafts, failing CI, or waiting on their author sit in their own groups. A "Start here" card lists the three to clear first.
+**Open PRs** has a column for each thing a pull request can need before it merges: a green CI run, a test, a reviewer, or a reviewer with the author walking them through it. Drafts, pull requests failing CI, and pull requests waiting on their author get their own columns. A highlighted "Start here" column on the left lists the three to clear first.
 
-**Open issues** groups issues by area of the codebase (auth, egress credentials, gateway proxy, search, and so on). Inside each area, cards split the issues by when to pick them up: today, this week, this month, or when time permits. A grey line under each issue gives the reasons for its placement. Chips mark an issue that already has an open pull request, an outside reporter who is waiting for a reply, and a placement close enough to a cut-off that a rerun may move it.
+**Open issues** has a column for each time horizon: today, this week, this month, and when time permits. A grey line on each card gives the reasons for its placement. Chips mark the area of the codebase, an issue that already has an open pull request, an outside reporter who is waiting for a reply, and a placement close enough to a cut-off that a rerun may move it.
 
-**Closed PRs** and **Closed issues** group everything by the release it shipped in, then by area. The three newest releases start expanded.
+**Closed PRs** and **Closed issues** have a column for each release, newest first. Scroll sideways for older releases.
 
-Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles. The button in the header switches between light and dark mode.
+Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles, and the dropdown on each tab narrows the board to one area. The button in the header switches between light and dark mode.
 
 ## Where the groupings come from
 

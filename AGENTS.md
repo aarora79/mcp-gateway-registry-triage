@@ -57,11 +57,13 @@ If you only changed layout or styles, rebuild from the `data/` you already have 
 
 ## How the page is put together
 
-`build_dashboard.py` has one builder per tab: `_build_open_prs`, `_build_open_issues`, `_build_closed_prs` and `_build_closed_issues`. Each returns stat tiles, a one-line note, and sections. Every builder renders through the same three helpers, `_section`, `_card` and `_item`, so a style change in one place reaches all four tabs.
+Each tab is a board in the style of a GitHub project: fixed-width columns side by side, one card per issue or pull request stacked inside each column. Columns scroll vertically on their own, and the board scrolls sideways when the columns do not fit.
 
-Areas come from `AREA_RULES`, an ordered list of (area, labels, title pattern). `_classify_area` checks the conventional-commit scope against the patterns first, then labels, then the title, and takes the first match. To move items between areas, edit or reorder the rules, then rebuild and count what lands in "Other".
+`build_dashboard.py` has one builder per tab: `_build_open_prs` (a column per route), `_build_open_issues` (a column per time horizon), `_build_closed_prs` and `_build_closed_issues` (a column per release, newest first). Each returns stat tiles, a toolbar with the area dropdown, and a board. Every builder renders through the same three helpers, `_card`, `_column` and `_board`, so a style change in one place reaches all four tabs.
 
-Layout constants sit at the top of the file. `MAX_SECTION_COLUMNS`, `MAX_CARD_COLUMNS`, `ITEMS_PER_COLUMN` and `CARD_BASIS_PX` control how tightly cards pack. Colors live in `LIGHT_VARS` and `DARK_VARS`. Change a color in both, and check it against its card background in both themes.
+Areas come from `AREA_RULES`, an ordered list of (area, labels, title pattern). `_classify_area` checks the conventional-commit scope against the patterns first, then labels, then the title, and takes the first match. Each card carries its area as a chip and in `data-area`, which the dropdown filters on. To move items between areas, edit or reorder the rules, then rebuild and count what lands in "Other".
+
+`COLUMN_WIDTH_PX` at the top of the file sets the width of every column and so every card. Colors live in `LIGHT_VARS` and `DARK_VARS`. Change a color in both, and check it against the card background in both themes.
 
 ## Code style
 

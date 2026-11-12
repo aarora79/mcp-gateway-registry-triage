@@ -1,9 +1,7 @@
 # Generated every run
 data/
 site/
-print/
 *.html
-*.pdf
 
 # Python
 __pycache__/

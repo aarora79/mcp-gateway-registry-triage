@@ -2,8 +2,7 @@
 
 Reads the gh exports (fetch_data.sh) and the pr-triage / issue-triage
 reports in ./data, and writes an HTML page with four tabs: open PRs, open
-issues, closed PRs, closed issues. It also writes a print version with every
-section expanded, which is the input for the PDF.
+issues, closed PRs, closed issues.
 
 The repository comes from the TRIAGE_REPO environment variable, the same one
 fetch_data.sh reads.
@@ -50,7 +49,7 @@ REVIEW_STATE_TEXT: dict[str, str] = {
     "DISMISSED": "dismissed",
     "REQUESTED": "requested",
 }
-OUTPUT_NAME: str = "mcp-gateway-registry-triage-dashboard"
+OUTPUT_FILE: str = "site/index.html"
 MAX_SECTION_COLUMNS: int = 4
 MAX_CARD_COLUMNS: int = 3
 ITEMS_PER_COLUMN: int = 8
@@ -690,7 +689,6 @@ CSS: str = """
 body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--fg);font-size:14px}
 header{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;gap:24px;align-items:center;flex-wrap:wrap}
 header h1{font-size:20px;margin:0}
-#pdf{color:var(--link);font-weight:600;text-decoration:none}
 .tabs button,#theme{border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--fg);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:14px;margin-right:6px}
 .tabs button.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 #search{padding:6px 10px;border:1px solid var(--btn-line);border-radius:6px;width:280px;background:var(--card-bg);color:var(--fg)}
@@ -745,7 +743,7 @@ ul{list-style:none;padding:0;margin:6px 0 0;column-gap:16px}
 @media print{
   :root,:root[data-theme=dark]{""" + LIGHT_VARS + """color-scheme:light}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .tabs,#search,#theme,#pdf{display:none}
+  .tabs,#search,#theme{display:none}
   .tab{display:block !important}
   .tab+.tab{break-before:page}
   .print-title{display:block;font-size:22px;margin:0 0 8px}
@@ -804,15 +802,8 @@ showTheme();
 def _page(
     tabs: list[tuple[str, str, str]],
     generated: str,
-    print_mode: bool = False,
-    pdf_link: str = "",
 ) -> str:
-    """Assemble the full HTML page from (id, label, body) tabs.
-
-    print_mode expands every collapsed release, because a printer cannot
-    open a <details> element. The print CSS then shows all four tabs.
-    pdf_link, when set, adds a header link to the PDF beside the page.
-    """
+    """Assemble the full HTML page from (id, label, body) tabs."""
     buttons = "".join(
         f'<button data-tab="{tid}" class="{"active" if i == 0 else ""}">{_esc(label)}</button>'
         for i, (tid, label, _) in enumerate(tabs)
@@ -822,16 +813,11 @@ def _page(
         f'<h1 class="print-title">{_esc(label)}</h1>{body}</div>'
         for i, (tid, label, body) in enumerate(tabs)
     )
-    if print_mode:
-        bodies = bodies.replace("<details ", "<details open ")
-    pdf_html = ""
-    if pdf_link:
-        pdf_html = f'<a id="pdf" href="{_esc(pdf_link)}">PDF</a>'
     return (
         '<!doctype html><html><head><meta charset="utf-8"><title>Triage dashboard</title>'
         f'<style>{CSS}</style><script>{THEME_INIT_JS}</script></head><body><header><h1><a class="title-link" href="{_esc(GITHUB_BASE)}" target="_blank" rel="noopener">{_esc(REPO)}</a></h1>'
         f'<div class="tabs">{buttons}</div><input id="search" placeholder="Filter by number, title or handle">'
-        f'<button id="theme" type="button">Dark mode</button>{pdf_html}'
+        f'<button id="theme" type="button">Dark mode</button>'
         f'<span class="note">generated {_esc(generated)}</span></header>'
         f'<main>{bodies}</main><script>{JS}</script></body></html>'
     )
@@ -868,13 +854,7 @@ def _parse_args() -> argparse.Namespace:
         epilog="Example:\n    uv run python build_dashboard.py --data-dir data",
     )
     parser.add_argument("--data-dir", default="data", help="Folder with gh exports and triage reports")
-    parser.add_argument("--out", default=f"{OUTPUT_NAME}.html", help="Output HTML file")
-    parser.add_argument("--pdf-link", default="", help="Relative link to the PDF, shown in the header")
-    parser.add_argument(
-        "--print-out",
-        default=f"{OUTPUT_NAME}.print.html",
-        help="HTML with every section expanded, the input for the PDF",
-    )
+    parser.add_argument("--out", default=OUTPUT_FILE, help="Output HTML file")
     return parser.parse_args()
 
 
@@ -900,10 +880,8 @@ def main() -> None:
     ]
     generated = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.print_out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text(_page(tabs, generated, pdf_link=args.pdf_link))
-    Path(args.print_out).write_text(_page(tabs, generated, print_mode=True))
-    logger.info(f"Wrote {args.out} and {args.print_out} for {REPO}")
+    Path(args.out).write_text(_page(tabs, generated))
+    logger.info(f"Wrote {args.out} for {REPO}")
 
 
 if __name__ == "__main__":

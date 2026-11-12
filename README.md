@@ -2,10 +2,9 @@
 
 A daily snapshot of the open and closed issues and pull requests in [agentic-community/mcp-gateway-registry](https://github.com/agentic-community/mcp-gateway-registry).
 
-- Live page: <https://aarora79.github.io/mcp-gateway-registry-triage/>
-- PDF of the same page: <https://aarora79.github.io/mcp-gateway-registry-triage/mcp-gateway-registry-triage-dashboard.pdf>
+Live page: <https://aarora79.github.io/mcp-gateway-registry-triage/>
 
-A GitHub Actions workflow rebuilds both every day at 12:00 UTC. The page shows when it was generated in the header.
+A GitHub Actions workflow rebuilds it every day at 12:00 UTC. The page shows when it was generated in the header.
 
 ## What the page shows
 
@@ -46,13 +45,8 @@ export TYPESAFE_API_KEY=YOUR_TYPESAFE_API_KEY
 export TRIAGE_REPO=agentic-community/mcp-gateway-registry
 ./fetch_data.sh
 
-# Build the page and its print version
-uv run python build_dashboard.py --data-dir data --out site/index.html --print-out print/index.html
-
-# Optional: print the PDF with any Chrome or Chromium
-google-chrome --headless=new --no-pdf-header-footer \
-    --print-to-pdf=site/mcp-gateway-registry-triage-dashboard.pdf \
-    "file://$PWD/print/index.html"
+# Build the page
+uv run python build_dashboard.py --data-dir data --out site/index.html
 ```
 
 Open `site/index.html` in a browser. The page has no outside dependencies, so it works offline.
@@ -67,7 +61,7 @@ A full run costs about 1.3 cents in TypeSafe calls and makes roughly 150 GitHub 
 
 1. downloads both triage tools at fixed versions and checks each against a SHA-256 hash in the workflow file;
 2. runs `fetch_data.sh` with the workflow's own token, which can read any public repository;
-3. builds the HTML and prints the PDF with the Chrome that ships on the runner;
+3. builds the HTML;
 4. publishes the `site/` folder to GitHub Pages.
 
 The workflow pins every action to a commit SHA. To upgrade a triage tool, change its version in the workflow and paste the `linux_amd64` line from that release's `SHA256SUMS`.
@@ -85,5 +79,5 @@ GitHub turns off scheduled workflows in a public repository after 60 days with n
 | File | Purpose |
 | --- | --- |
 | `fetch_data.sh` | Pulls issues, pull requests, reviews and releases with `gh`, then runs both triage tools |
-| `build_dashboard.py` | Reads `data/` and writes the page and its print version |
+| `build_dashboard.py` | Reads `data/` and writes `site/index.html` |
 | `.github/workflows/daily-dashboard.yml` | Daily build and Pages deploy |

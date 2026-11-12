@@ -788,14 +788,39 @@ themeBtn.addEventListener('click',()=>{
   showTheme();
 });
 showTheme();
+// "generated 2 hours ago (2026-11-12 22:58 UTC)", refreshed every minute.
+const stamp=document.getElementById('generated');
+function relativeTime(then){
+  const minutes=Math.floor((Date.now()-then.getTime())/60000);
+  if(minutes<1)return 'just now';
+  if(minutes<60)return minutes===1?'1 minute ago':minutes+' minutes ago';
+  const hours=Math.floor(minutes/60);
+  if(hours<24)return hours===1?'1 hour ago':hours+' hours ago';
+  const days=Math.floor(hours/24);
+  if(days===1)return 'yesterday';
+  return days+' days ago';
+}
+function showStamp(){
+  const then=new Date(stamp.getAttribute('datetime'));
+  if(isNaN(then))return;
+  stamp.textContent=relativeTime(then)+' ('+stamp.dataset.utc+')';
+}
+showStamp();
+setInterval(showStamp,60000);
 """
 
 
 def _page(
     tabs: list[tuple[str, str, str]],
-    generated: str,
+    generated: datetime,
 ) -> str:
-    """Assemble the full HTML page from (id, label, body) tabs."""
+    """Assemble the full HTML page from (id, label, body) tabs.
+
+    generated is the build time. The page shows it in UTC, and the browser
+    puts "2 hours ago" style text in front of it (see RELATIVE_TIME_JS).
+    """
+    generated_text = generated.strftime("%Y-%m-%d %H:%M UTC")
+    generated_iso = generated.isoformat(timespec="seconds")
     buttons = "".join(
         f'<button data-tab="{tid}" class="{"active" if i == 0 else ""}">{_esc(label)}</button>'
         for i, (tid, label, _) in enumerate(tabs)
@@ -809,7 +834,8 @@ def _page(
         f'<style>{CSS}</style><script>{THEME_INIT_JS}</script></head><body><header><h1><a class="title-link" href="{_esc(GITHUB_BASE)}" target="_blank" rel="noopener">{_esc(REPO)}</a></h1>'
         f'<div class="tabs">{buttons}</div><input id="search" placeholder="Filter by number, title or handle">'
         f'<button id="theme" type="button">Light mode</button>'
-        f'<span class="note">generated {_esc(generated)}</span>'
+        f'<span class="note">generated <time id="generated" datetime="{_esc(generated_iso)}" '
+        f'data-utc="{_esc(generated_text)}">{_esc(generated_text)}</time></span>'
         f'<a id="source" href="https://github.com/{_esc(DASHBOARD_REPO)}" target="_blank" rel="noopener" '
         f'title="Source for this dashboard: {_esc(DASHBOARD_REPO)}">{GITHUB_ICON_SVG}Source</a></header>'
         f'<main>{bodies}</main><script>{JS}</script></body></html>'
@@ -871,7 +897,7 @@ def main() -> None:
         ("closed-prs", f"Closed PRs ({sum(1 for p in prs if p['state'] != 'OPEN')})", _build_closed_prs(prs, windows)),
         ("closed-issues", f"Closed issues ({len(issues) - len(open_issues)})", _build_closed_issues(issues, windows)),
     ]
-    generated = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
+    generated = datetime.now(UTC)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(_page(tabs, generated))
     logger.info(f"Wrote {args.out} for {REPO}")

@@ -50,6 +50,19 @@ REVIEW_STATE_TEXT: dict[str, str] = {
     "REQUESTED": "requested",
 }
 OUTPUT_FILE: str = "site/index.html"
+# The repository that hosts this dashboard, linked from the header.
+# GitHub Actions sets GITHUB_REPOSITORY, so a fork links to itself.
+DASHBOARD_REPO: str = os.environ.get("GITHUB_REPOSITORY", "aarora79/mcp-gateway-registry-triage")
+# GitHub's mark, inline so the page still loads nothing from outside.
+GITHUB_ICON_SVG: str = (
+    '<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" '
+    'd="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49'
+    '-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82'
+    '.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15'
+    '-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 '
+    '2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54'
+    '.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>'
+)
 MAX_SECTION_COLUMNS: int = 4
 MAX_CARD_COLUMNS: int = 3
 ITEMS_PER_COLUMN: int = 8
@@ -687,8 +700,10 @@ CSS: str = """
 :root{""" + LIGHT_VARS + """color-scheme:light}
 :root[data-theme=dark]{""" + DARK_VARS + """color-scheme:dark}
 body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--fg);font-size:14px}
-header{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+header{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 header h1{font-size:20px;margin:0}
+#source{margin-left:auto;display:inline-flex;align-items:center;gap:6px;color:var(--fg);text-decoration:none;font-weight:600}
+#source:hover{color:var(--link)}
 .tabs button,#theme{border:1px solid var(--btn-line);background:var(--btn-bg);color:var(--fg);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:14px;margin-right:6px}
 .tabs button.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 #search{padding:6px 10px;border:1px solid var(--btn-line);border-radius:6px;width:280px;background:var(--card-bg);color:var(--fg)}
@@ -743,7 +758,7 @@ ul{list-style:none;padding:0;margin:6px 0 0;column-gap:16px}
 @media print{
   :root,:root[data-theme=dark]{""" + LIGHT_VARS + """color-scheme:light}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .tabs,#search,#theme{display:none}
+  .tabs,#search,#theme,#source{display:none}
   .tab{display:block !important}
   .tab+.tab{break-before:page}
   .print-title{display:block;font-size:22px;margin:0 0 8px}
@@ -818,7 +833,9 @@ def _page(
         f'<style>{CSS}</style><script>{THEME_INIT_JS}</script></head><body><header><h1><a class="title-link" href="{_esc(GITHUB_BASE)}" target="_blank" rel="noopener">{_esc(REPO)}</a></h1>'
         f'<div class="tabs">{buttons}</div><input id="search" placeholder="Filter by number, title or handle">'
         f'<button id="theme" type="button">Dark mode</button>'
-        f'<span class="note">generated {_esc(generated)}</span></header>'
+        f'<span class="note">generated {_esc(generated)}</span>'
+        f'<a id="source" href="https://github.com/{_esc(DASHBOARD_REPO)}" target="_blank" rel="noopener" '
+        f'title="Source for this dashboard: {_esc(DASHBOARD_REPO)}">{GITHUB_ICON_SVG}Source</a></header>'
         f'<main>{bodies}</main><script>{JS}</script></body></html>'
     )
 

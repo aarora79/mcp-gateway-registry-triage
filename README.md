@@ -4,7 +4,7 @@ A daily snapshot of the open and closed issues and pull requests in [agentic-com
 
 Live page: <https://aarora79.github.io/mcp-gateway-registry-triage/>
 
-A GitHub Actions workflow rebuilds it every day at 12:00 UTC. The page shows when it was generated in the header.
+A GitHub Actions workflow rebuilds it every day at 7:00 New York time (12:00 UTC in winter, 11:00 UTC in summer). The page shows when it was generated in the header.
 
 ## What the page shows
 

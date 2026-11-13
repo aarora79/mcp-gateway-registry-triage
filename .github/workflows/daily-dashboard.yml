@@ -1,11 +1,17 @@
 name: Daily triage dashboard
 
 # Rebuilds the dashboard from the target repository's issues and pull
-# requests every morning and publishes it to GitHub Pages.
+# requests at 7:00 New York time every day and publishes it to GitHub Pages.
+#
+# Cron runs in UTC only, and 7:00 New York is 11:00 UTC in summer (EDT) and
+# 12:00 UTC in winter (EST). So both are scheduled, and the when job keeps
+# whichever matches New York's current offset. It goes by the cron entry that
+# fired, not the clock, so a run that GitHub starts late is not dropped.
 on:
   schedule:
-    - cron: "0 12 * * *"  # 12:00 UTC every day
-  workflow_dispatch:       # the "Run workflow" button, for a refresh on demand
+    - cron: "0 11 * * *"  # 7:00 EDT (summer)
+    - cron: "0 12 * * *"  # 7:00 EST (winter)
+  workflow_dispatch:       # the "Run workflow" button, always builds
 
 permissions:
   contents: read
@@ -27,7 +33,36 @@ env:
   ISSUE_TRIAGE_SHA256: "e91582f5588c2f4af17142f4410d8ee59134aa858eac8770815e89cd251f413a"
 
 jobs:
+  when:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    outputs:
+      build: ${{ steps.check.outputs.build }}
+    steps:
+      - name: Decide whether this run is the 7:00 New York one
+        id: check
+        env:
+          EVENT: ${{ github.event_name }}
+          FIRED: ${{ github.event.schedule }}
+        run: |
+          if [ "$EVENT" != "schedule" ]; then
+            echo "Started by $EVENT, building."
+            echo "build=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          zone=$(TZ=America/New_York date +%Z)
+          if [ "$zone" = "EDT" ]; then want="0 11 * * *"; else want="0 12 * * *"; fi
+          if [ "$FIRED" = "$want" ]; then
+            echo "New York is on $zone and \"$FIRED\" is its 7:00 run, building."
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "New York is on $zone, so \"$FIRED\" is not its 7:00 run, skipping."
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: when
+    if: needs.when.outputs.build == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

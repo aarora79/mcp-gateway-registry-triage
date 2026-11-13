@@ -7,7 +7,8 @@
 #
 # Usage:
 #   export TRIAGE_REPO=agentic-community/mcp-gateway-registry
-#   ./fetch_data.sh
+#   ./fetch_data.sh                 # GitHub data and both triage tools
+#   ./fetch_data.sh --github-only   # GitHub data only: no triage, no TypeSafe key
 
 # Exit on error
 set -e
@@ -45,7 +46,12 @@ fetch_to() {
     done
 }
 
-if [ -z "$TYPESAFE_API_KEY" ]; then
+GITHUB_ONLY=false
+if [ "$1" = "--github-only" ]; then
+    GITHUB_ONLY=true
+fi
+
+if [ "$GITHUB_ONLY" = false ] && [ -z "$TYPESAFE_API_KEY" ]; then
     echo "TYPESAFE_API_KEY is not set. The triage tools need it." >&2
     exit 1
 fi
@@ -59,10 +65,21 @@ fetch_to "$DATA_DIR/issues.json" \
     gh issue list -R "$TRIAGE_REPO" --state all --limit "$GH_LIMIT" \
     --json number,title,state,stateReason,labels,author,createdAt,closedAt,updatedAt,comments,assignees,milestone
 
-echo "Fetching pull requests..."
-fetch_to "$DATA_DIR/prs.json" \
-    gh pr list -R "$TRIAGE_REPO" --state all --limit "$GH_LIMIT" \
+# One query for every pull request with every field times out on GitHub's
+# side (HTTP 502) at this repository's size. Open pull requests need the
+# heavy fields (sizes, linked issues); closed ones only need what their card
+# shows. Two queries, then one merged file.
+echo "Fetching open pull requests..."
+fetch_to "$DATA_DIR/prs-open.json" \
+    gh pr list -R "$TRIAGE_REPO" --state open --limit "$GH_LIMIT" \
     --json number,title,state,author,createdAt,mergedAt,closedAt,updatedAt,labels,additions,deletions,changedFiles,milestone,isDraft,closingIssuesReferences,headRefName
+
+echo "Fetching closed and merged pull requests..."
+fetch_to "$DATA_DIR/prs-closed.json" \
+    gh pr list -R "$TRIAGE_REPO" --state closed --limit "$GH_LIMIT" \
+    --json number,title,state,author,createdAt,mergedAt,closedAt,labels
+
+jq -s 'add' "$DATA_DIR/prs-open.json" "$DATA_DIR/prs-closed.json" > "$DATA_DIR/prs.json"
 
 echo "Fetching reviews..."
 fetch_to "$DATA_DIR/reviews.json" \
@@ -73,6 +90,12 @@ echo "Fetching releases..."
 fetch_to "$DATA_DIR/releases.json" \
     gh release list -R "$TRIAGE_REPO" --limit 500 \
     --json tagName,publishedAt,isPrerelease
+
+if [ "$GITHUB_ONLY" = true ]; then
+    echo "GitHub-only run: skipping both triage tools."
+    ls -la "$DATA_DIR"
+    exit 0
+fi
 
 echo "Running pr-triage on every open pull request..."
 fetch_to "$DATA_DIR/pr-triage-stdout.md" \

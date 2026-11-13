@@ -1,0 +1,121 @@
+name: Watch for changes
+
+# Every 15 minutes, checks whether the open issues or pull requests in the
+# target repository changed since the page was last built. Plain GitHub API
+# calls only: no triage tools and no TypeSafe key, so it costs nothing.
+#
+# If nothing changed, it stops without committing. If something changed, it
+# rebuilds the page from fresh GitHub data plus the triage results the 7:00
+# build saved in state/, publishes it, and commits the new fingerprint.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Shares the group with the daily build, so the two never deploy or push at
+# the same time. A queued run waits rather than cancelling one in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  TRIAGE_REPO: agentic-community/mcp-gateway-registry
+  FINGERPRINT_FILE: state/fingerprint.txt
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
+      fingerprint: ${{ steps.compare.outputs.fingerprint }}
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Compare the open items with the last build
+        id: compare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The watcher reuses triage results that only the 7:00 build saves.
+          if [ ! -d state/triage ]; then
+            echo "No saved triage results yet. Waiting for the first 7:00 build."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # A GitHub API hiccup should not turn into a failed run (and an email
+          # every 15 minutes). Skip this check and try again next time.
+          if ! current=$(./fingerprint.sh); then
+            echo "Could not read the open items from GitHub. Skipping this check."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          previous=$(cat "$FINGERPRINT_FILE" 2>/dev/null || echo "none")
+          echo "fingerprint=$current" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$previous" ]; then
+            echo "No change since the last build ($current)."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Open items changed: $previous -> $current"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: check
+    if: needs.check.outputs.changed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write  # to commit the new fingerprint
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
+
+      - name: Fetch issues and pull requests (no triage)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./fetch_data.sh --github-only
+
+      - name: Reuse the triage results from the last 7:00 build
+        run: cp state/triage/* data/
+
+      - name: Build the HTML
+        run: uv run python build_dashboard.py --data-dir data --out site/index.html
+
+      - name: Upload the site for Pages
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
+        with:
+          path: site
+
+      - name: Commit the new fingerprint
+        env:
+          FINGERPRINT: ${{ needs.check.outputs.fingerprint }}
+        run: |
+          echo "$FINGERPRINT" > "$FINGERPRINT_FILE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$FINGERPRINT_FILE"
+          git commit -m "Open items changed: refresh the page"
+          git pull --rebase --quiet
+          git push --quiet
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346  # v5.0.1

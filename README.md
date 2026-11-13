@@ -55,29 +55,38 @@ To point it at another repository, change `TRIAGE_REPO`.
 
 A full run costs about 1.3 cents in TypeSafe calls and makes roughly 150 GitHub API calls.
 
-## How the daily build works
+## How the page stays current
 
-[`.github/workflows/daily-dashboard.yml`](.github/workflows/daily-dashboard.yml) runs on a schedule and from the "Run workflow" button on the Actions tab. It:
+Two workflows keep the page up to date.
+
+[`daily-dashboard.yml`](.github/workflows/daily-dashboard.yml) runs at 7:00 New York time and from the "Run workflow" button on the Actions tab. It:
 
 1. downloads both triage tools at fixed versions and checks each against a SHA-256 hash in the workflow file;
 2. runs `fetch_data.sh` with the workflow's own token, which can read any public repository;
-3. builds the HTML;
-4. publishes the `site/` folder to GitHub Pages.
+3. builds the HTML and publishes it to GitHub Pages;
+4. commits the triage reports and a fingerprint of the open items to `state/`, for the watcher.
 
-The workflow pins every action to a commit SHA. To upgrade a triage tool, change its version in the workflow and paste the `linux_amd64` line from that release's `SHA256SUMS`.
+[`watch-for-changes.yml`](.github/workflows/watch-for-changes.yml) runs every 15 minutes and uses plain GitHub API calls only, so it costs nothing. `fingerprint.sh` hashes which issues and pull requests are open, their titles and labels, and each pull request's draft flag and review decision. If the hash matches `state/fingerprint.txt`, the run stops there and commits nothing. If it differs, the watcher fetches fresh GitHub data, rebuilds the page with the triage reports in `state/`, publishes it, and commits the new fingerprint.
+
+Between 7:00 runs, anything opened since the last triage shows in a "New since last triage" column, and anything closed drops off. Comments and CI status are not part of the fingerprint: a comment changes nothing the watcher can redraw, and CI state reaches the page only through `pr-triage` at 7:00. GitHub starts scheduled runs late when it is busy, so expect a change to reach the page in 15 to 30 minutes.
+
+Both workflows pin every action to a commit SHA, and they share one concurrency group, so they never publish or push at the same time. To upgrade a triage tool, change its version in `daily-dashboard.yml` and paste the `linux_amd64` line from that release's `SHA256SUMS`.
 
 ### Setup for a fork
 
 1. Add a repository secret named `TYPESAFE_API_KEY`.
 2. In Settings, Pages, set the source to "GitHub Actions".
-3. Run the workflow once from the Actions tab.
+3. Run the daily workflow once from the Actions tab. The watcher waits until that run has saved `state/`.
 
-GitHub turns off scheduled workflows in a public repository after 60 days with no commits. If the page stops updating, check the Actions tab and re-enable the workflow.
+GitHub turns off scheduled workflows in a public repository after 60 days with no commits. The daily build commits to `state/` whenever the triage changes, which keeps the repository active, but if the page stops updating, check the Actions tab and re-enable the workflows.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
-| `fetch_data.sh` | Pulls issues, pull requests, reviews and releases with `gh`, then runs both triage tools |
+| `fetch_data.sh` | Pulls issues, pull requests, reviews and releases with `gh`, then runs both triage tools. `--github-only` skips the tools. |
+| `fingerprint.sh` | Prints one hash of the open issues and pull requests, for the watcher |
 | `build_dashboard.py` | Reads `data/` and writes `site/index.html` |
-| `.github/workflows/daily-dashboard.yml` | Daily build and Pages deploy |
+| `state/` | Triage reports and fingerprint from the last build, committed by the workflows |
+| `.github/workflows/daily-dashboard.yml` | 7:00 New York build with triage, and Pages deploy |
+| `.github/workflows/watch-for-changes.yml` | 15-minute check, and a rebuild without triage when something changed |

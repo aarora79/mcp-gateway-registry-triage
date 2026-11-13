@@ -63,6 +63,9 @@ GITHUB_ICON_SVG: str = (
 )
 # Every board column, and so every card, is this wide.
 COLUMN_WIDTH_PX: int = 340
+# Items opened after the last triage run land here until the next 7:00 build.
+NEW_COLUMN_TITLE: str = "New since last triage"
+NEW_COLUMN_NOTE: str = "opened after the last triage run; sorted at the next 7:00 ET build"
 HORIZONS: list[str] = ["Today", "This week", "This month", "When time permits"]
 
 # Area rules, checked in order. First match wins.
@@ -421,6 +424,26 @@ def _open_pr_card(
     return _card("pr", triaged["number"], gh_pr["title"], gh_pr, "dot", area, chips, details)
 
 
+def _is_open(
+    number: int,
+    gh_by_number: dict[int, dict],
+) -> bool:
+    """True when gh still reports the pull request as open."""
+    return gh_by_number.get(number, {}).get("state") == "OPEN"
+
+
+def _new_pr_card(
+    gh_pr: dict,
+) -> str:
+    """Render an open PR that the last pr-triage run has not seen."""
+    size = f"{gh_pr.get('changedFiles', '?')} files, +{gh_pr.get('additions', 0)}/-{gh_pr.get('deletions', 0)}"
+    chips = _chip(size, "size")
+    if gh_pr.get("isDraft"):
+        chips += " " + _chip("draft", "edge")
+    area = _classify_area(gh_pr["title"], _label_names(gh_pr))
+    return _card("pr", gh_pr["number"], gh_pr["title"], gh_pr, "ring", area, chips)
+
+
 def _start_here_column(
     triage: dict,
     gh_by_number: dict[int, dict],
@@ -428,6 +451,8 @@ def _start_here_column(
     """The three PRs pr-triage says to clear first, as a highlighted column."""
     cards = []
     for pick in triage.get("start_here", []):
+        if not _is_open(pick["number"], gh_by_number):
+            continue
         gh_pr = gh_by_number.get(pick["number"], {"title": pick.get("title", "")})
         area = _classify_area(gh_pr["title"], _label_names(gh_pr))
         chips = _chip(pick.get("route", ""), "route")
@@ -440,15 +465,27 @@ def _build_open_prs(
     gh_by_number: dict[int, dict],
     issues_by_number: dict[int, dict],
 ) -> str:
-    """Render the open PR tab: one column per route or pre-review state."""
+    """Render the open PR tab: one column per route or pre-review state.
+
+    The triage results can be hours older than the gh data, so PRs closed
+    since then are dropped and PRs opened since then get their own column.
+    """
+    routed = [pr for pr in triage["pull_requests"] if _is_open(pr["number"], gh_by_number)]
+    waiting_list = [pr for pr in triage["not_reviewable"] if _is_open(pr["number"], gh_by_number)]
+    seen = {pr["number"] for pr in triage["pull_requests"] + triage["not_reviewable"]}
+    new_prs = [pr for pr in gh_by_number.values() if pr["state"] == "OPEN" and pr["number"] not in seen]
+    new_prs.sort(key=lambda pr: -pr["number"])
+
     groups: dict[str, list[dict]] = defaultdict(list)
-    for pr in triage["pull_requests"]:
+    for pr in routed:
         groups[pr["route"]].append(pr)
-    for pr in triage["not_reviewable"]:
+    for pr in waiting_list:
         groups[pr["state"]].append(pr)
 
     columns = [_start_here_column(triage, gh_by_number)]
-    areas = []
+    areas = [_classify_area(pr["title"], _label_names(pr)) for pr in new_prs]
+    if new_prs:
+        columns.append(_column(NEW_COLUMN_TITLE, NEW_COLUMN_NOTE, [_new_pr_card(pr) for pr in new_prs], "blue"))
     for key, heading, css, explanation in ROUTE_ORDER:
         members = groups.get(key, [])
         if not members:
@@ -460,10 +497,11 @@ def _build_open_prs(
             cards.append(_open_pr_card(pr, gh_pr, issues_by_number))
         columns.append(_column(heading, explanation, cards, css))
 
-    reviewable = len(triage["pull_requests"])
-    waiting = len(triage["not_reviewable"])
-    tiles = [("open PRs", reviewable + waiting), ("routed", reviewable), ("not reviewable yet", waiting),
+    tiles = [("open PRs", len(routed) + len(waiting_list) + len(new_prs)), ("routed", len(routed)),
+             ("not reviewable yet", len(waiting_list)),
              ("need a person", len(groups["human-required"]) + len(groups["human-plus-author"]))]
+    if new_prs:
+        tiles.append(("new since triage", len(new_prs)))
     note = (f'Routes from <code>pr-triage</code> run {_esc(triage["triaged_at"][:10])} with '
             f'{_esc(triage["model"])}. A route names the evidence a merge would need, not a verdict.')
     return _tab_intro(tiles, note, areas) + _board(columns)
@@ -519,16 +557,21 @@ def _build_open_issues(
     areas = []
     in_flight = 0
     for issue in sorted(issues, key=lambda i: order.get(i["number"], len(order))):
-        row = triage_rows.get(issue["number"], {"horizon": "When time permits", "why": "not in triage run"})
+        row = triage_rows.get(issue["number"], {"horizon": NEW_COLUMN_TITLE, "why": ""})
         area = _classify_area(issue["title"], _label_names(issue))
         areas.append(area)
         by_horizon[row["horizon"]].append(_issue_card(issue, row, pr_links.get(issue["number"], []), area))
         if issue["number"] in pr_links or "already open" in row["why"]:
             in_flight += 1
 
-    columns = [_column(h, HORIZON_NOTES[h], by_horizon[h], HORIZON_COLORS[h]) for h in HORIZONS]
+    columns = []
+    if by_horizon[NEW_COLUMN_TITLE]:
+        columns.append(_column(NEW_COLUMN_TITLE, NEW_COLUMN_NOTE, by_horizon[NEW_COLUMN_TITLE], "blue"))
+    columns += [_column(h, HORIZON_NOTES[h], by_horizon[h], HORIZON_COLORS[h]) for h in HORIZONS]
     waiting = sum(1 for r in triage_rows.values() if "outside reporter" in r["why"])
     tiles = [(h.lower(), len(by_horizon[h])) for h in HORIZONS]
+    if by_horizon[NEW_COLUMN_TITLE]:
+        tiles.append(("new since triage", len(by_horizon[NEW_COLUMN_TITLE])))
     tiles += [("PR in flight", in_flight), ("reporter waiting", waiting)]
     note = ('Horizons and reasons from <code>issue-triage</code>; areas from labels and title keywords. '
             'The grey line on each card says why it sits in its column.')

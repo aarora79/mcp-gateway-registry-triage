@@ -65,6 +65,8 @@ jobs:
     if: needs.when.outputs.build == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    permissions:
+      contents: write  # to commit state/ for the watcher
     steps:
       - name: Check out this repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
@@ -83,6 +85,14 @@ jobs:
           chmod +x "$HOME/bin/pr-triage" "$HOME/bin/issue-triage"
           echo "$HOME/bin" >> "$GITHUB_PATH"
 
+      # Taken before the fetch, so a change that lands mid-build still differs
+      # from the saved fingerprint and the watcher picks it up afterwards.
+      - name: Fingerprint the open items
+        id: fingerprint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "value=$(./fingerprint.sh)" >> "$GITHUB_OUTPUT"
+
       - name: Fetch issues, pull requests and triage reports
         env:
           # The workflow token can read any public repository.
@@ -97,6 +107,27 @@ jobs:
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5.0.0
         with:
           path: site
+
+      # The watcher rebuilds between 7:00 runs without the triage tools, so it
+      # needs today's triage reports and the fingerprint this page was built from.
+      - name: Save triage results and fingerprint for the watcher
+        env:
+          FINGERPRINT: ${{ steps.fingerprint.outputs.value }}
+        run: |
+          slug=$(echo "$TRIAGE_REPO" | tr / -)
+          mkdir -p state/triage
+          cp "data/${slug}-open-all-triage.json" "data/triage-${slug}-open.md" state/triage/
+          echo "$FINGERPRINT" > state/fingerprint.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state
+          if git diff --cached --quiet; then
+            echo "state/ is unchanged, nothing to commit."
+            exit 0
+          fi
+          git commit -m "Daily triage: save results for the watcher"
+          git pull --rebase --quiet
+          git push --quiet
 
   deploy:
     needs: build

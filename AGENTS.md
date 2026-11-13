@@ -8,9 +8,12 @@ A scheduled GitHub Actions workflow fetches the issues and pull requests of `age
 
 | File | Role |
 | --- | --- |
-| `fetch_data.sh` | Calls `gh` for issues, pull requests, reviews and releases, then runs `pr-triage` and `issue-triage`. Writes everything to `data/`. |
+| `fetch_data.sh` | Calls `gh` for issues, pull requests, reviews and releases, then runs `pr-triage` and `issue-triage`. Writes everything to `data/`. `--github-only` skips the two tools and needs no TypeSafe key. |
+| `fingerprint.sh` | Prints one SHA-256 of the open items: numbers, titles, labels, and each pull request's draft flag and review decision. |
 | `build_dashboard.py` | Reads `data/` and writes `site/index.html`. Uses the standard library only. |
-| `.github/workflows/daily-dashboard.yml` | Installs the pinned tools, runs both scripts, deploys `site/` to Pages. |
+| `state/` | The last triage reports and fingerprint. Only the workflows write here. |
+| `.github/workflows/daily-dashboard.yml` | 7:00 New York: installs the pinned tools, runs both scripts, deploys, then commits `state/`. |
+| `.github/workflows/watch-for-changes.yml` | Every 15 minutes: compares `fingerprint.sh` with `state/fingerprint.txt`. On a change, rebuilds without the triage tools, deploys, and commits the new fingerprint. |
 
 The target repository comes from the `TRIAGE_REPO` environment variable, which both scripts read. The triage tools name their reports after it, so `build_dashboard.py` derives the input file names from it too.
 
@@ -51,9 +54,13 @@ If you only changed layout or styles, rebuild from the `data/` you already have 
 
 **Never print or log `TYPESAFE_API_KEY`.** It reaches the workflow as a repository secret and goes to the tools through the environment only. Do not put it on a command line, in a file, or in an example. Examples use `YOUR_TYPESAFE_API_KEY`.
 
-**Do not commit generated output.** `data/` and `site/` are rebuilt on every run and are in `.gitignore`. So is `uv.lock`, because the project has no dependencies. Stage files by name rather than with `git add -A`.
+**Do not commit generated output.** `data/` and `site/` are rebuilt on every run and are in `.gitignore`. `state/` is the exception: the workflows commit it, and nothing else should. So is `uv.lock`, because the project has no dependencies. Stage files by name rather than with `git add -A`.
 
 **Ask before anything that publishes.** Pushing to `main`, re-running the workflow and changing repository settings all change the public page. Confirm with the maintainer first.
+
+**Keep the watcher free.** `watch-for-changes.yml` must never call the triage tools or read `TYPESAFE_API_KEY`. It runs 96 times a day. A failed GitHub call there should skip the check and exit 0, not fail the run, or the maintainer gets an email every 15 minutes.
+
+**Treat triage results as hours old.** Between 7:00 runs the page combines fresh GitHub data with the morning's triage. `build_dashboard.py` drops items that closed since then and puts unseen ones in the `NEW_COLUMN_TITLE` column. Any new view of the open queue has to do the same.
 
 ## How the page is put together
 

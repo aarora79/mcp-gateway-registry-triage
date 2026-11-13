@@ -11,6 +11,11 @@ on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if nothing changed (to publish a code change without paying for triage)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -40,6 +45,7 @@ jobs:
         id: compare
         env:
           GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
         run: |
           # The watcher reuses triage results that only the 7:00 build saves.
           if [ ! -d state/triage ]; then
@@ -56,7 +62,10 @@ jobs:
           fi
           previous=$(cat "$FINGERPRINT_FILE" 2>/dev/null || echo "none")
           echo "fingerprint=$current" >> "$GITHUB_OUTPUT"
-          if [ "$current" = "$previous" ]; then
+          if [ "$FORCE" = "true" ]; then
+            echo "Forced rebuild requested."
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$current" = "$previous" ]; then
             echo "No change since the last build ($current)."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -102,6 +111,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$FINGERPRINT_FILE"
+          if git diff --cached --quiet; then
+            echo "Fingerprint unchanged (forced rebuild), nothing to commit."
+            exit 0
+          fi
           git commit -m "Open items changed: refresh the page"
           git pull --rebase --quiet
           git push --quiet

@@ -294,6 +294,45 @@ def _chip(
     return f'<span class="chip {css}"{title}>{_esc(text)}</span>'
 
 
+def _open_duration(
+    created: datetime,
+    closed: datetime,
+) -> str:
+    """Say how long a closed item stayed open: "open 3 days", "open 4 months"."""
+    days = (closed - created).days
+    if days < 1:
+        return "open under a day"
+    if days < 60:
+        return f"open {days} day" + ("" if days == 1 else "s")
+    months = days // 30
+    if months < 24:
+        return f"open {months} months"
+    return f"open {days // 365} years"
+
+
+def _age_chip(
+    source: dict | None,
+) -> str:
+    """Age chip for a card.
+
+    Open items get an empty chip carrying data-created; AGE_JS fills in the
+    label in the browser, so "created today" stays true between rebuilds.
+    Closed items get a fixed "open N days" chip instead.
+    """
+    if not source:
+        return ""
+    created = _parse_time(source.get("createdAt"))
+    if created is None:
+        return ""
+    if source.get("state") == "OPEN":
+        return f'<span class="chip age" data-created="{_esc(created.isoformat())}"></span>'
+    closed = _parse_time(source.get("mergedAt") or source.get("closedAt"))
+    if closed is None:
+        return ""
+    title = f"opened {created:%Y-%m-%d}, closed {closed:%Y-%m-%d}"
+    return _chip(_open_duration(created, closed), "age", title)
+
+
 def _card(
     kind: str,
     number: int,
@@ -322,7 +361,7 @@ def _card(
         f'<div class="card" data-search="{search_text}" data-area="{_esc(area)}">'
         f'<div class="card-top"><span class="icon {icon}"></span>{_pill(kind, number)}</div>'
         f'<div class="card-title">{title_link}</div>'
-        f'<div class="chips">{area_chip} {chips}</div>'
+        f'<div class="chips">{_age_chip(source)} {area_chip} {chips}</div>'
         f'{details_html}{people_html}{note_html}</div>'
     )
 
@@ -763,6 +802,11 @@ ul{list-style:none;padding:0;margin:4px 0}
 .chip.edge{color:var(--faint)}
 .chip.area{color:var(--link);border-color:var(--blue-line)}
 .chip.route{color:var(--owner);border-color:var(--owner)}
+.chip.age:empty{display:none}
+.chip.age-today{color:var(--done);border-color:var(--green-line)}
+.chip.age-week{color:var(--link);border-color:var(--blue-line)}
+.chip.age-old{color:var(--chip-pr-fg);border-color:var(--gold)}
+.chip.age-ancient{color:var(--wait);border-color:var(--wait)}
 .note{color:var(--faint);font-size:12px;margin-top:2px}
 .title-link{color:inherit;text-decoration:none}
 .title-link:hover{color:var(--link);text-decoration:underline}
@@ -850,6 +894,29 @@ function showStamp(){
 }
 showStamp();
 setInterval(showStamp,60000);
+// Age chips on open items. Each level: [upper bound in days, label, css class].
+const AGE_LEVELS=[
+  [1,'created today','age-today'],
+  [7,'under a week old','age-week'],
+  [30,'under a month old',''],
+  [90,'over a month old','age-old'],
+  [Infinity,'pending a long time','age-ancient'],
+];
+function showAges(){
+  const now=Date.now();
+  document.querySelectorAll('.chip.age[data-created]').forEach(chip=>{
+    const created=new Date(chip.dataset.created);
+    if(isNaN(created))return;
+    const days=(now-created.getTime())/86400000;
+    const level=AGE_LEVELS.find(l=>days<l[0]);
+    chip.textContent=level[1];
+    chip.className='chip age'+(level[2]?' '+level[2]:'');
+    const whole=Math.floor(days);
+    chip.title='opened '+created.toISOString().slice(0,10)+', '+whole+(whole===1?' day':' days')+' ago';
+  });
+}
+showAges();
+setInterval(showAges,60000);
 """
 
 

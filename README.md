@@ -16,7 +16,7 @@ The page has four tabs. Each one is a board like a GitHub project: fixed-width c
 
 **Closed PRs** and **Closed issues** have a column for each release, newest first. Scroll sideways for older releases.
 
-Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles, and the dropdown on each tab narrows the board to one area. The page opens in dark mode, and the button in the header switches to light. The browser remembers the choice.
+Every card carries an age chip. On the open tabs it says how old the item is, from "created today" through "pending a long time" (over 90 days), and the browser keeps it current between rebuilds. On the closed tabs it says how long the item stayed open. Every number, title and `@handle` links to GitHub. The filter box matches issue numbers, titles and handles, and the dropdown on each tab narrows the board to one area. The page opens in dark mode, and the button in the header switches to light. The browser remembers the choice.
 
 ## Where the groupings come from
 
@@ -66,7 +66,7 @@ Two workflows keep the page up to date.
 3. builds the HTML and publishes it to GitHub Pages;
 4. commits the triage reports and a fingerprint of the open items to `state/`, for the watcher.
 
-[`watch-for-changes.yml`](.github/workflows/watch-for-changes.yml) runs every 15 minutes and uses plain GitHub API calls only, so it costs nothing. `fingerprint.sh` hashes which issues and pull requests are open, their titles and labels, and each pull request's draft flag and review decision. If the hash matches `state/fingerprint.txt`, the run stops there and commits nothing. If it differs, the watcher fetches fresh GitHub data, rebuilds the page with the triage reports in `state/`, publishes it, and commits the new fingerprint.
+[`watch-for-changes.yml`](.github/workflows/watch-for-changes.yml) runs every 15 minutes and uses plain GitHub API calls only, so it costs nothing. `fingerprint.sh` hashes which issues and pull requests are open, their titles and labels, and each pull request's draft flag and review decision. If the hash matches `state/fingerprint.txt`, the run stops there and commits nothing. If it differs, the watcher fetches fresh GitHub data, rebuilds the page with the triage reports in `state/`, publishes it, and commits the new fingerprint. To publish a code change without waiting for a change in the open items, run the watcher from the Actions tab with "Rebuild even if nothing changed" ticked. That rebuild costs nothing.
 
 Between 7:00 runs, anything opened since the last triage shows in a "New since last triage" column, and anything closed drops off. Comments and CI status are not part of the fingerprint: a comment changes nothing the watcher can redraw, and CI state reaches the page only through `pr-triage` at 7:00. GitHub starts scheduled runs late when it is busy, so expect a change to reach the page in 15 to 30 minutes.
 

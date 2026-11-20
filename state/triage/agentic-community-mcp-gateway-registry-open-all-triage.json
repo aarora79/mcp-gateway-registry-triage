@@ -5,68 +5,72 @@
     "limit": null,
     "since": null
   },
-  "triaged_at": "2026-11-19T19:45:03Z",
+  "triaged_at": "2026-11-20T19:24:27Z",
   "model": "jev-1.13.0",
   "questions_asked": 12,
   "tier_counts": {
-    "high": 11,
-    "low": 0,
-    "medium": 1,
+    "high": 12,
+    "low": 2,
+    "medium": 4,
     "trivial": 0
   },
   "route_counts": {
     "ai-review-is-enough": 0,
     "green-is-enough": 0,
-    "human-plus-author": 10,
-    "human-required": 2,
+    "human-plus-author": 12,
+    "human-required": 6,
     "tests-are-enough": 0
   },
   "state_counts": {
-    "ci-failing": 1,
-    "ci-pending": 1,
+    "ci-failing": 2,
+    "ci-pending": 0,
     "draft": 1,
     "pending-author-rework": 3,
-    "reviewable": 12
+    "reviewable": 18
   },
   "start_here": [
     {
-      "number": 2048,
-      "title": "chore(deps): weekly lockfile update (2026-11-16)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2048",
+      "number": 2094,
+      "title": "fix(skills): honor YAML block scalars in SKILL.md descriptions",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2094",
       "route": "human-required",
-      "changed_files": 10
+      "changed_files": 2
     },
     {
-      "number": 1791,
-      "title": "feat(auth): Logto identity provider support (OAuth login + IAM role/group management)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1791",
-      "route": "human-plus-author",
-      "changed_files": 16
+      "number": 2091,
+      "title": "fix(egress): do not overwrite a rotated token after a stale vault read",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2091",
+      "route": "human-required",
+      "changed_files": 2
     },
     {
-      "number": 1169,
-      "title": "feat(auth): Fine grained auth integration with external services",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1169",
-      "route": "human-plus-author",
-      "changed_files": 16
+      "number": 2089,
+      "title": "feat(charts): bump the default tls policy",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2089",
+      "route": "human-required",
+      "changed_files": 3
     }
   ],
   "awaiting_reviewer": {},
   "not_reviewable": [
     {
-      "number": 2082,
-      "title": "fix(auth0): keep operator enablement independent of first-party status",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2082",
-      "state": "ci-pending",
-      "reason": "2 of 5 checks still running",
+      "number": 2039,
+      "title": "Serve REST APIs as MCP servers from OpenAPI specs (#2022)",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2039",
+      "state": "ci-failing",
+      "reason": "1 of 37 checks failing: CodeQL",
       "shared_failure": false,
       "checks": {
-        "total": 5,
-        "pending": 2,
+        "total": 37,
+        "pending": 0,
         "counts": {
-          "success": 3
+          "failure": 1,
+          "skipped": 1,
+          "success": 35
         },
-        "failing": []
+        "failing": [
+          "CodeQL"
+        ]
       }
     },
     {
@@ -150,7 +154,7 @@
       }
     }
   ],
-  "cost_usd": 0.00482,
+  "cost_usd": 0.00569671,
   "pull_requests": [
     {
       "number": 610,
@@ -160,7 +164,7 @@
       "changed_files": 19,
       "additions": 533,
       "deletions": 74,
-      "review_load": 0.8156,
+      "review_load": 0.8253,
       "consequence": 0.99,
       "consequence_from": "infra surface",
       "route": "human-plus-author",
@@ -179,7 +183,7 @@
         "input_tokens": 8716,
         "output_tokens": 302
       },
-      "latency_ms": 106,
+      "latency_ms": 121,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -213,15 +217,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.57,
+            "noul": 0.62,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.57,
-          "adds_to_load": 0.0627
+          "credit": 0.62,
+          "adds_to_load": 0.0682
         },
         "change_kind": {
           "label": "change kind",
@@ -233,14 +237,14 @@
             "noul": 0,
             "choice": "feature",
             "score": 0,
-            "confidence": 0.96,
+            "confidence": 0.98,
             "legend": null,
             "probabilities": {
               "bugfix": 0,
-              "config": 0.03,
+              "config": 0.02,
               "dependency": 0,
               "docs": 0,
-              "feature": 0.97,
+              "feature": 0.98,
               "refactor": 0,
               "tests": 0
             }
@@ -274,8 +278,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.32,
-            "confidence": 0.52,
+            "score": 1.29,
+            "confidence": 0.55,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -283,12 +287,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.68,
-              "2": 0.32
+              "1": 0.7,
+              "2": 0.3
             }
           },
-          "credit": 0.34,
-          "adds_to_load": 0.0272
+          "credit": 0.355,
+          "adds_to_load": 0.0284
         },
         "design_decisions": {
           "label": "design decisions",
@@ -299,7 +303,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
+            "score": 2,
             "confidence": 1,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -312,8 +316,8 @@
               "2": 1
             }
           },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
+          "credit": 1,
+          "adds_to_load": 0.14
         },
         "has_tests": {
           "label": "has tests",
@@ -322,15 +326,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.04,
+            "noul": 0.03,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.96,
-          "adds_to_load": 0.0768
+          "credit": 0.97,
+          "adds_to_load": 0.0776
         },
         "infra_surface": {
           "label": "infra surface",
@@ -356,15 +360,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.33,
+            "noul": 0.34,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.67,
-          "adds_to_load": 0.0804
+          "credit": 0.66,
+          "adds_to_load": 0.0792
         },
         "review_focus": {
           "label": "review focus",
@@ -397,15 +401,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.58,
+            "noul": 0.61,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.58,
-          "adds_to_load": 0.0522
+          "credit": 0.61,
+          "adds_to_load": 0.0549
         },
         "security_surface": {
           "label": "security surface",
@@ -434,7 +438,7 @@
       "changed_files": 51,
       "additions": 3052,
       "deletions": 626,
-      "review_load": 0.7542,
+      "review_load": 0.7493,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -453,7 +457,7 @@
         "input_tokens": 9422,
         "output_tokens": 302
       },
-      "latency_ms": 141,
+      "latency_ms": 112,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -548,8 +552,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.7,
-            "confidence": 0.55,
+            "score": 1.71,
+            "confidence": 0.56,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -557,12 +561,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.3,
-              "2": 0.7
+              "1": 0.29,
+              "2": 0.71
             }
           },
-          "credit": 0.15,
-          "adds_to_load": 0.012
+          "credit": 0.145,
+          "adds_to_load": 0.0116
         },
         "design_decisions": {
           "label": "design decisions",
@@ -630,15 +634,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.26,
+            "noul": 0.29,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.74,
-          "adds_to_load": 0.0888
+          "credit": 0.71,
+          "adds_to_load": 0.0852
         },
         "review_focus": {
           "label": "review focus",
@@ -671,15 +675,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.54,
+            "noul": 0.53,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.54,
-          "adds_to_load": 0.0486
+          "credit": 0.53,
+          "adds_to_load": 0.0477
         },
         "security_surface": {
           "label": "security surface",
@@ -708,7 +712,7 @@
       "changed_files": 173,
       "additions": 19797,
       "deletions": 2428,
-      "review_load": 0.7416,
+      "review_load": 0.7372,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -727,7 +731,7 @@
         "input_tokens": 10246,
         "output_tokens": 302
       },
-      "latency_ms": 186,
+      "latency_ms": 131,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -761,15 +765,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.81,
+            "noul": 0.83,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.81,
-          "adds_to_load": 0.0891
+          "credit": 0.83,
+          "adds_to_load": 0.0913
         },
         "change_kind": {
           "label": "change kind",
@@ -904,15 +908,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.45,
+            "noul": 0.49,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.55,
-          "adds_to_load": 0.066
+          "credit": 0.51,
+          "adds_to_load": 0.0612
         },
         "review_focus": {
           "label": "review focus",
@@ -924,14 +928,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.94,
+            "confidence": 0.95,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
               "correctness": 0.01,
-              "deployment": 0.01,
+              "deployment": 0,
               "readability": 0,
-              "security": 0.95,
+              "security": 0.96,
               "tests": 0.02
             }
           },
@@ -945,289 +949,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.71,
+            "noul": 0.69,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.71,
-          "adds_to_load": 0.0639
-        },
-        "security_surface": {
-          "label": "security surface",
-          "type": "noul",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        }
-      }
-    },
-    {
-      "number": 2039,
-      "title": "Serve REST APIs as MCP servers from OpenAPI specs (#2022)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2039",
-      "author": "aarora79",
-      "changed_files": 175,
-      "additions": 29399,
-      "deletions": 7289,
-      "review_load": 0.7292,
-      "consequence": 0.99,
-      "consequence_from": "infra surface",
-      "route": "human-plus-author",
-      "route_decided_by": "both",
-      "downgrade": "evidence that infra surface is covered, a test or a reviewer who owns it",
-      "tier": "high",
-      "size_floor": "high",
-      "raised_by_size": false,
-      "diff_coverage": 0.1714,
-      "drivers": [
-        "blast radius",
-        "security surface",
-        "design decisions"
-      ],
-      "usage": {
-        "input_tokens": 10449,
-        "output_tokens": 302
-      },
-      "latency_ms": 113,
-      "questions": {
-        "blast_radius": {
-          "label": "blast radius",
-          "type": "score",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.98,
-            "confidence": 0.97,
-            "legend": {
-              "0": "Confined to one file, or to documentation",
-              "1": "Confined to one module or feature area",
-              "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.02,
-              "2": 0.98
-            }
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        },
-        "breaking_change": {
-          "label": "breaking change",
-          "type": "noul",
-          "weight": 0.11,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.66,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.66,
-          "adds_to_load": 0.0726
-        },
-        "change_kind": {
-          "label": "change kind",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "feature",
-            "score": 0,
-            "confidence": 1,
-            "legend": null,
-            "probabilities": {
-              "bugfix": 0,
-              "config": 0,
-              "dependency": 0,
-              "docs": 0,
-              "feature": 1,
-              "refactor": 0,
-              "tests": 0
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "comment_awaits_author": {
-          "label": "comment awaits author",
-          "type": "noul",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.14,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "description_quality": {
-          "label": "description quality",
-          "type": "score",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.8,
-            "confidence": 0.7,
-            "legend": {
-              "0": "Empty, or says nothing about what changed",
-              "1": "Names what changed",
-              "2": "Explains what changed, why, and how the author verified it"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.2,
-              "2": 0.8
-            }
-          },
-          "credit": 0.1,
-          "adds_to_load": 0.008
-        },
-        "design_decisions": {
-          "label": "design decisions",
-          "type": "score",
-          "weight": 0.14,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.99,
-            "confidence": 1,
-            "legend": {
-              "0": "None: the same edit repeated, or a value changed",
-              "1": "Local choices inside one function or file",
-              "2": "New abstractions, interfaces, or control flow"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
-        },
-        "has_tests": {
-          "label": "has tests",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.93,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.07,
-          "adds_to_load": 0.0056
-        },
-        "infra_surface": {
-          "label": "infra surface",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.0792
-        },
-        "mechanical": {
-          "label": "mechanical",
-          "type": "noul",
-          "weight": 0.12,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.32,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.68,
-          "adds_to_load": 0.0816
-        },
-        "review_focus": {
-          "label": "review focus",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "security",
-            "score": 0,
-            "confidence": 0.96,
-            "legend": null,
-            "probabilities": {
-              "compatibility": 0.01,
-              "correctness": 0.01,
-              "deployment": 0,
-              "readability": 0,
-              "security": 0.97,
-              "tests": 0.01
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "scope_creep": {
-          "label": "scope creep",
-          "type": "noul",
-          "weight": 0.09,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.51,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.51,
-          "adds_to_load": 0.0459
+          "credit": 0.69,
+          "adds_to_load": 0.0621
         },
         "security_surface": {
           "label": "security surface",
@@ -1256,7 +986,7 @@
       "changed_files": 133,
       "additions": 7300,
       "deletions": 1062,
-      "review_load": 0.718,
+      "review_load": 0.719,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -1275,7 +1005,7 @@
         "input_tokens": 10319,
         "output_tokens": 302
       },
-      "latency_ms": 109,
+      "latency_ms": 140,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -1309,15 +1039,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.84,
+            "noul": 0.83,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.84,
-          "adds_to_load": 0.0924
+          "credit": 0.83,
+          "adds_to_load": 0.0913
         },
         "change_kind": {
           "label": "change kind",
@@ -1329,15 +1059,289 @@
             "noul": 0,
             "choice": "feature",
             "score": 0,
-            "confidence": 0.36,
+            "confidence": 0.37,
             "legend": null,
             "probabilities": {
               "bugfix": 0,
-              "config": 0.33,
-              "dependency": 0.21,
+              "config": 0.34,
+              "dependency": 0.19,
               "docs": 0,
-              "feature": 0.45,
+              "feature": 0.46,
               "refactor": 0.01,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.1,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.99,
+            "confidence": 0.98,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.01,
+              "2": 0.99
+            }
+          },
+          "credit": 0.005,
+          "adds_to_load": 0.0004
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 1,
+          "adds_to_load": 0.14
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.92,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.08,
+          "adds_to_load": 0.0064
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.0792
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.65,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.35,
+          "adds_to_load": 0.042
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "deployment",
+            "score": 0,
+            "confidence": 0.36,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.15,
+              "correctness": 0.07,
+              "deployment": 0.47,
+              "readability": 0,
+              "security": 0.28,
+              "tests": 0.03
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.68,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.68,
+          "adds_to_load": 0.0612
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1485
+        }
+      }
+    },
+    {
+      "number": 1169,
+      "title": "feat(auth): Fine grained auth integration with external services",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1169",
+      "author": "nathanzilgo",
+      "changed_files": 16,
+      "additions": 2944,
+      "deletions": 0,
+      "review_load": 0.6911,
+      "consequence": 0.99,
+      "consequence_from": "security surface",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "high",
+      "raised_by_size": false,
+      "diff_coverage": 0.625,
+      "drivers": [
+        "security surface",
+        "design decisions",
+        "blast radius"
+      ],
+      "usage": {
+        "input_tokens": 7771,
+        "output_tokens": 302
+      },
+      "latency_ms": 116,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.74,
+            "confidence": 0.61,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.26,
+              "2": 0.74
+            }
+          },
+          "credit": 0.87,
+          "adds_to_load": 0.1305
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.56,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.56,
+          "adds_to_load": 0.0616
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "feature",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 1,
+              "refactor": 0,
               "tests": 0
             }
           },
@@ -1395,280 +1399,6 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
-            "confidence": 1,
-            "legend": {
-              "0": "None: the same edit repeated, or a value changed",
-              "1": "Local choices inside one function or file",
-              "2": "New abstractions, interfaces, or control flow"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
-        },
-        "has_tests": {
-          "label": "has tests",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.93,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.07,
-          "adds_to_load": 0.0056
-        },
-        "infra_surface": {
-          "label": "infra surface",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.0792
-        },
-        "mechanical": {
-          "label": "mechanical",
-          "type": "noul",
-          "weight": 0.12,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.64,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.36,
-          "adds_to_load": 0.0432
-        },
-        "review_focus": {
-          "label": "review focus",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "deployment",
-            "score": 0,
-            "confidence": 0.38,
-            "legend": null,
-            "probabilities": {
-              "compatibility": 0.15,
-              "correctness": 0.06,
-              "deployment": 0.48,
-              "readability": 0,
-              "security": 0.28,
-              "tests": 0.03
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "scope_creep": {
-          "label": "scope creep",
-          "type": "noul",
-          "weight": 0.09,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.66,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.66,
-          "adds_to_load": 0.0594
-        },
-        "security_surface": {
-          "label": "security surface",
-          "type": "noul",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        }
-      }
-    },
-    {
-      "number": 1169,
-      "title": "feat(auth): Fine grained auth integration with external services",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1169",
-      "author": "nathanzilgo",
-      "changed_files": 16,
-      "additions": 2944,
-      "deletions": 0,
-      "review_load": 0.6986,
-      "consequence": 0.99,
-      "consequence_from": "security surface",
-      "route": "human-plus-author",
-      "route_decided_by": "both",
-      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
-      "tier": "high",
-      "size_floor": "high",
-      "raised_by_size": false,
-      "diff_coverage": 0.625,
-      "drivers": [
-        "security surface",
-        "design decisions",
-        "blast radius"
-      ],
-      "usage": {
-        "input_tokens": 7771,
-        "output_tokens": 302
-      },
-      "latency_ms": 107,
-      "questions": {
-        "blast_radius": {
-          "label": "blast radius",
-          "type": "score",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.77,
-            "confidence": 0.66,
-            "legend": {
-              "0": "Confined to one file, or to documentation",
-              "1": "Confined to one module or feature area",
-              "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.23,
-              "2": 0.77
-            }
-          },
-          "credit": 0.885,
-          "adds_to_load": 0.1328
-        },
-        "breaking_change": {
-          "label": "breaking change",
-          "type": "noul",
-          "weight": 0.11,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.55,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.55,
-          "adds_to_load": 0.0605
-        },
-        "change_kind": {
-          "label": "change kind",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "feature",
-            "score": 0,
-            "confidence": 1,
-            "legend": null,
-            "probabilities": {
-              "bugfix": 0,
-              "config": 0,
-              "dependency": 0,
-              "docs": 0,
-              "feature": 1,
-              "refactor": 0,
-              "tests": 0
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "comment_awaits_author": {
-          "label": "comment awaits author",
-          "type": "noul",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.13,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "description_quality": {
-          "label": "description quality",
-          "type": "score",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.98,
-            "confidence": 0.98,
-            "legend": {
-              "0": "Empty, or says nothing about what changed",
-              "1": "Names what changed",
-              "2": "Explains what changed, why, and how the author verified it"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.01,
-              "2": 0.99
-            }
-          },
-          "credit": 0.01,
-          "adds_to_load": 0.0008
-        },
-        "design_decisions": {
-          "label": "design decisions",
-          "type": "score",
-          "weight": 0.14,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
             "score": 2,
             "confidence": 1,
             "legend": {
@@ -1709,15 +1439,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.97,
+            "noul": 0.96,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.97,
-          "adds_to_load": 0.0776
+          "credit": 0.96,
+          "adds_to_load": 0.0768
         },
         "mechanical": {
           "label": "mechanical",
@@ -1726,15 +1456,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.24,
+            "noul": 0.23,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.76,
-          "adds_to_load": 0.0912
+          "credit": 0.77,
+          "adds_to_load": 0.0924
         },
         "review_focus": {
           "label": "review focus",
@@ -1746,14 +1476,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.89,
+            "confidence": 0.88,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.01,
+              "compatibility": 0.02,
               "correctness": 0.01,
               "deployment": 0,
               "readability": 0,
-              "security": 0.91,
+              "security": 0.9,
               "tests": 0.07
             }
           },
@@ -1767,15 +1497,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.48,
+            "noul": 0.41,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.48,
-          "adds_to_load": 0.0432
+          "credit": 0.41,
+          "adds_to_load": 0.0369
         },
         "security_surface": {
           "label": "security surface",
@@ -1797,33 +1527,33 @@
       }
     },
     {
-      "number": 1791,
-      "title": "feat(auth): Logto identity provider support (OAuth login + IAM role/group management)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1791",
-      "author": "scs001",
-      "changed_files": 16,
-      "additions": 2150,
-      "deletions": 9,
-      "review_load": 0.673,
-      "consequence": 0.99,
-      "consequence_from": "security surface",
+      "number": 2084,
+      "title": "fix(branding): preserve System preference and replay owned archives safely",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2084",
+      "author": "omrishiv",
+      "changed_files": 11,
+      "additions": 1071,
+      "deletions": 449,
+      "review_load": 0.6881,
+      "consequence": 0.95,
+      "consequence_from": "infra surface",
       "route": "human-plus-author",
       "route_decided_by": "both",
-      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "downgrade": "evidence that infra surface is covered, a test or a reviewer who owns it",
       "tier": "high",
       "size_floor": "high",
       "raised_by_size": false,
-      "diff_coverage": 0.6875,
+      "diff_coverage": 0.7273,
       "drivers": [
         "blast radius",
-        "security surface",
-        "design decisions"
+        "design decisions",
+        "security surface"
       ],
       "usage": {
-        "input_tokens": 8567,
-        "output_tokens": 302
+        "input_tokens": 5171,
+        "output_tokens": 303
       },
-      "latency_ms": 110,
+      "latency_ms": 181,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -1834,12 +1564,121 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.98,
-            "confidence": 0.97,
+            "score": 1.89,
+            "confidence": 0.84,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
               "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.11,
+              "2": 0.89
+            }
+          },
+          "credit": 0.945,
+          "adds_to_load": 0.1418
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.69,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.69,
+          "adds_to_load": 0.0759
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "bugfix",
+            "score": 0,
+            "confidence": 0.76,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0.79,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0.21,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.11,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.49,
+            "confidence": 0.25,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.5,
+              "2": 0.5
+            }
+          },
+          "credit": 0.255,
+          "adds_to_load": 0.0204
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.98,
+            "confidence": 0.97,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
             },
             "probabilities": {
               "0": 0,
@@ -1848,7 +1687,172 @@
             }
           },
           "credit": 0.99,
-          "adds_to_load": 0.1485
+          "adds_to_load": 0.1386
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.97,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.95,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.95,
+          "adds_to_load": 0.076
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.22,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.78,
+          "adds_to_load": 0.0936
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "security",
+            "score": 0,
+            "confidence": 0.63,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.01,
+              "correctness": 0.24,
+              "deployment": 0.01,
+              "readability": 0,
+              "security": 0.69,
+              "tests": 0.05
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.45,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.45,
+          "adds_to_load": 0.0405
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.66,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.66,
+          "adds_to_load": 0.099
+        }
+      }
+    },
+    {
+      "number": 1791,
+      "title": "feat(auth): Logto identity provider support (OAuth login + IAM role/group management)",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1791",
+      "author": "scs001",
+      "changed_files": 16,
+      "additions": 2150,
+      "deletions": 9,
+      "review_load": 0.6762,
+      "consequence": 0.99,
+      "consequence_from": "security surface",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "high",
+      "raised_by_size": false,
+      "diff_coverage": 0.6875,
+      "drivers": [
+        "security surface",
+        "blast radius",
+        "design decisions"
+      ],
+      "usage": {
+        "input_tokens": 8567,
+        "output_tokens": 302
+      },
+      "latency_ms": 172,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.97,
+            "confidence": 0.96,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.03,
+              "2": 0.97
+            }
+          },
+          "credit": 0.985,
+          "adds_to_load": 0.1478
         },
         "breaking_change": {
           "label": "breaking change",
@@ -1899,7 +1903,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.14,
+            "noul": 0.12,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2000,15 +2004,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.39,
+            "noul": 0.38,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.61,
-          "adds_to_load": 0.0732
+          "credit": 0.62,
+          "adds_to_load": 0.0744
         },
         "review_focus": {
           "label": "review focus",
@@ -2041,15 +2045,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.29,
+            "noul": 0.32,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.29,
-          "adds_to_load": 0.0261
+          "credit": 0.32,
+          "adds_to_load": 0.0288
         },
         "security_surface": {
           "label": "security surface",
@@ -2078,7 +2082,7 @@
       "changed_files": 48,
       "additions": 5065,
       "deletions": 81,
-      "review_load": 0.6697,
+      "review_load": 0.6717,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -2097,7 +2101,7 @@
         "input_tokens": 8231,
         "output_tokens": 302
       },
-      "latency_ms": 124,
+      "latency_ms": 123,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2131,15 +2135,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.77,
+            "noul": 0.76,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.77,
-          "adds_to_load": 0.0847
+          "credit": 0.76,
+          "adds_to_load": 0.0836
         },
         "change_kind": {
           "label": "change kind",
@@ -2173,7 +2177,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.1,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2240,15 +2244,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.96,
+            "noul": 0.97,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.04,
-          "adds_to_load": 0.0032
+          "credit": 0.03,
+          "adds_to_load": 0.0024
         },
         "infra_surface": {
           "label": "infra surface",
@@ -2274,15 +2278,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.53,
+            "noul": 0.49,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.47,
-          "adds_to_load": 0.0564
+          "credit": 0.51,
+          "adds_to_load": 0.0612
         },
         "review_focus": {
           "label": "review focus",
@@ -2294,14 +2298,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.87,
+            "confidence": 0.89,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.07,
+              "correctness": 0.05,
               "deployment": 0,
               "readability": 0,
-              "security": 0.89,
+              "security": 0.91,
               "tests": 0.03
             }
           },
@@ -2315,15 +2319,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.34,
+            "noul": 0.33,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.34,
-          "adds_to_load": 0.0306
+          "credit": 0.33,
+          "adds_to_load": 0.0297
         },
         "security_surface": {
           "label": "security surface",
@@ -2345,15 +2349,15 @@
       }
     },
     {
-      "number": 1686,
-      "title": "feat(egress): add operator_credential mode to inject the shared backend credential",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1686",
-      "author": "doppelc",
-      "changed_files": 24,
-      "additions": 973,
-      "deletions": 179,
-      "review_load": 0.6456,
-      "consequence": 0.99,
+      "number": 2085,
+      "title": "fix(frontend/mcp-apps): catalog refresh metadata",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2085",
+      "author": "omrishiv",
+      "changed_files": 20,
+      "additions": 695,
+      "deletions": 515,
+      "review_load": 0.6514,
+      "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
       "route_decided_by": "both",
@@ -2361,17 +2365,17 @@
       "tier": "high",
       "size_floor": "medium",
       "raised_by_size": false,
-      "diff_coverage": 0.5833,
+      "diff_coverage": 0.55,
       "drivers": [
         "blast radius",
-        "security surface",
-        "design decisions"
+        "design decisions",
+        "security surface"
       ],
       "usage": {
-        "input_tokens": 8346,
-        "output_tokens": 302
+        "input_tokens": 7200,
+        "output_tokens": 303
       },
-      "latency_ms": 108,
+      "latency_ms": 130,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2382,121 +2386,12 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
-            "confidence": 0.98,
+            "score": 2,
+            "confidence": 1,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
               "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.01,
-              "2": 0.99
-            }
-          },
-          "credit": 0.995,
-          "adds_to_load": 0.1493
-        },
-        "breaking_change": {
-          "label": "breaking change",
-          "type": "noul",
-          "weight": 0.11,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.69,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.69,
-          "adds_to_load": 0.0759
-        },
-        "change_kind": {
-          "label": "change kind",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "feature",
-            "score": 0,
-            "confidence": 1,
-            "legend": null,
-            "probabilities": {
-              "bugfix": 0,
-              "config": 0,
-              "dependency": 0,
-              "docs": 0,
-              "feature": 1,
-              "refactor": 0,
-              "tests": 0
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "comment_awaits_author": {
-          "label": "comment awaits author",
-          "type": "noul",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.13,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "description_quality": {
-          "label": "description quality",
-          "type": "score",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.51,
-            "confidence": 0.28,
-            "legend": {
-              "0": "Empty, or says nothing about what changed",
-              "1": "Names what changed",
-              "2": "Explains what changed, why, and how the author verified it"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.48,
-              "2": 0.52
-            }
-          },
-          "credit": 0.245,
-          "adds_to_load": 0.0196
-        },
-        "design_decisions": {
-          "label": "design decisions",
-          "type": "score",
-          "weight": 0.14,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.99,
-            "confidence": 1,
-            "legend": {
-              "0": "None: the same edit repeated, or a value changed",
-              "1": "Local choices inside one function or file",
-              "2": "New abstractions, interfaces, or control flow"
             },
             "probabilities": {
               "0": 0,
@@ -2504,173 +2399,8 @@
               "2": 1
             }
           },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
-        },
-        "has_tests": {
-          "label": "has tests",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.97,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.03,
-          "adds_to_load": 0.0024
-        },
-        "infra_surface": {
-          "label": "infra surface",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.13,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.13,
-          "adds_to_load": 0.0104
-        },
-        "mechanical": {
-          "label": "mechanical",
-          "type": "noul",
-          "weight": 0.12,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.39,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.61,
-          "adds_to_load": 0.0732
-        },
-        "review_focus": {
-          "label": "review focus",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "security",
-            "score": 0,
-            "confidence": 0.96,
-            "legend": null,
-            "probabilities": {
-              "compatibility": 0,
-              "correctness": 0.02,
-              "deployment": 0,
-              "readability": 0,
-              "security": 0.97,
-              "tests": 0.01
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "scope_creep": {
-          "label": "scope creep",
-          "type": "noul",
-          "weight": 0.09,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.3,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.3,
-          "adds_to_load": 0.027
-        },
-        "security_surface": {
-          "label": "security surface",
-          "type": "noul",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        }
-      }
-    },
-    {
-      "number": 2044,
-      "title": "feat(prm): opt-in per-server PRM for all providers",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2044",
-      "author": "go-faustino",
-      "changed_files": 26,
-      "additions": 944,
-      "deletions": 20,
-      "review_load": 0.629,
-      "consequence": 0.96,
-      "consequence_from": "blast radius",
-      "route": "human-plus-author",
-      "route_decided_by": "both",
-      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
-      "tier": "high",
-      "size_floor": "medium",
-      "raised_by_size": false,
-      "diff_coverage": 0.7692,
-      "drivers": [
-        "blast radius",
-        "security surface",
-        "design decisions"
-      ],
-      "usage": {
-        "input_tokens": 8934,
-        "output_tokens": 302
-      },
-      "latency_ms": 109,
-      "questions": {
-        "blast_radius": {
-          "label": "blast radius",
-          "type": "score",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.96,
-            "confidence": 0.94,
-            "legend": {
-              "0": "Confined to one file, or to documentation",
-              "1": "Confined to one module or feature area",
-              "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.04,
-              "2": 0.96
-            }
-          },
-          "credit": 0.98,
-          "adds_to_load": 0.147
+          "credit": 1,
+          "adds_to_load": 0.15
         },
         "breaking_change": {
           "label": "breaking change",
@@ -2679,15 +2409,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.47,
+            "noul": 0.74,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.47,
-          "adds_to_load": 0.0517
+          "credit": 0.74,
+          "adds_to_load": 0.0814
         },
         "change_kind": {
           "label": "change kind",
@@ -2697,16 +2427,16 @@
           "returned": {
             "type": "choice",
             "noul": 0,
-            "choice": "feature",
+            "choice": "bugfix",
             "score": 0,
-            "confidence": 1,
+            "confidence": 0.99,
             "legend": null,
             "probabilities": {
-              "bugfix": 0,
+              "bugfix": 0.99,
               "config": 0,
               "dependency": 0,
               "docs": 0,
-              "feature": 1,
+              "feature": 0.01,
               "refactor": 0,
               "tests": 0
             }
@@ -2721,7 +2451,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.1,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2765,7 +2495,829 @@
             "type": "score",
             "noul": 0,
             "choice": "",
+            "score": 1.99,
+            "confidence": 0.98,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.01,
+              "2": 0.99
+            }
+          },
+          "credit": 0.995,
+          "adds_to_load": 0.1393
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.97,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.07,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.07,
+          "adds_to_load": 0.0056
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.25,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.75,
+          "adds_to_load": 0.09
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "security",
+            "score": 0,
+            "confidence": 0.3,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.03,
+              "correctness": 0.39,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.42,
+              "tests": 0.16
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.53,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.53,
+          "adds_to_load": 0.0477
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.9,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.9,
+          "adds_to_load": 0.135
+        }
+      }
+    },
+    {
+      "number": 2083,
+      "title": "fix(mcp-apps): public connector identity",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2083",
+      "author": "omrishiv",
+      "changed_files": 16,
+      "additions": 278,
+      "deletions": 163,
+      "review_load": 0.6462,
+      "consequence": 0.98,
+      "consequence_from": "security surface",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "medium",
+      "raised_by_size": false,
+      "diff_coverage": 0.8125,
+      "drivers": [
+        "blast radius",
+        "security surface",
+        "design decisions"
+      ],
+      "usage": {
+        "input_tokens": 7099,
+        "output_tokens": 303
+      },
+      "latency_ms": 132,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
             "score": 1.96,
+            "confidence": 0.94,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.04,
+              "2": 0.96
+            }
+          },
+          "credit": 0.98,
+          "adds_to_load": 0.147
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.58,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.58,
+          "adds_to_load": 0.0638
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "bugfix",
+            "score": 0,
+            "confidence": 0.52,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0.59,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0.41,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.13,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 0,
+          "adds_to_load": 0
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.98,
+            "confidence": 0.98,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.01,
+              "2": 0.99
+            }
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1386
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.96,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.04,
+          "adds_to_load": 0.0032
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.76,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.76,
+          "adds_to_load": 0.0608
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.51,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.49,
+          "adds_to_load": 0.0588
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "security",
+            "score": 0,
+            "confidence": 0.84,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.01,
+              "correctness": 0.09,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.87,
+              "tests": 0.03
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.3,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.3,
+          "adds_to_load": 0.027
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.98,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.98,
+          "adds_to_load": 0.147
+        }
+      }
+    },
+    {
+      "number": 1686,
+      "title": "feat(egress): add operator_credential mode to inject the shared backend credential",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1686",
+      "author": "doppelc",
+      "changed_files": 24,
+      "additions": 973,
+      "deletions": 179,
+      "review_load": 0.645,
+      "consequence": 0.99,
+      "consequence_from": "security surface",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "medium",
+      "raised_by_size": false,
+      "diff_coverage": 0.5833,
+      "drivers": [
+        "blast radius",
+        "security surface",
+        "design decisions"
+      ],
+      "usage": {
+        "input_tokens": 8346,
+        "output_tokens": 302
+      },
+      "latency_ms": 113,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.98,
+            "confidence": 0.97,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.02,
+              "2": 0.98
+            }
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1485
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.68,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.68,
+          "adds_to_load": 0.0748
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "feature",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 1,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.15,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.51,
+            "confidence": 0.26,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.49,
+              "2": 0.51
+            }
+          },
+          "credit": 0.245,
+          "adds_to_load": 0.0196
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 1,
+          "adds_to_load": 0.14
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.97,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.13,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.13,
+          "adds_to_load": 0.0104
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.4,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.6,
+          "adds_to_load": 0.072
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "security",
+            "score": 0,
+            "confidence": 0.96,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0,
+              "correctness": 0.02,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.97,
+              "tests": 0.01
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.32,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.32,
+          "adds_to_load": 0.0288
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1485
+        }
+      }
+    },
+    {
+      "number": 2044,
+      "title": "feat(prm): opt-in per-server PRM for all providers",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2044",
+      "author": "go-faustino",
+      "changed_files": 26,
+      "additions": 944,
+      "deletions": 20,
+      "review_load": 0.636,
+      "consequence": 0.97,
+      "consequence_from": "blast radius",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "medium",
+      "raised_by_size": false,
+      "diff_coverage": 0.7692,
+      "drivers": [
+        "blast radius",
+        "security surface",
+        "design decisions"
+      ],
+      "usage": {
+        "input_tokens": 8934,
+        "output_tokens": 302
+      },
+      "latency_ms": 118,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.97,
+            "confidence": 0.96,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.03,
+              "2": 0.97
+            }
+          },
+          "credit": 0.985,
+          "adds_to_load": 0.1478
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.5,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.5,
+          "adds_to_load": 0.055
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "feature",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 1,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.09,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 0,
+          "adds_to_load": 0
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.95,
             "confidence": 0.92,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -2778,8 +3330,8 @@
               "2": 0.96
             }
           },
-          "credit": 0.98,
-          "adds_to_load": 0.1372
+          "credit": 0.975,
+          "adds_to_load": 0.1365
         },
         "has_tests": {
           "label": "has tests",
@@ -2822,15 +3374,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.51,
+            "noul": 0.48,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.49,
-          "adds_to_load": 0.0588
+          "credit": 0.52,
+          "adds_to_load": 0.0624
         },
         "review_focus": {
           "label": "review focus",
@@ -2842,15 +3394,15 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.28,
+            "confidence": 0.26,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.16,
-              "correctness": 0.3,
+              "compatibility": 0.18,
+              "correctness": 0.32,
               "deployment": 0,
               "readability": 0,
-              "security": 0.4,
-              "tests": 0.14
+              "security": 0.38,
+              "tests": 0.12
             }
           },
           "credit": null,
@@ -2900,7 +3452,7 @@
       "changed_files": 30,
       "additions": 916,
       "deletions": 62,
-      "review_load": 0.5796,
+      "review_load": 0.5817,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-required",
@@ -2919,7 +3471,7 @@
         "input_tokens": 8256,
         "output_tokens": 303
       },
-      "latency_ms": 135,
+      "latency_ms": 107,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2953,15 +3505,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.41,
+            "noul": 0.43,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.41,
-          "adds_to_load": 0.0451
+          "credit": 0.43,
+          "adds_to_load": 0.0473
         },
         "change_kind": {
           "label": "change kind",
@@ -2995,7 +3547,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.12,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -3014,8 +3566,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.88,
-            "confidence": 0.82,
+            "score": 1.86,
+            "confidence": 0.8,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -3023,12 +3575,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.12,
-              "2": 0.88
+              "1": 0.13,
+              "2": 0.87
             }
           },
-          "credit": 0.06,
-          "adds_to_load": 0.0048
+          "credit": 0.07,
+          "adds_to_load": 0.0056
         },
         "design_decisions": {
           "label": "design decisions",
@@ -3096,15 +3648,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.54,
+            "noul": 0.52,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.46,
-          "adds_to_load": 0.0552
+          "credit": 0.48,
+          "adds_to_load": 0.0576
         },
         "review_focus": {
           "label": "review focus",
@@ -3116,15 +3668,15 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.7,
+            "confidence": 0.71,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
               "correctness": 0.19,
               "deployment": 0,
               "readability": 0,
-              "security": 0.75,
-              "tests": 0.05
+              "security": 0.76,
+              "tests": 0.04
             }
           },
           "credit": null,
@@ -3137,15 +3689,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.31,
+            "noul": 0.29,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.31,
-          "adds_to_load": 0.0279
+          "credit": 0.29,
+          "adds_to_load": 0.0261
         },
         "security_surface": {
           "label": "security surface",
@@ -3154,46 +3706,46 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.99,
+            "noul": 0.98,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
+          "credit": 0.98,
+          "adds_to_load": 0.147
         }
       }
     },
     {
-      "number": 2048,
-      "title": "chore(deps): weekly lockfile update (2026-11-16)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2048",
-      "author": "github-actions[bot]",
-      "changed_files": 10,
-      "additions": 1669,
-      "deletions": 1553,
-      "review_load": 0.4254,
-      "consequence": 0.89,
-      "consequence_from": "blast radius",
+      "number": 2094,
+      "title": "fix(skills): honor YAML block scalars in SKILL.md descriptions",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2094",
+      "author": "omrishiv",
+      "changed_files": 2,
+      "additions": 131,
+      "deletions": 42,
+      "review_load": 0.5123,
+      "consequence": 0.9,
+      "consequence_from": "security surface",
       "route": "human-required",
       "route_decided_by": "consequence",
-      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
-      "tier": "high",
-      "size_floor": "high",
-      "raised_by_size": true,
-      "diff_coverage": 0.1,
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "medium",
+      "size_floor": "low",
+      "raised_by_size": false,
+      "diff_coverage": 1,
       "drivers": [
-        "blast radius",
-        "has tests",
-        "security surface"
+        "security surface",
+        "design decisions",
+        "mechanical"
       ],
       "usage": {
-        "input_tokens": 6060,
-        "output_tokens": 305
+        "input_tokens": 3545,
+        "output_tokens": 303
       },
-      "latency_ms": 93,
+      "latency_ms": 179,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -3204,21 +3756,21 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.86,
-            "confidence": 0.79,
+            "score": 1.03,
+            "confidence": 0.94,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
               "2": "Reaches shared code paths that many callers depend on"
             },
             "probabilities": {
-              "0": 0.03,
-              "1": 0.08,
-              "2": 0.89
+              "0": 0.01,
+              "1": 0.96,
+              "2": 0.03
             }
           },
-          "credit": 0.93,
-          "adds_to_load": 0.1395
+          "credit": 0.515,
+          "adds_to_load": 0.0773
         },
         "breaking_change": {
           "label": "breaking change",
@@ -3227,15 +3779,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.06,
+            "noul": 0.22,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.06,
-          "adds_to_load": 0.0066
+          "credit": 0.22,
+          "adds_to_load": 0.0242
         },
         "change_kind": {
           "label": "change kind",
@@ -3245,14 +3797,14 @@
           "returned": {
             "type": "choice",
             "noul": 0,
-            "choice": "dependency",
+            "choice": "bugfix",
             "score": 0,
             "confidence": 1,
             "legend": null,
             "probabilities": {
-              "bugfix": 0,
+              "bugfix": 1,
               "config": 0,
-              "dependency": 1,
+              "dependency": 0,
               "docs": 0,
               "feature": 0,
               "refactor": 0,
@@ -3288,21 +3840,21 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.21,
-            "confidence": 0.68,
+            "score": 1.93,
+            "confidence": 0.88,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
               "2": "Explains what changed, why, and how the author verified it"
             },
             "probabilities": {
-              "0": 0,
-              "1": 0.79,
-              "2": 0.21
+              "0": 0.01,
+              "1": 0.06,
+              "2": 0.93
             }
           },
-          "credit": 0.395,
-          "adds_to_load": 0.0316
+          "credit": 0.035,
+          "adds_to_load": 0.0028
         },
         "design_decisions": {
           "label": "design decisions",
@@ -3313,21 +3865,843 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 0.01,
-            "confidence": 0.98,
+            "score": 1.9,
+            "confidence": 0.85,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
               "2": "New abstractions, interfaces, or control flow"
             },
             "probabilities": {
-              "0": 0.99,
-              "1": 0.01,
-              "2": 0
+              "0": 0,
+              "1": 0.1,
+              "2": 0.9
             }
           },
-          "credit": 0.005,
-          "adds_to_load": 0.0007
+          "credit": 0.95,
+          "adds_to_load": 0.133
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.98,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.02,
+          "adds_to_load": 0.0016
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.02,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.02,
+          "adds_to_load": 0.0016
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.28,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.72,
+          "adds_to_load": 0.0864
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "security",
+            "score": 0,
+            "confidence": 0.7,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0,
+              "correctness": 0.15,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.75,
+              "tests": 0.1
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.56,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.56,
+          "adds_to_load": 0.0504
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.9,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.9,
+          "adds_to_load": 0.135
+        }
+      }
+    },
+    {
+      "number": 2091,
+      "title": "fix(egress): do not overwrite a rotated token after a stale vault read",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2091",
+      "author": "ydelmont",
+      "changed_files": 2,
+      "additions": 225,
+      "deletions": 10,
+      "review_load": 0.4851,
+      "consequence": 0.99,
+      "consequence_from": "security surface",
+      "route": "human-required",
+      "route_decided_by": "consequence",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "medium",
+      "size_floor": "low",
+      "raised_by_size": false,
+      "diff_coverage": 1,
+      "drivers": [
+        "security surface",
+        "design decisions",
+        "mechanical"
+      ],
+      "usage": {
+        "input_tokens": 4506,
+        "output_tokens": 305
+      },
+      "latency_ms": 86,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.15,
+            "confidence": 0.78,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.85,
+              "2": 0.15
+            }
+          },
+          "credit": 0.575,
+          "adds_to_load": 0.0863
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.08,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.08,
+          "adds_to_load": 0.0088
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "bugfix",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 1,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.12,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 0,
+          "adds_to_load": 0
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.97,
+            "confidence": 0.96,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.03,
+              "2": 0.97
+            }
+          },
+          "credit": 0.985,
+          "adds_to_load": 0.1379
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.98,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.02,
+          "adds_to_load": 0.0016
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.03,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.26,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.74,
+          "adds_to_load": 0.0888
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "correctness",
+            "score": 0,
+            "confidence": 0.52,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0,
+              "correctness": 0.6,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.13,
+              "tests": 0.27
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.12,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.12,
+          "adds_to_load": 0.0108
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1485
+        }
+      }
+    },
+    {
+      "number": 2082,
+      "title": "fix(auth0): keep operator enablement independent of first-party status",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2082",
+      "author": "omrishiv",
+      "changed_files": 3,
+      "additions": 220,
+      "deletions": 25,
+      "review_load": 0.4746,
+      "consequence": 0.82,
+      "consequence_from": "security surface",
+      "route": "human-required",
+      "route_decided_by": "consequence",
+      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "tier": "medium",
+      "size_floor": "low",
+      "raised_by_size": false,
+      "diff_coverage": 1,
+      "drivers": [
+        "design decisions",
+        "security surface",
+        "blast radius"
+      ],
+      "usage": {
+        "input_tokens": 4688,
+        "output_tokens": 305
+      },
+      "latency_ms": 98,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.03,
+            "confidence": 0.96,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.97,
+              "2": 0.03
+            }
+          },
+          "credit": 0.515,
+          "adds_to_load": 0.0773
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.48,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.48,
+          "adds_to_load": 0.0528
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "bugfix",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 1,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.1,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.84,
+            "confidence": 0.76,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0.03,
+              "1": 0.1,
+              "2": 0.87
+            }
+          },
+          "credit": 0.08,
+          "adds_to_load": 0.0064
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.8,
+            "confidence": 0.72,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0.01,
+              "1": 0.17,
+              "2": 0.82
+            }
+          },
+          "credit": 0.9,
+          "adds_to_load": 0.126
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.97,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.03,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.44,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.56,
+          "adds_to_load": 0.0672
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "correctness",
+            "score": 0,
+            "confidence": 0.66,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.01,
+              "correctness": 0.72,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.02,
+              "tests": 0.25
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.19,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.19,
+          "adds_to_load": 0.0171
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.82,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.82,
+          "adds_to_load": 0.123
+        }
+      }
+    },
+    {
+      "number": 2093,
+      "title": "feat(docker): support apt reuse",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2093",
+      "author": "omrishiv",
+      "changed_files": 8,
+      "additions": 11,
+      "deletions": 3,
+      "review_load": 0.3996,
+      "consequence": 0.99,
+      "consequence_from": "infra surface",
+      "route": "human-required",
+      "route_decided_by": "consequence",
+      "downgrade": "evidence that infra surface is covered, a test or a reviewer who owns it",
+      "tier": "low",
+      "size_floor": "low",
+      "raised_by_size": false,
+      "diff_coverage": 1,
+      "drivers": [
+        "blast radius",
+        "infra surface",
+        "has tests"
+      ],
+      "usage": {
+        "input_tokens": 2869,
+        "output_tokens": 304
+      },
+      "latency_ms": 76,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.31,
+            "confidence": 0.53,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.69,
+              "2": 0.31
+            }
+          },
+          "credit": 0.655,
+          "adds_to_load": 0.0983
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.12,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.12,
+          "adds_to_load": 0.0132
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "feature",
+            "score": 0,
+            "confidence": 0.62,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0,
+              "config": 0.3,
+              "dependency": 0.03,
+              "docs": 0,
+              "feature": 0.67,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.1,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.08,
+            "confidence": 0.85,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0.01,
+              "1": 0.9,
+              "2": 0.09
+            }
+          },
+          "credit": 0.46,
+          "adds_to_load": 0.0368
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 0.57,
+            "confidence": 0.14,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0.66,
+              "1": 0.11,
+              "2": 0.23
+            }
+          },
+          "credit": 0.285,
+          "adds_to_load": 0.0399
         },
         "has_tests": {
           "label": "has tests",
@@ -3353,15 +4727,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.55,
+            "noul": 0.99,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.55,
-          "adds_to_load": 0.044
+          "credit": 0.99,
+          "adds_to_load": 0.0792
         },
         "mechanical": {
           "label": "mechanical",
@@ -3370,15 +4744,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.82,
+            "noul": 0.91,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.18,
-          "adds_to_load": 0.0216
+          "credit": 0.09,
+          "adds_to_load": 0.0108
         },
         "review_focus": {
           "label": "review focus",
@@ -3388,17 +4762,17 @@
           "returned": {
             "type": "choice",
             "noul": 0,
-            "choice": "compatibility",
+            "choice": "correctness",
             "score": 0,
-            "confidence": 0.66,
+            "confidence": 0.81,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.72,
-              "correctness": 0.09,
-              "deployment": 0,
+              "compatibility": 0.15,
+              "correctness": 0.84,
+              "deployment": 0.01,
               "readability": 0,
-              "security": 0.13,
-              "tests": 0.06
+              "security": 0,
+              "tests": 0
             }
           },
           "credit": null,
@@ -3411,15 +4785,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.37,
+            "noul": 0.32,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.37,
-          "adds_to_load": 0.0333
+          "credit": 0.32,
+          "adds_to_load": 0.0288
         },
         "security_surface": {
           "label": "security surface",
@@ -3428,15 +4802,289 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.47,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.47,
-          "adds_to_load": 0.0705
+          "credit": 0.1,
+          "adds_to_load": 0.015
+        }
+      }
+    },
+    {
+      "number": 2089,
+      "title": "feat(charts): bump the default tls policy",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2089",
+      "author": "omrishiv",
+      "changed_files": 3,
+      "additions": 22,
+      "deletions": 5,
+      "review_load": 0.3761,
+      "consequence": 0.77,
+      "consequence_from": "infra surface",
+      "route": "human-required",
+      "route_decided_by": "consequence",
+      "downgrade": "evidence that infra surface is covered, a test or a reviewer who owns it",
+      "tier": "low",
+      "size_floor": "trivial",
+      "raised_by_size": false,
+      "diff_coverage": 1,
+      "drivers": [
+        "blast radius",
+        "mechanical",
+        "infra surface"
+      ],
+      "usage": {
+        "input_tokens": 2305,
+        "output_tokens": 305
+      },
+      "latency_ms": 79,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.34,
+            "confidence": 0.49,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.66,
+              "2": 0.34
+            }
+          },
+          "credit": 0.67,
+          "adds_to_load": 0.1005
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.5,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.5,
+          "adds_to_load": 0.055
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "config",
+            "score": 0,
+            "confidence": 0.8,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 0,
+              "config": 0.83,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0.17,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.11,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.04,
+            "confidence": 0.94,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.96,
+              "2": 0.04
+            }
+          },
+          "credit": 0.48,
+          "adds_to_load": 0.0384
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 0.12,
+            "confidence": 0.84,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0.89,
+              "1": 0.11,
+              "2": 0
+            }
+          },
+          "credit": 0.06,
+          "adds_to_load": 0.0084
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.97,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.03,
+          "adds_to_load": 0.0024
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.77,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.77,
+          "adds_to_load": 0.0616
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.38,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.62,
+          "adds_to_load": 0.0744
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "compatibility",
+            "score": 0,
+            "confidence": 0.53,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.61,
+              "correctness": 0.08,
+              "deployment": 0,
+              "readability": 0,
+              "security": 0.02,
+              "tests": 0.29
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.11,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.11,
+          "adds_to_load": 0.0099
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.17,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.17,
+          "adds_to_load": 0.0255
         }
       }
     }

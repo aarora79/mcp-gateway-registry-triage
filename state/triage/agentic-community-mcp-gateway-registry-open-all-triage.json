@@ -5,20 +5,20 @@
     "limit": null,
     "since": null
   },
-  "triaged_at": "2026-11-21T18:26:52Z",
+  "triaged_at": "2026-11-22T18:49:49Z",
   "model": "jev-1.13.0",
   "questions_asked": 12,
   "tier_counts": {
     "high": 14,
     "low": 2,
-    "medium": 3,
+    "medium": 2,
     "trivial": 0
   },
   "route_counts": {
     "ai-review-is-enough": 0,
     "green-is-enough": 0,
     "human-plus-author": 13,
-    "human-required": 6,
+    "human-required": 5,
     "tests-are-enough": 0
   },
   "state_counts": {
@@ -26,16 +26,9 @@
     "ci-pending": 0,
     "draft": 1,
     "pending-author-rework": 3,
-    "reviewable": 19
+    "reviewable": 18
   },
   "start_here": [
-    {
-      "number": 2091,
-      "title": "fix(egress): do not overwrite a rotated token after a stale vault read",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2091",
-      "route": "human-required",
-      "changed_files": 2
-    },
     {
       "number": 2089,
       "title": "feat(charts): bump the default tls policy",
@@ -49,6 +42,13 @@
       "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2082",
       "route": "human-required",
       "changed_files": 3
+    },
+    {
+      "number": 2093,
+      "title": "feat(docker): support apt reuse",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2093",
+      "route": "human-required",
+      "changed_files": 8
     }
   ],
   "awaiting_reviewer": {},
@@ -121,7 +121,7 @@
       "title": "fix(helm): stack-owned keycloak-internal Service so nginx survives Keycloak pod rolls",
       "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/1677",
       "state": "pending-author-rework",
-      "reason": "omrishiv asked the author for something in a comment, and no commits since (Jev read it at 0.88)",
+      "reason": "omrishiv asked the author for something in a comment, and no commits since (Jev read it at 0.87)",
       "shared_failure": false,
       "route_if_answered": "human-plus-author",
       "checks": {
@@ -134,7 +134,7 @@
       }
     }
   ],
-  "cost_usd": 0.00637631,
+  "cost_usd": 0.00611688,
   "pull_requests": [
     {
       "number": 610,
@@ -144,7 +144,7 @@
       "changed_files": 19,
       "additions": 533,
       "deletions": 74,
-      "review_load": 0.8283,
+      "review_load": 0.8262,
       "consequence": 0.99,
       "consequence_from": "infra surface",
       "route": "human-plus-author",
@@ -163,7 +163,7 @@
         "input_tokens": 8716,
         "output_tokens": 302
       },
-      "latency_ms": 72,
+      "latency_ms": 78,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -197,15 +197,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.62,
+            "noul": 0.6,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.62,
-          "adds_to_load": 0.0682
+          "credit": 0.6,
+          "adds_to_load": 0.066
         },
         "change_kind": {
           "label": "change kind",
@@ -258,8 +258,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.3,
-            "confidence": 0.55,
+            "score": 1.31,
+            "confidence": 0.53,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -267,12 +267,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.7,
-              "2": 0.3
+              "1": 0.69,
+              "2": 0.31
             }
           },
-          "credit": 0.35,
-          "adds_to_load": 0.028
+          "credit": 0.345,
+          "adds_to_load": 0.0276
         },
         "design_decisions": {
           "label": "design decisions",
@@ -283,7 +283,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 2,
+            "score": 1.99,
             "confidence": 1,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -296,8 +296,8 @@
               "2": 1
             }
           },
-          "credit": 1,
-          "adds_to_load": 0.14
+          "credit": 0.995,
+          "adds_to_load": 0.1393
         },
         "has_tests": {
           "label": "has tests",
@@ -340,15 +340,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.29,
+            "noul": 0.31,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.71,
-          "adds_to_load": 0.0852
+          "credit": 0.69,
+          "adds_to_load": 0.0828
         },
         "review_focus": {
           "label": "review focus",
@@ -360,14 +360,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.99,
+            "confidence": 0.98,
             "legend": null,
             "probabilities": {
-              "compatibility": 0,
+              "compatibility": 0.01,
               "correctness": 0.01,
               "deployment": 0,
               "readability": 0,
-              "security": 0.99,
+              "security": 0.98,
               "tests": 0
             }
           },
@@ -381,15 +381,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.59,
+            "noul": 0.63,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.59,
-          "adds_to_load": 0.0531
+          "credit": 0.63,
+          "adds_to_load": 0.0567
         },
         "security_surface": {
           "label": "security surface",
@@ -418,7 +418,7 @@
       "changed_files": 51,
       "additions": 3052,
       "deletions": 626,
-      "review_load": 0.7488,
+      "review_load": 0.7533,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -437,7 +437,7 @@
         "input_tokens": 9422,
         "output_tokens": 302
       },
-      "latency_ms": 75,
+      "latency_ms": 78,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -471,15 +471,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.75,
+            "noul": 0.76,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.75,
-          "adds_to_load": 0.0825
+          "credit": 0.76,
+          "adds_to_load": 0.0836
         },
         "change_kind": {
           "label": "change kind",
@@ -532,8 +532,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.69,
-            "confidence": 0.53,
+            "score": 1.71,
+            "confidence": 0.58,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -541,12 +541,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.31,
-              "2": 0.69
+              "1": 0.28,
+              "2": 0.72
             }
           },
-          "credit": 0.155,
-          "adds_to_load": 0.0124
+          "credit": 0.145,
+          "adds_to_load": 0.0116
         },
         "design_decisions": {
           "label": "design decisions",
@@ -614,15 +614,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.29,
+            "noul": 0.27,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.71,
-          "adds_to_load": 0.0852
+          "credit": 0.73,
+          "adds_to_load": 0.0876
         },
         "review_focus": {
           "label": "review focus",
@@ -634,14 +634,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 1,
+            "confidence": 0.99,
             "legend": null,
             "probabilities": {
               "compatibility": 0,
-              "correctness": 0,
+              "correctness": 0.01,
               "deployment": 0,
               "readability": 0,
-              "security": 1,
+              "security": 0.99,
               "tests": 0
             }
           },
@@ -655,15 +655,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.54,
+            "noul": 0.56,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.54,
-          "adds_to_load": 0.0486
+          "credit": 0.56,
+          "adds_to_load": 0.0504
         },
         "security_surface": {
           "label": "security surface",
@@ -692,7 +692,7 @@
       "changed_files": 173,
       "additions": 19797,
       "deletions": 2428,
-      "review_load": 0.7278,
+      "review_load": 0.7339,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -711,7 +711,7 @@
         "input_tokens": 10246,
         "output_tokens": 302
       },
-      "latency_ms": 82,
+      "latency_ms": 86,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -745,15 +745,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.81,
+            "noul": 0.83,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.81,
-          "adds_to_load": 0.0891
+          "credit": 0.83,
+          "adds_to_load": 0.0913
         },
         "change_kind": {
           "label": "change kind",
@@ -787,7 +787,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.11,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -888,15 +888,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.55,
+            "noul": 0.51,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.45,
-          "adds_to_load": 0.054
+          "credit": 0.49,
+          "adds_to_load": 0.0588
         },
         "review_focus": {
           "label": "review focus",
@@ -908,288 +908,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.95,
+            "confidence": 0.94,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
               "correctness": 0.01,
               "deployment": 0.01,
               "readability": 0,
-              "security": 0.96,
-              "tests": 0.01
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "scope_creep": {
-          "label": "scope creep",
-          "type": "noul",
-          "weight": 0.09,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.69,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.69,
-          "adds_to_load": 0.0621
-        },
-        "security_surface": {
-          "label": "security surface",
-          "type": "noul",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        }
-      }
-    },
-    {
-      "number": 2070,
-      "title": "feat(keycloak): image migration",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2070",
-      "author": "omrishiv",
-      "changed_files": 135,
-      "additions": 7465,
-      "deletions": 1062,
-      "review_load": 0.7267,
-      "consequence": 1,
-      "consequence_from": "blast radius",
-      "route": "human-plus-author",
-      "route_decided_by": "both",
-      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
-      "tier": "high",
-      "size_floor": "high",
-      "raised_by_size": false,
-      "diff_coverage": 0.3037,
-      "drivers": [
-        "blast radius",
-        "security surface",
-        "design decisions"
-      ],
-      "usage": {
-        "input_tokens": 10378,
-        "output_tokens": 302
-      },
-      "latency_ms": 85,
-      "questions": {
-        "blast_radius": {
-          "label": "blast radius",
-          "type": "score",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 2,
-            "confidence": 1,
-            "legend": {
-              "0": "Confined to one file, or to documentation",
-              "1": "Confined to one module or feature area",
-              "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 1,
-          "adds_to_load": 0.15
-        },
-        "breaking_change": {
-          "label": "breaking change",
-          "type": "noul",
-          "weight": 0.11,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.83,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.83,
-          "adds_to_load": 0.0913
-        },
-        "change_kind": {
-          "label": "change kind",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "feature",
-            "score": 0,
-            "confidence": 0.39,
-            "legend": null,
-            "probabilities": {
-              "bugfix": 0,
-              "config": 0.3,
-              "dependency": 0.21,
-              "docs": 0,
-              "feature": 0.48,
-              "refactor": 0.01,
-              "tests": 0
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "comment_awaits_author": {
-          "label": "comment awaits author",
-          "type": "noul",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.13,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "description_quality": {
-          "label": "description quality",
-          "type": "score",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.99,
-            "confidence": 1,
-            "legend": {
-              "0": "Empty, or says nothing about what changed",
-              "1": "Names what changed",
-              "2": "Explains what changed, why, and how the author verified it"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 0.005,
-          "adds_to_load": 0.0004
-        },
-        "design_decisions": {
-          "label": "design decisions",
-          "type": "score",
-          "weight": 0.14,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.99,
-            "confidence": 1,
-            "legend": {
-              "0": "None: the same edit repeated, or a value changed",
-              "1": "Local choices inside one function or file",
-              "2": "New abstractions, interfaces, or control flow"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
-        },
-        "has_tests": {
-          "label": "has tests",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.92,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.08,
-          "adds_to_load": 0.0064
-        },
-        "infra_surface": {
-          "label": "infra surface",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.0792
-        },
-        "mechanical": {
-          "label": "mechanical",
-          "type": "noul",
-          "weight": 0.12,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.58,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.42,
-          "adds_to_load": 0.0504
-        },
-        "review_focus": {
-          "label": "review focus",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "deployment",
-            "score": 0,
-            "confidence": 0.33,
-            "legend": null,
-            "probabilities": {
-              "compatibility": 0.14,
-              "correctness": 0.07,
-              "deployment": 0.44,
-              "readability": 0,
-              "security": 0.33,
+              "security": 0.95,
               "tests": 0.02
             }
           },
@@ -1233,33 +959,33 @@
       }
     },
     {
-      "number": 2039,
-      "title": "Serve REST APIs as MCP servers from OpenAPI specs (#2022)",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2039",
-      "author": "aarora79",
-      "changed_files": 182,
-      "additions": 31337,
-      "deletions": 7247,
-      "review_load": 0.7243,
-      "consequence": 0.99,
-      "consequence_from": "infra surface",
+      "number": 2070,
+      "title": "feat(keycloak): image migration",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2070",
+      "author": "omrishiv",
+      "changed_files": 135,
+      "additions": 7465,
+      "deletions": 1062,
+      "review_load": 0.722,
+      "consequence": 1,
+      "consequence_from": "blast radius",
       "route": "human-plus-author",
       "route_decided_by": "both",
-      "downgrade": "evidence that infra surface is covered, a test or a reviewer who owns it",
+      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
       "tier": "high",
       "size_floor": "high",
       "raised_by_size": false,
-      "diff_coverage": 0.1758,
+      "diff_coverage": 0.3037,
       "drivers": [
         "blast radius",
         "security surface",
         "design decisions"
       ],
       "usage": {
-        "input_tokens": 10360,
+        "input_tokens": 10378,
         "output_tokens": 302
       },
-      "latency_ms": 74,
+      "latency_ms": 97,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -1270,8 +996,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
-            "confidence": 0.98,
+            "score": 2,
+            "confidence": 1,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -1279,12 +1005,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.01,
-              "2": 0.99
+              "1": 0,
+              "2": 1
             }
           },
-          "credit": 0.995,
-          "adds_to_load": 0.1493
+          "credit": 1,
+          "adds_to_load": 0.15
         },
         "breaking_change": {
           "label": "breaking change",
@@ -1293,15 +1019,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.64,
+            "noul": 0.84,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.64,
-          "adds_to_load": 0.0704
+          "credit": 0.84,
+          "adds_to_load": 0.0924
         },
         "change_kind": {
           "label": "change kind",
@@ -1313,15 +1039,15 @@
             "noul": 0,
             "choice": "feature",
             "score": 0,
-            "confidence": 1,
+            "confidence": 0.49,
             "legend": null,
             "probabilities": {
               "bugfix": 0,
-              "config": 0,
-              "dependency": 0,
+              "config": 0.27,
+              "dependency": 0.16,
               "docs": 0,
-              "feature": 1,
-              "refactor": 0,
+              "feature": 0.56,
+              "refactor": 0.01,
               "tests": 0
             }
           },
@@ -1335,7 +1061,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.14,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -1354,8 +1080,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.83,
-            "confidence": 0.74,
+            "score": 1.99,
+            "confidence": 0.98,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -1363,12 +1089,286 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.17,
-              "2": 0.83
+              "1": 0.01,
+              "2": 0.99
             }
           },
-          "credit": 0.085,
-          "adds_to_load": 0.0068
+          "credit": 0.005,
+          "adds_to_load": 0.0004
+        },
+        "design_decisions": {
+          "label": "design decisions",
+          "type": "score",
+          "weight": 0.14,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.99,
+            "confidence": 1,
+            "legend": {
+              "0": "None: the same edit repeated, or a value changed",
+              "1": "Local choices inside one function or file",
+              "2": "New abstractions, interfaces, or control flow"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 0.995,
+          "adds_to_load": 0.1393
+        },
+        "has_tests": {
+          "label": "has tests",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.91,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.09,
+          "adds_to_load": 0.0072
+        },
+        "infra_surface": {
+          "label": "infra surface",
+          "type": "noul",
+          "weight": 0.08,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.0792
+        },
+        "mechanical": {
+          "label": "mechanical",
+          "type": "noul",
+          "weight": 0.12,
+          "inverted": true,
+          "returned": {
+            "type": "noul",
+            "noul": 0.62,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.38,
+          "adds_to_load": 0.0456
+        },
+        "review_focus": {
+          "label": "review focus",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "deployment",
+            "score": 0,
+            "confidence": 0.39,
+            "legend": null,
+            "probabilities": {
+              "compatibility": 0.19,
+              "correctness": 0.06,
+              "deployment": 0.49,
+              "readability": 0,
+              "security": 0.23,
+              "tests": 0.03
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "scope_creep": {
+          "label": "scope creep",
+          "type": "noul",
+          "weight": 0.09,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.66,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.66,
+          "adds_to_load": 0.0594
+        },
+        "security_surface": {
+          "label": "security surface",
+          "type": "noul",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.99,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.99,
+          "adds_to_load": 0.1485
+        }
+      }
+    },
+    {
+      "number": 2100,
+      "title": "fix(ssrf): pin every MCP backend connection to the validated address",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2100",
+      "author": "omrishiv",
+      "changed_files": 37,
+      "additions": 1838,
+      "deletions": 364,
+      "review_load": 0.7037,
+      "consequence": 1,
+      "consequence_from": "blast radius",
+      "route": "human-plus-author",
+      "route_decided_by": "both",
+      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
+      "tier": "high",
+      "size_floor": "high",
+      "raised_by_size": false,
+      "diff_coverage": 0.4865,
+      "drivers": [
+        "blast radius",
+        "security surface",
+        "design decisions"
+      ],
+      "usage": {
+        "input_tokens": 8689,
+        "output_tokens": 303
+      },
+      "latency_ms": 105,
+      "questions": {
+        "blast_radius": {
+          "label": "blast radius",
+          "type": "score",
+          "weight": 0.15,
+          "inverted": false,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 2,
+            "confidence": 1,
+            "legend": {
+              "0": "Confined to one file, or to documentation",
+              "1": "Confined to one module or feature area",
+              "2": "Reaches shared code paths that many callers depend on"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0,
+              "2": 1
+            }
+          },
+          "credit": 1,
+          "adds_to_load": 0.15
+        },
+        "breaking_change": {
+          "label": "breaking change",
+          "type": "noul",
+          "weight": 0.11,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.72,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": 0.72,
+          "adds_to_load": 0.0792
+        },
+        "change_kind": {
+          "label": "change kind",
+          "type": "choice",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "choice",
+            "noul": 0,
+            "choice": "bugfix",
+            "score": 0,
+            "confidence": 1,
+            "legend": null,
+            "probabilities": {
+              "bugfix": 1,
+              "config": 0,
+              "dependency": 0,
+              "docs": 0,
+              "feature": 0,
+              "refactor": 0,
+              "tests": 0
+            }
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "comment_awaits_author": {
+          "label": "comment awaits author",
+          "type": "noul",
+          "weight": null,
+          "inverted": false,
+          "returned": {
+            "type": "noul",
+            "noul": 0.11,
+            "choice": "",
+            "score": 0,
+            "confidence": 0,
+            "legend": null,
+            "probabilities": null
+          },
+          "credit": null,
+          "adds_to_load": null
+        },
+        "description_quality": {
+          "label": "description quality",
+          "type": "score",
+          "weight": 0.08,
+          "inverted": true,
+          "returned": {
+            "type": "score",
+            "noul": 0,
+            "choice": "",
+            "score": 1.69,
+            "confidence": 0.55,
+            "legend": {
+              "0": "Empty, or says nothing about what changed",
+              "1": "Names what changed",
+              "2": "Explains what changed, why, and how the author verified it"
+            },
+            "probabilities": {
+              "0": 0,
+              "1": 0.3,
+              "2": 0.7
+            }
+          },
+          "credit": 0.155,
+          "adds_to_load": 0.0124
         },
         "design_decisions": {
           "label": "design decisions",
@@ -1402,15 +1402,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.93,
+            "noul": 0.97,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.07,
-          "adds_to_load": 0.0056
+          "credit": 0.03,
+          "adds_to_load": 0.0024
         },
         "infra_surface": {
           "label": "infra surface",
@@ -1419,15 +1419,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.99,
+            "noul": 0.94,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.99,
-          "adds_to_load": 0.0792
+          "credit": 0.94,
+          "adds_to_load": 0.0752
         },
         "mechanical": {
           "label": "mechanical",
@@ -1436,15 +1436,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.33,
+            "noul": 0.43,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.67,
-          "adds_to_load": 0.0804
+          "credit": 0.57,
+          "adds_to_load": 0.0684
         },
         "review_focus": {
           "label": "review focus",
@@ -1456,15 +1456,15 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.98,
+            "confidence": 0.77,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.01,
+              "correctness": 0.14,
               "deployment": 0,
               "readability": 0,
-              "security": 0.98,
-              "tests": 0
+              "security": 0.81,
+              "tests": 0.04
             }
           },
           "credit": null,
@@ -1477,15 +1477,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.49,
+            "noul": 0.39,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.49,
-          "adds_to_load": 0.0441
+          "credit": 0.39,
+          "adds_to_load": 0.0351
         },
         "security_surface": {
           "label": "security surface",
@@ -1494,15 +1494,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.99,
+            "noul": 0.94,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
+          "credit": 0.94,
+          "adds_to_load": 0.141
         }
       }
     },
@@ -1514,7 +1514,7 @@
       "changed_files": 16,
       "additions": 2944,
       "deletions": 0,
-      "review_load": 0.6946,
+      "review_load": 0.6919,
       "consequence": 0.99,
       "consequence_from": "security surface",
       "route": "human-plus-author",
@@ -1533,7 +1533,7 @@
         "input_tokens": 7771,
         "output_tokens": 302
       },
-      "latency_ms": 76,
+      "latency_ms": 75,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -1544,8 +1544,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.71,
-            "confidence": 0.56,
+            "score": 1.73,
+            "confidence": 0.6,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -1553,12 +1553,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.29,
-              "2": 0.71
+              "1": 0.27,
+              "2": 0.73
             }
           },
-          "credit": 0.855,
-          "adds_to_load": 0.1283
+          "credit": 0.865,
+          "adds_to_load": 0.1298
         },
         "breaking_change": {
           "label": "breaking change",
@@ -1710,15 +1710,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.25,
+            "noul": 0.24,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.75,
-          "adds_to_load": 0.09
+          "credit": 0.76,
+          "adds_to_load": 0.0912
         },
         "review_focus": {
           "label": "review focus",
@@ -1730,15 +1730,15 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.88,
+            "confidence": 0.9,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.02,
+              "compatibility": 0.01,
               "correctness": 0.01,
               "deployment": 0,
               "readability": 0,
-              "security": 0.9,
-              "tests": 0.07
+              "security": 0.92,
+              "tests": 0.06
             }
           },
           "credit": null,
@@ -1751,15 +1751,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.5,
+            "noul": 0.44,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.5,
-          "adds_to_load": 0.045
+          "credit": 0.44,
+          "adds_to_load": 0.0396
         },
         "security_surface": {
           "label": "security surface",
@@ -1788,7 +1788,7 @@
       "changed_files": 11,
       "additions": 1071,
       "deletions": 449,
-      "review_load": 0.6866,
+      "review_load": 0.682,
       "consequence": 0.96,
       "consequence_from": "infra surface",
       "route": "human-plus-author",
@@ -1801,7 +1801,7 @@
       "drivers": [
         "blast radius",
         "design decisions",
-        "mechanical"
+        "security surface"
       ],
       "usage": {
         "input_tokens": 5171,
@@ -1818,8 +1818,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.87,
-            "confidence": 0.8,
+            "score": 1.88,
+            "confidence": 0.82,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -1827,12 +1827,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.13,
-              "2": 0.87
+              "1": 0.12,
+              "2": 0.88
             }
           },
-          "credit": 0.935,
-          "adds_to_load": 0.1403
+          "credit": 0.94,
+          "adds_to_load": 0.141
         },
         "breaking_change": {
           "label": "breaking change",
@@ -1841,15 +1841,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.66,
+            "noul": 0.63,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.66,
-          "adds_to_load": 0.0726
+          "credit": 0.63,
+          "adds_to_load": 0.0693
         },
         "change_kind": {
           "label": "change kind",
@@ -1861,14 +1861,14 @@
             "noul": 0,
             "choice": "bugfix",
             "score": 0,
-            "confidence": 0.81,
+            "confidence": 0.82,
             "legend": null,
             "probabilities": {
-              "bugfix": 0.84,
+              "bugfix": 0.85,
               "config": 0,
               "dependency": 0,
               "docs": 0,
-              "feature": 0.16,
+              "feature": 0.15,
               "refactor": 0,
               "tests": 0
             }
@@ -1902,8 +1902,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.45,
-            "confidence": 0.32,
+            "score": 1.44,
+            "confidence": 0.34,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -1911,12 +1911,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.55,
-              "2": 0.45
+              "1": 0.56,
+              "2": 0.44
             }
           },
-          "credit": 0.275,
-          "adds_to_load": 0.022
+          "credit": 0.28,
+          "adds_to_load": 0.0224
         },
         "design_decisions": {
           "label": "design decisions",
@@ -1928,7 +1928,7 @@
             "noul": 0,
             "choice": "",
             "score": 1.98,
-            "confidence": 0.98,
+            "confidence": 0.97,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
@@ -1936,8 +1936,8 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.01,
-              "2": 0.99
+              "1": 0.02,
+              "2": 0.98
             }
           },
           "credit": 0.99,
@@ -1984,15 +1984,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.19,
+            "noul": 0.23,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.81,
-          "adds_to_load": 0.0972
+          "credit": 0.77,
+          "adds_to_load": 0.0924
         },
         "review_focus": {
           "label": "review focus",
@@ -2004,14 +2004,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.66,
+            "confidence": 0.59,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.2,
+              "correctness": 0.26,
               "deployment": 0.01,
               "readability": 0,
-              "security": 0.72,
+              "security": 0.66,
               "tests": 0.06
             }
           },
@@ -2025,15 +2025,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.46,
+            "noul": 0.47,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.46,
-          "adds_to_load": 0.0414
+          "credit": 0.47,
+          "adds_to_load": 0.0423
         },
         "security_surface": {
           "label": "security surface",
@@ -2042,15 +2042,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.63,
+            "noul": 0.64,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.63,
-          "adds_to_load": 0.0945
+          "credit": 0.64,
+          "adds_to_load": 0.096
         }
       }
     },
@@ -2062,7 +2062,7 @@
       "changed_files": 16,
       "additions": 2150,
       "deletions": 9,
-      "review_load": 0.674,
+      "review_load": 0.6755,
       "consequence": 0.99,
       "consequence_from": "security surface",
       "route": "human-plus-author",
@@ -2081,7 +2081,7 @@
         "input_tokens": 8567,
         "output_tokens": 302
       },
-      "latency_ms": 86,
+      "latency_ms": 85,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2092,8 +2092,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.96,
-            "confidence": 0.94,
+            "score": 1.97,
+            "confidence": 0.96,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -2101,12 +2101,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.04,
-              "2": 0.96
+              "1": 0.03,
+              "2": 0.97
             }
           },
-          "credit": 0.98,
-          "adds_to_load": 0.147
+          "credit": 0.985,
+          "adds_to_load": 0.1478
         },
         "breaking_change": {
           "label": "breaking change",
@@ -2115,15 +2115,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.49,
+            "noul": 0.48,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.49,
-          "adds_to_load": 0.0539
+          "credit": 0.48,
+          "adds_to_load": 0.0528
         },
         "change_kind": {
           "label": "change kind",
@@ -2157,7 +2157,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.13,
+            "noul": 0.14,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2224,15 +2224,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.92,
+            "noul": 0.93,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.08,
-          "adds_to_load": 0.0064
+          "credit": 0.07,
+          "adds_to_load": 0.0056
         },
         "infra_surface": {
           "label": "infra surface",
@@ -2241,15 +2241,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.93,
+            "noul": 0.94,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.93,
-          "adds_to_load": 0.0744
+          "credit": 0.94,
+          "adds_to_load": 0.0752
         },
         "mechanical": {
           "label": "mechanical",
@@ -2258,15 +2258,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.34,
+            "noul": 0.37,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.66,
-          "adds_to_load": 0.0792
+          "credit": 0.63,
+          "adds_to_load": 0.0756
         },
         "review_focus": {
           "label": "review focus",
@@ -2299,15 +2299,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.28,
+            "noul": 0.34,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.28,
-          "adds_to_load": 0.0252
+          "credit": 0.34,
+          "adds_to_load": 0.0306
         },
         "security_surface": {
           "label": "security surface",
@@ -2336,7 +2336,7 @@
       "changed_files": 48,
       "additions": 5065,
       "deletions": 81,
-      "review_load": 0.6726,
+      "review_load": 0.6698,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -2355,7 +2355,7 @@
         "input_tokens": 8231,
         "output_tokens": 302
       },
-      "latency_ms": 88,
+      "latency_ms": 89,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2389,15 +2389,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.78,
+            "noul": 0.77,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.78,
-          "adds_to_load": 0.0858
+          "credit": 0.77,
+          "adds_to_load": 0.0847
         },
         "change_kind": {
           "label": "change kind",
@@ -2431,7 +2431,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.1,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2515,15 +2515,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.92,
+            "noul": 0.91,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.92,
-          "adds_to_load": 0.0736
+          "credit": 0.91,
+          "adds_to_load": 0.0728
         },
         "mechanical": {
           "label": "mechanical",
@@ -2532,15 +2532,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.52,
+            "noul": 0.49,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.48,
-          "adds_to_load": 0.0576
+          "credit": 0.51,
+          "adds_to_load": 0.0612
         },
         "review_focus": {
           "label": "review focus",
@@ -2556,11 +2556,11 @@
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.06,
+              "correctness": 0.07,
               "deployment": 0,
               "readability": 0,
               "security": 0.89,
-              "tests": 0.04
+              "tests": 0.03
             }
           },
           "credit": null,
@@ -2573,15 +2573,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.33,
+            "noul": 0.28,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.33,
-          "adds_to_load": 0.0297
+          "credit": 0.28,
+          "adds_to_load": 0.0252
         },
         "security_surface": {
           "label": "security surface",
@@ -2610,7 +2610,7 @@
       "changed_files": 20,
       "additions": 695,
       "deletions": 515,
-      "review_load": 0.6489,
+      "review_load": 0.6487,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
@@ -2627,9 +2627,9 @@
       ],
       "usage": {
         "input_tokens": 7200,
-        "output_tokens": 305
+        "output_tokens": 303
       },
-      "latency_ms": 73,
+      "latency_ms": 81,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2663,15 +2663,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.75,
+            "noul": 0.74,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.75,
-          "adds_to_load": 0.0825
+          "credit": 0.74,
+          "adds_to_load": 0.0814
         },
         "change_kind": {
           "label": "change kind",
@@ -2705,7 +2705,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.11,
+            "noul": 0.12,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2806,15 +2806,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.28,
+            "noul": 0.27,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.72,
-          "adds_to_load": 0.0864
+          "credit": 0.73,
+          "adds_to_load": 0.0876
         },
         "review_focus": {
           "label": "review focus",
@@ -2824,16 +2824,16 @@
           "returned": {
             "type": "choice",
             "noul": 0,
-            "choice": "correctness",
+            "choice": "security",
             "score": 0,
-            "confidence": 0.3,
+            "confidence": 0.29,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.03,
-              "correctness": 0.42,
+              "compatibility": 0.04,
+              "correctness": 0.38,
               "deployment": 0,
               "readability": 0,
-              "security": 0.38,
+              "security": 0.41,
               "tests": 0.17
             }
           },
@@ -2847,15 +2847,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.53,
+            "noul": 0.51,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.53,
-          "adds_to_load": 0.0477
+          "credit": 0.51,
+          "adds_to_load": 0.0459
         },
         "security_surface": {
           "label": "security surface",
@@ -2864,15 +2864,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.9,
+            "noul": 0.91,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.9,
-          "adds_to_load": 0.135
+          "credit": 0.91,
+          "adds_to_load": 0.1365
         }
       }
     },
@@ -2884,12 +2884,12 @@
       "changed_files": 24,
       "additions": 973,
       "deletions": 179,
-      "review_load": 0.6438,
+      "review_load": 0.6484,
       "consequence": 0.99,
-      "consequence_from": "security surface",
+      "consequence_from": "blast radius",
       "route": "human-plus-author",
       "route_decided_by": "both",
-      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
+      "downgrade": "evidence that blast radius is covered, a test or a reviewer who owns it",
       "tier": "high",
       "size_floor": "medium",
       "raised_by_size": false,
@@ -2903,7 +2903,7 @@
         "input_tokens": 8346,
         "output_tokens": 302
       },
-      "latency_ms": 69,
+      "latency_ms": 72,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -2915,7 +2915,7 @@
             "noul": 0,
             "choice": "",
             "score": 1.98,
-            "confidence": 0.97,
+            "confidence": 0.98,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -2923,8 +2923,8 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.02,
-              "2": 0.98
+              "1": 0.01,
+              "2": 0.99
             }
           },
           "credit": 0.99,
@@ -2937,15 +2937,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.7,
+            "noul": 0.69,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.7,
-          "adds_to_load": 0.077
+          "credit": 0.69,
+          "adds_to_load": 0.0759
         },
         "change_kind": {
           "label": "change kind",
@@ -2979,7 +2979,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.12,
+            "noul": 0.13,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -2998,8 +2998,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.52,
-            "confidence": 0.28,
+            "score": 1.47,
+            "confidence": 0.3,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -3007,12 +3007,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.48,
-              "2": 0.52
+              "1": 0.53,
+              "2": 0.47
             }
           },
-          "credit": 0.24,
-          "adds_to_load": 0.0192
+          "credit": 0.265,
+          "adds_to_load": 0.0212
         },
         "design_decisions": {
           "label": "design decisions",
@@ -3023,7 +3023,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
+            "score": 2,
             "confidence": 1,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -3036,8 +3036,8 @@
               "2": 1
             }
           },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
+          "credit": 1,
+          "adds_to_load": 0.14
         },
         "has_tests": {
           "label": "has tests",
@@ -3080,15 +3080,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.39,
+            "noul": 0.38,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.61,
-          "adds_to_load": 0.0732
+          "credit": 0.62,
+          "adds_to_load": 0.0744
         },
         "review_focus": {
           "label": "review focus",
@@ -3121,15 +3121,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.29,
+            "noul": 0.31,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.29,
-          "adds_to_load": 0.0261
+          "credit": 0.31,
+          "adds_to_load": 0.0279
         },
         "security_surface": {
           "label": "security surface",
@@ -3158,7 +3158,7 @@
       "changed_files": 16,
       "additions": 278,
       "deletions": 163,
-      "review_load": 0.6395,
+      "review_load": 0.6458,
       "consequence": 0.98,
       "consequence_from": "security surface",
       "route": "human-plus-author",
@@ -3177,7 +3177,7 @@
         "input_tokens": 7099,
         "output_tokens": 303
       },
-      "latency_ms": 69,
+      "latency_ms": 86,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -3211,15 +3211,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.58,
+            "noul": 0.57,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.58,
-          "adds_to_load": 0.0638
+          "credit": 0.57,
+          "adds_to_load": 0.0627
         },
         "change_kind": {
           "label": "change kind",
@@ -3231,14 +3231,14 @@
             "noul": 0,
             "choice": "bugfix",
             "score": 0,
-            "confidence": 0.58,
+            "confidence": 0.59,
             "legend": null,
             "probabilities": {
-              "bugfix": 0.64,
+              "bugfix": 0.65,
               "config": 0,
               "dependency": 0,
               "docs": 0,
-              "feature": 0.36,
+              "feature": 0.35,
               "refactor": 0,
               "tests": 0
             }
@@ -3253,7 +3253,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.11,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -3297,7 +3297,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
+            "score": 1.98,
             "confidence": 0.98,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -3310,8 +3310,8 @@
               "2": 0.99
             }
           },
-          "credit": 0.995,
-          "adds_to_load": 0.1393
+          "credit": 0.99,
+          "adds_to_load": 0.1386
         },
         "has_tests": {
           "label": "has tests",
@@ -3337,15 +3337,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.77,
+            "noul": 0.76,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.77,
-          "adds_to_load": 0.0616
+          "credit": 0.76,
+          "adds_to_load": 0.0608
         },
         "mechanical": {
           "label": "mechanical",
@@ -3354,15 +3354,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.58,
+            "noul": 0.52,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.42,
-          "adds_to_load": 0.0504
+          "credit": 0.48,
+          "adds_to_load": 0.0576
         },
         "review_focus": {
           "label": "review focus",
@@ -3374,14 +3374,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.87,
+            "confidence": 0.86,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.07,
+              "correctness": 0.08,
               "deployment": 0,
               "readability": 0,
-              "security": 0.89,
+              "security": 0.88,
               "tests": 0.03
             }
           },
@@ -3395,15 +3395,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.31,
+            "noul": 0.33,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.31,
-          "adds_to_load": 0.0279
+          "credit": 0.33,
+          "adds_to_load": 0.0297
         },
         "security_surface": {
           "label": "security surface",
@@ -3433,7 +3433,7 @@
       "additions": 944,
       "deletions": 20,
       "review_load": 0.6308,
-      "consequence": 0.97,
+      "consequence": 0.98,
       "consequence_from": "blast radius",
       "route": "human-plus-author",
       "route_decided_by": "both",
@@ -3449,9 +3449,9 @@
       ],
       "usage": {
         "input_tokens": 8934,
-        "output_tokens": 304
+        "output_tokens": 302
       },
-      "latency_ms": 83,
+      "latency_ms": 79,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -3462,8 +3462,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.96,
-            "confidence": 0.96,
+            "score": 1.98,
+            "confidence": 0.97,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -3471,12 +3471,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.03,
-              "2": 0.97
+              "1": 0.02,
+              "2": 0.98
             }
           },
-          "credit": 0.98,
-          "adds_to_load": 0.147
+          "credit": 0.99,
+          "adds_to_load": 0.1485
         },
         "breaking_change": {
           "label": "breaking change",
@@ -3485,15 +3485,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.49,
+            "noul": 0.48,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.49,
-          "adds_to_load": 0.0539
+          "credit": 0.48,
+          "adds_to_load": 0.0528
         },
         "change_kind": {
           "label": "change kind",
@@ -3527,7 +3527,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.09,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -3611,15 +3611,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.91,
+            "noul": 0.89,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.91,
-          "adds_to_load": 0.0728
+          "credit": 0.89,
+          "adds_to_load": 0.0712
         },
         "mechanical": {
           "label": "mechanical",
@@ -3628,15 +3628,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.52,
+            "noul": 0.51,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.48,
-          "adds_to_load": 0.0576
+          "credit": 0.49,
+          "adds_to_load": 0.0588
         },
         "review_focus": {
           "label": "review focus",
@@ -3646,17 +3646,17 @@
           "returned": {
             "type": "choice",
             "noul": 0,
-            "choice": "correctness",
+            "choice": "security",
             "score": 0,
-            "confidence": 0.26,
+            "confidence": 0.28,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.21,
-              "correctness": 0.38,
+              "compatibility": 0.17,
+              "correctness": 0.3,
               "deployment": 0.01,
               "readability": 0,
-              "security": 0.27,
-              "tests": 0.13
+              "security": 0.4,
+              "tests": 0.12
             }
           },
           "credit": null,
@@ -3706,7 +3706,7 @@
       "changed_files": 42,
       "additions": 3250,
       "deletions": 41,
-      "review_load": 0.5897,
+      "review_load": 0.5891,
       "consequence": 0.96,
       "consequence_from": "security surface",
       "route": "human-required",
@@ -3725,7 +3725,7 @@
         "input_tokens": 9307,
         "output_tokens": 305
       },
-      "latency_ms": 98,
+      "latency_ms": 79,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -3736,8 +3736,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.61,
-            "confidence": 0.41,
+            "score": 1.6,
+            "confidence": 0.4,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -3745,12 +3745,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.39,
-              "2": 0.61
+              "1": 0.4,
+              "2": 0.6
             }
           },
-          "credit": 0.805,
-          "adds_to_load": 0.1208
+          "credit": 0.8,
+          "adds_to_load": 0.12
         },
         "breaking_change": {
           "label": "breaking change",
@@ -3759,15 +3759,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.3,
+            "noul": 0.29,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.3,
-          "adds_to_load": 0.033
+          "credit": 0.29,
+          "adds_to_load": 0.0319
         },
         "change_kind": {
           "label": "change kind",
@@ -3801,7 +3801,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.13,
+            "noul": 0.12,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -3820,7 +3820,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.99,
+            "score": 2,
             "confidence": 1,
             "legend": {
               "0": "Empty, or says nothing about what changed",
@@ -3833,8 +3833,8 @@
               "2": 1
             }
           },
-          "credit": 0.005,
-          "adds_to_load": 0.0004
+          "credit": 0,
+          "adds_to_load": 0
         },
         "design_decisions": {
           "label": "design decisions",
@@ -3845,7 +3845,7 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 2,
+            "score": 1.99,
             "confidence": 1,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
@@ -3858,8 +3858,8 @@
               "2": 1
             }
           },
-          "credit": 1,
-          "adds_to_load": 0.14
+          "credit": 0.995,
+          "adds_to_load": 0.1393
         },
         "has_tests": {
           "label": "has tests",
@@ -3902,15 +3902,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.55,
+            "noul": 0.53,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.45,
-          "adds_to_load": 0.054
+          "credit": 0.47,
+          "adds_to_load": 0.0564
         },
         "review_focus": {
           "label": "review focus",
@@ -3922,12 +3922,12 @@
             "noul": 0,
             "choice": "compatibility",
             "score": 0,
-            "confidence": 0.39,
+            "confidence": 0.36,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.49,
-              "correctness": 0.17,
-              "deployment": 0.01,
+              "compatibility": 0.47,
+              "correctness": 0.18,
+              "deployment": 0.02,
               "readability": 0,
               "security": 0.24,
               "tests": 0.09
@@ -3980,7 +3980,7 @@
       "changed_files": 30,
       "additions": 916,
       "deletions": 62,
-      "review_load": 0.5873,
+      "review_load": 0.5862,
       "consequence": 1,
       "consequence_from": "blast radius",
       "route": "human-required",
@@ -3999,7 +3999,7 @@
         "input_tokens": 8256,
         "output_tokens": 303
       },
-      "latency_ms": 77,
+      "latency_ms": 72,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -4094,8 +4094,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.85,
-            "confidence": 0.78,
+            "score": 1.88,
+            "confidence": 0.82,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -4103,12 +4103,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.15,
-              "2": 0.85
+              "1": 0.12,
+              "2": 0.88
             }
           },
-          "credit": 0.075,
-          "adds_to_load": 0.006
+          "credit": 0.06,
+          "adds_to_load": 0.0048
         },
         "design_decisions": {
           "label": "design decisions",
@@ -4120,7 +4120,7 @@
             "noul": 0,
             "choice": "",
             "score": 1.99,
-            "confidence": 0.98,
+            "confidence": 1,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
@@ -4128,8 +4128,8 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.01,
-              "2": 0.99
+              "1": 0,
+              "2": 1
             }
           },
           "credit": 0.995,
@@ -4159,15 +4159,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.09,
+            "noul": 0.08,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.09,
-          "adds_to_load": 0.0072
+          "credit": 0.08,
+          "adds_to_load": 0.0064
         },
         "mechanical": {
           "label": "mechanical",
@@ -4176,15 +4176,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.5,
+            "noul": 0.48,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.5,
-          "adds_to_load": 0.06
+          "credit": 0.52,
+          "adds_to_load": 0.0624
         },
         "review_focus": {
           "label": "review focus",
@@ -4196,14 +4196,14 @@
             "noul": 0,
             "choice": "security",
             "score": 0,
-            "confidence": 0.74,
+            "confidence": 0.7,
             "legend": null,
             "probabilities": {
               "compatibility": 0.01,
-              "correctness": 0.17,
+              "correctness": 0.2,
               "deployment": 0,
               "readability": 0,
-              "security": 0.78,
+              "security": 0.75,
               "tests": 0.04
             }
           },
@@ -4234,28 +4234,28 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.99,
+            "noul": 0.98,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
+          "credit": 0.98,
+          "adds_to_load": 0.147
         }
       }
     },
     {
-      "number": 2091,
-      "title": "fix(egress): do not overwrite a rotated token after a stale vault read",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2091",
-      "author": "ydelmont",
-      "changed_files": 2,
-      "additions": 225,
-      "deletions": 10,
-      "review_load": 0.4834,
-      "consequence": 0.99,
+      "number": 2082,
+      "title": "fix(auth0): keep operator enablement independent of first-party status",
+      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2082",
+      "author": "omrishiv",
+      "changed_files": 3,
+      "additions": 220,
+      "deletions": 25,
+      "review_load": 0.482,
+      "consequence": 0.82,
       "consequence_from": "security surface",
       "route": "human-required",
       "route_decided_by": "consequence",
@@ -4265,15 +4265,15 @@
       "raised_by_size": false,
       "diff_coverage": 1,
       "drivers": [
-        "security surface",
         "design decisions",
+        "security surface",
         "blast radius"
       ],
       "usage": {
-        "input_tokens": 4506,
+        "input_tokens": 4688,
         "output_tokens": 305
       },
-      "latency_ms": 47,
+      "latency_ms": 58,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -4284,8 +4284,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.16,
-            "confidence": 0.76,
+            "score": 1.03,
+            "confidence": 0.96,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -4293,12 +4293,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.84,
-              "2": 0.16
+              "1": 0.97,
+              "2": 0.03
             }
           },
-          "credit": 0.58,
-          "adds_to_load": 0.087
+          "credit": 0.515,
+          "adds_to_load": 0.0773
         },
         "breaking_change": {
           "label": "breaking change",
@@ -4307,15 +4307,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.08,
+            "noul": 0.5,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.08,
-          "adds_to_load": 0.0088
+          "credit": 0.5,
+          "adds_to_load": 0.055
         },
         "change_kind": {
           "label": "change kind",
@@ -4368,290 +4368,16 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 2,
-            "confidence": 1,
-            "legend": {
-              "0": "Empty, or says nothing about what changed",
-              "1": "Names what changed",
-              "2": "Explains what changed, why, and how the author verified it"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0,
-              "2": 1
-            }
-          },
-          "credit": 0,
-          "adds_to_load": 0
-        },
-        "design_decisions": {
-          "label": "design decisions",
-          "type": "score",
-          "weight": 0.14,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.97,
-            "confidence": 0.97,
-            "legend": {
-              "0": "None: the same edit repeated, or a value changed",
-              "1": "Local choices inside one function or file",
-              "2": "New abstractions, interfaces, or control flow"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.02,
-              "2": 0.98
-            }
-          },
-          "credit": 0.985,
-          "adds_to_load": 0.1379
-        },
-        "has_tests": {
-          "label": "has tests",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.98,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.02,
-          "adds_to_load": 0.0016
-        },
-        "infra_surface": {
-          "label": "infra surface",
-          "type": "noul",
-          "weight": 0.08,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.03,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.03,
-          "adds_to_load": 0.0024
-        },
-        "mechanical": {
-          "label": "mechanical",
-          "type": "noul",
-          "weight": 0.12,
-          "inverted": true,
-          "returned": {
-            "type": "noul",
-            "noul": 0.28,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.72,
-          "adds_to_load": 0.0864
-        },
-        "review_focus": {
-          "label": "review focus",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "correctness",
-            "score": 0,
-            "confidence": 0.54,
-            "legend": null,
-            "probabilities": {
-              "compatibility": 0,
-              "correctness": 0.62,
-              "deployment": 0,
-              "readability": 0,
-              "security": 0.1,
-              "tests": 0.28
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "scope_creep": {
-          "label": "scope creep",
-          "type": "noul",
-          "weight": 0.09,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.12,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.12,
-          "adds_to_load": 0.0108
-        },
-        "security_surface": {
-          "label": "security surface",
-          "type": "noul",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.99,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.99,
-          "adds_to_load": 0.1485
-        }
-      }
-    },
-    {
-      "number": 2082,
-      "title": "fix(auth0): keep operator enablement independent of first-party status",
-      "url": "https://github.com/agentic-community/mcp-gateway-registry/pull/2082",
-      "author": "omrishiv",
-      "changed_files": 3,
-      "additions": 220,
-      "deletions": 25,
-      "review_load": 0.4794,
-      "consequence": 0.8,
-      "consequence_from": "security surface",
-      "route": "human-required",
-      "route_decided_by": "consequence",
-      "downgrade": "evidence that security surface is covered, a test or a reviewer who owns it",
-      "tier": "medium",
-      "size_floor": "low",
-      "raised_by_size": false,
-      "diff_coverage": 1,
-      "drivers": [
-        "design decisions",
-        "security surface",
-        "blast radius"
-      ],
-      "usage": {
-        "input_tokens": 4688,
-        "output_tokens": 305
-      },
-      "latency_ms": 76,
-      "questions": {
-        "blast_radius": {
-          "label": "blast radius",
-          "type": "score",
-          "weight": 0.15,
-          "inverted": false,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
-            "score": 1.03,
-            "confidence": 0.96,
-            "legend": {
-              "0": "Confined to one file, or to documentation",
-              "1": "Confined to one module or feature area",
-              "2": "Reaches shared code paths that many callers depend on"
-            },
-            "probabilities": {
-              "0": 0,
-              "1": 0.97,
-              "2": 0.03
-            }
-          },
-          "credit": 0.515,
-          "adds_to_load": 0.0773
-        },
-        "breaking_change": {
-          "label": "breaking change",
-          "type": "noul",
-          "weight": 0.11,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.46,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": 0.46,
-          "adds_to_load": 0.0506
-        },
-        "change_kind": {
-          "label": "change kind",
-          "type": "choice",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "choice",
-            "noul": 0,
-            "choice": "bugfix",
-            "score": 0,
-            "confidence": 1,
-            "legend": null,
-            "probabilities": {
-              "bugfix": 1,
-              "config": 0,
-              "dependency": 0,
-              "docs": 0,
-              "feature": 0,
-              "refactor": 0,
-              "tests": 0
-            }
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "comment_awaits_author": {
-          "label": "comment awaits author",
-          "type": "noul",
-          "weight": null,
-          "inverted": false,
-          "returned": {
-            "type": "noul",
-            "noul": 0.09,
-            "choice": "",
-            "score": 0,
-            "confidence": 0,
-            "legend": null,
-            "probabilities": null
-          },
-          "credit": null,
-          "adds_to_load": null
-        },
-        "description_quality": {
-          "label": "description quality",
-          "type": "score",
-          "weight": 0.08,
-          "inverted": true,
-          "returned": {
-            "type": "score",
-            "noul": 0,
-            "choice": "",
             "score": 1.82,
-            "confidence": 0.72,
+            "confidence": 0.73,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
               "2": "Explains what changed, why, and how the author verified it"
             },
             "probabilities": {
-              "0": 0.03,
-              "1": 0.13,
+              "0": 0.02,
+              "1": 0.14,
               "2": 0.84
             }
           },
@@ -4667,8 +4393,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.8,
-            "confidence": 0.7,
+            "score": 1.79,
+            "confidence": 0.68,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
@@ -4676,12 +4402,12 @@
             },
             "probabilities": {
               "0": 0.01,
-              "1": 0.18,
-              "2": 0.81
+              "1": 0.19,
+              "2": 0.8
             }
           },
-          "credit": 0.9,
-          "adds_to_load": 0.126
+          "credit": 0.895,
+          "adds_to_load": 0.1253
         },
         "has_tests": {
           "label": "has tests",
@@ -4707,15 +4433,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.04,
+            "noul": 0.03,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.04,
-          "adds_to_load": 0.0032
+          "credit": 0.03,
+          "adds_to_load": 0.0024
         },
         "mechanical": {
           "label": "mechanical",
@@ -4724,15 +4450,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.37,
+            "noul": 0.39,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.63,
-          "adds_to_load": 0.0756
+          "credit": 0.61,
+          "adds_to_load": 0.0732
         },
         "review_focus": {
           "label": "review focus",
@@ -4744,15 +4470,15 @@
             "noul": 0,
             "choice": "correctness",
             "score": 0,
-            "confidence": 0.66,
+            "confidence": 0.69,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.01,
-              "correctness": 0.72,
+              "compatibility": 0.02,
+              "correctness": 0.74,
               "deployment": 0,
               "readability": 0,
               "security": 0.02,
-              "tests": 0.25
+              "tests": 0.22
             }
           },
           "credit": null,
@@ -4765,15 +4491,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.19,
+            "noul": 0.18,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.19,
-          "adds_to_load": 0.0171
+          "credit": 0.18,
+          "adds_to_load": 0.0162
         },
         "security_surface": {
           "label": "security surface",
@@ -4782,15 +4508,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.8,
+            "noul": 0.82,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.8,
-          "adds_to_load": 0.12
+          "credit": 0.82,
+          "adds_to_load": 0.123
         }
       }
     },
@@ -4802,7 +4528,7 @@
       "changed_files": 8,
       "additions": 11,
       "deletions": 3,
-      "review_load": 0.3979,
+      "review_load": 0.3944,
       "consequence": 0.99,
       "consequence_from": "infra surface",
       "route": "human-required",
@@ -4821,7 +4547,7 @@
         "input_tokens": 2869,
         "output_tokens": 304
       },
-      "latency_ms": 44,
+      "latency_ms": 60,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -4832,8 +4558,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.33,
-            "confidence": 0.5,
+            "score": 1.29,
+            "confidence": 0.56,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -4841,12 +4567,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.67,
-              "2": 0.33
+              "1": 0.71,
+              "2": 0.29
             }
           },
-          "credit": 0.665,
-          "adds_to_load": 0.0998
+          "credit": 0.645,
+          "adds_to_load": 0.0968
         },
         "breaking_change": {
           "label": "breaking change",
@@ -4875,14 +4601,14 @@
             "noul": 0,
             "choice": "feature",
             "score": 0,
-            "confidence": 0.64,
+            "confidence": 0.6,
             "legend": null,
             "probabilities": {
               "bugfix": 0,
-              "config": 0.29,
-              "dependency": 0.02,
+              "config": 0.31,
+              "dependency": 0.03,
               "docs": 0,
-              "feature": 0.69,
+              "feature": 0.66,
               "refactor": 0,
               "tests": 0
             }
@@ -4941,21 +4667,21 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 0.44,
-            "confidence": 0.34,
+            "score": 0.48,
+            "confidence": 0.28,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
               "2": "New abstractions, interfaces, or control flow"
             },
             "probabilities": {
-              "0": 0.74,
-              "1": 0.08,
+              "0": 0.7,
+              "1": 0.12,
               "2": 0.18
             }
           },
-          "credit": 0.22,
-          "adds_to_load": 0.0308
+          "credit": 0.24,
+          "adds_to_load": 0.0336
         },
         "has_tests": {
           "label": "has tests",
@@ -5018,11 +4744,11 @@
             "noul": 0,
             "choice": "correctness",
             "score": 0,
-            "confidence": 0.83,
+            "confidence": 0.8,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.13,
-              "correctness": 0.86,
+              "compatibility": 0.16,
+              "correctness": 0.83,
               "deployment": 0.01,
               "readability": 0,
               "security": 0,
@@ -5039,15 +4765,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.36,
+            "noul": 0.34,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.36,
-          "adds_to_load": 0.0324
+          "credit": 0.34,
+          "adds_to_load": 0.0306
         },
         "security_surface": {
           "label": "security surface",
@@ -5056,15 +4782,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.11,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.11,
-          "adds_to_load": 0.0165
+          "credit": 0.1,
+          "adds_to_load": 0.015
         }
       }
     },
@@ -5076,8 +4802,8 @@
       "changed_files": 3,
       "additions": 22,
       "deletions": 5,
-      "review_load": 0.3772,
-      "consequence": 0.77,
+      "review_load": 0.3769,
+      "consequence": 0.78,
       "consequence_from": "infra surface",
       "route": "human-required",
       "route_decided_by": "consequence",
@@ -5095,7 +4821,7 @@
         "input_tokens": 2305,
         "output_tokens": 305
       },
-      "latency_ms": 52,
+      "latency_ms": 54,
       "questions": {
         "blast_radius": {
           "label": "blast radius",
@@ -5106,8 +4832,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.34,
-            "confidence": 0.49,
+            "score": 1.36,
+            "confidence": 0.46,
             "legend": {
               "0": "Confined to one file, or to documentation",
               "1": "Confined to one module or feature area",
@@ -5115,12 +4841,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.66,
-              "2": 0.34
+              "1": 0.64,
+              "2": 0.36
             }
           },
-          "credit": 0.67,
-          "adds_to_load": 0.1005
+          "credit": 0.68,
+          "adds_to_load": 0.102
         },
         "breaking_change": {
           "label": "breaking change",
@@ -5149,14 +4875,14 @@
             "noul": 0,
             "choice": "config",
             "score": 0,
-            "confidence": 0.84,
+            "confidence": 0.82,
             "legend": null,
             "probabilities": {
               "bugfix": 0,
-              "config": 0.86,
+              "config": 0.85,
               "dependency": 0,
               "docs": 0,
-              "feature": 0.14,
+              "feature": 0.15,
               "refactor": 0,
               "tests": 0
             }
@@ -5171,7 +4897,7 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.11,
+            "noul": 0.1,
             "choice": "",
             "score": 0,
             "confidence": 0,
@@ -5190,8 +4916,8 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 1.05,
-            "confidence": 0.92,
+            "score": 1.04,
+            "confidence": 0.94,
             "legend": {
               "0": "Empty, or says nothing about what changed",
               "1": "Names what changed",
@@ -5199,12 +4925,12 @@
             },
             "probabilities": {
               "0": 0,
-              "1": 0.95,
-              "2": 0.05
+              "1": 0.96,
+              "2": 0.04
             }
           },
-          "credit": 0.475,
-          "adds_to_load": 0.038
+          "credit": 0.48,
+          "adds_to_load": 0.0384
         },
         "design_decisions": {
           "label": "design decisions",
@@ -5215,21 +4941,21 @@
             "type": "score",
             "noul": 0,
             "choice": "",
-            "score": 0.13,
-            "confidence": 0.79,
+            "score": 0.1,
+            "confidence": 0.85,
             "legend": {
               "0": "None: the same edit repeated, or a value changed",
               "1": "Local choices inside one function or file",
               "2": "New abstractions, interfaces, or control flow"
             },
             "probabilities": {
-              "0": 0.87,
-              "1": 0.12,
+              "0": 0.91,
+              "1": 0.08,
               "2": 0.01
             }
           },
-          "credit": 0.065,
-          "adds_to_load": 0.0091
+          "credit": 0.05,
+          "adds_to_load": 0.007
         },
         "has_tests": {
           "label": "has tests",
@@ -5255,15 +4981,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.77,
+            "noul": 0.78,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.77,
-          "adds_to_load": 0.0616
+          "credit": 0.78,
+          "adds_to_load": 0.0624
         },
         "mechanical": {
           "label": "mechanical",
@@ -5272,15 +4998,15 @@
           "inverted": true,
           "returned": {
             "type": "noul",
-            "noul": 0.38,
+            "noul": 0.39,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.62,
-          "adds_to_load": 0.0744
+          "credit": 0.61,
+          "adds_to_load": 0.0732
         },
         "review_focus": {
           "label": "review focus",
@@ -5292,15 +5018,15 @@
             "noul": 0,
             "choice": "compatibility",
             "score": 0,
-            "confidence": 0.53,
+            "confidence": 0.58,
             "legend": null,
             "probabilities": {
-              "compatibility": 0.61,
-              "correctness": 0.09,
+              "compatibility": 0.65,
+              "correctness": 0.08,
               "deployment": 0.01,
               "readability": 0,
-              "security": 0.03,
-              "tests": 0.26
+              "security": 0.02,
+              "tests": 0.24
             }
           },
           "credit": null,
@@ -5313,15 +5039,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.09,
+            "noul": 0.11,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.09,
-          "adds_to_load": 0.0081
+          "credit": 0.11,
+          "adds_to_load": 0.0099
         },
         "security_surface": {
           "label": "security surface",
@@ -5330,15 +5056,15 @@
           "inverted": false,
           "returned": {
             "type": "noul",
-            "noul": 0.18,
+            "noul": 0.17,
             "choice": "",
             "score": 0,
             "confidence": 0,
             "legend": null,
             "probabilities": null
           },
-          "credit": 0.18,
-          "adds_to_load": 0.027
+          "credit": 0.17,
+          "adds_to_load": 0.0255
         }
       }
     }
